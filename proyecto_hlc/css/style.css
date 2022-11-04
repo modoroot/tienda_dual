@@ -9,7 +9,7 @@ body{
     overflow: hidden;
 }
 
-.container{
+.contenedor{
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -24,7 +24,7 @@ body{
 	align-items: center;
 }
 
-.login-content{
+.campos-login{
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -39,18 +39,18 @@ form{
 	width: 360px;
 }
 
-.login-content img{
+.campos-login img{
     height: 100px;
 }
 
-.login-content h2{
+.campos-login h2{
 	margin: 15px 0;
 	color: #333;
 	text-transform: uppercase;
 	font-size: 2.9rem;
 }
 
-.login-content .input-div{
+.campos-login .input-div{
 	position: relative;
     display: grid;
     grid-template-columns: 7% 93%;
@@ -59,7 +59,7 @@ form{
     border-bottom: 2px solid #d9d9d9;
 }
 
-.login-content .input-div.one{
+.campos-login .input-div.one{
 	margin-top: 0;
 }
 
@@ -175,7 +175,7 @@ a:hover{
 
 /*Responsive*/
 @media screen and (max-width: 1050px){
-	.container{
+	.contenedor{
 		grid-gap: 5rem;
 	}
 }
@@ -185,7 +185,7 @@ a:hover{
 		width: 290px;
 	}
 
-	.login-content h2{
+	.campos-login h2{
         font-size: 2.4rem;
         margin: 8px 0;
 	}
@@ -196,7 +196,7 @@ a:hover{
 }
 
 @media screen and (max-width: 900px){
-	.container{
+	.contenedor{
 		grid-template-columns: 1fr;
 	}
 
@@ -204,11 +204,7 @@ a:hover{
 		display: none;
 	}
 
-	.wave{
-		display: none;
-	}
-
-	.login-content{
+	.campos-login{
 		justify-content: center;
 	}
 }

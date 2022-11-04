@@ -12,14 +12,14 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="contenedor">
         <div class="img">
             <img src="img/bg.svg">
         </div>
-        <div class="login-content">
+        <div class="campos-login">
             <form action="index.html">
                 <img src="img/avatar.svg">
-                <h2 class="title">hola</h2>
+                <h2 class="msg-bienvenida">hola</h2>
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-user"></i>
