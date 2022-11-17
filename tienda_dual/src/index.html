@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Framerate</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +31,7 @@
             <img src="img/cart.png" width="30px" height="30px">
             <img src="img/menu.png" class="menu-icon" onclick="menuDesplegar()">
         </div>
+
         <div class="row">
             <div class="col-2">
                 <h1>Fino fino fino<br>fino fino</h1>
@@ -183,12 +185,13 @@
 <!--JS Lista del menú-->
 <script>
     var menu_items = document.getElementById("menu_lista");
+    menu_items.style.maxHeight = "0px";
 
     function menuDesplegar() {
         if (menu_items.style.maxHeight == "0px") {
-            menu_items.style.maxHeight == "200px"
-        }else{
-            menu_items.style.maxHeight == "0px"
+            menu_items.style.maxHeight = "200px";
+        } else {
+            menu_items.style.maxHeight = "0px";
         }
     }
 </script>
