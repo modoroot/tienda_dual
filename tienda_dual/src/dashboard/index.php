@@ -1,5 +1,9 @@
 <?php
 require '../conn/conn.php';
+if($_POST){
+    $usuario = $_POST['usuario'];
+    $password = $_POST['password'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -46,13 +50,13 @@ require '../conn/conn.php';
                                 </div>
                                 <form class="user" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                     <div class="form-group">
-                                        <input class="form-control form-control-user"
+                                        <input type="text" class="form-control form-control-user" name="usuario"
                                                id="exampleInputEmail"
                                                placeholder="Introduce tu usuario...">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Contraseña">
+                                               id="exampleInputPassword" name="password" placeholder="Contraseña">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
