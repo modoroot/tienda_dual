@@ -42,7 +42,7 @@ function getUsuarios()
     }
 }
 
-setUsuario("test insert nombre", "test insert username",
-    "test insert pwd", "usuario", 1);
+//setUsuario("test insert nombre", "test insert username",
+//    "test insert pwd", "usuario", 1);
 getUsuarios();
 
