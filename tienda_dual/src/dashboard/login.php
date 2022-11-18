@@ -1,5 +1,5 @@
 <?php
-require '../conn/conn.php';
+require 'conn.php';
 session_start();
 if ($_POST) {
     $usuario = $_POST['usuario'];
@@ -14,6 +14,7 @@ if ($_POST) {
         $pass_c = sha1($password);
         if ($password_bd == $pass_c) {
             $_SESSION['id_usuario'] = $row['id_usuario'];
+            $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['username'] = $row['username'];
             header("Location: principal.php");
         } else {
