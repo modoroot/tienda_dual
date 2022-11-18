@@ -1,6 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: login.php");
+}
 $nombre = $_SESSION['nombre'];
+$id_privilegio = $_SESSION['id_privilegio'];
 ?>
 
 <!DOCTYPE html>
@@ -35,14 +39,14 @@ $nombre = $_SESSION['nombre'];
     <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false"><?php echo $nombre ?><i class="fas fa-user fa-fw"></i></a>
+               aria-expanded="false"><?php echo $nombre ?> <i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                 <li>
                     <hr class="dropdown-divider"/>
                 </li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
             </ul>
         </li>
     </ul>
@@ -57,6 +61,9 @@ $nombre = $_SESSION['nombre'];
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
+                    <?php
+                    if($id_privilegio == 1) {
+                        ?>
                     <div class="sb-sidenav-menu-heading">Interface</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                        aria-expanded="false" aria-controls="collapseLayouts">
@@ -110,20 +117,22 @@ $nombre = $_SESSION['nombre'];
                             </div>
                         </nav>
                     </div>
+
                     <div class="sb-sidenav-menu-heading">Addons</div>
                     <a class="nav-link" href="charts.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                         Charts
                     </a>
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" href="tabla.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Tables
+                        Tablas
                     </a>
                 </div>
             </div>
+            <?php } ?>
             <div class="sb-sidenav-footer">
-                <div class="small">Logged in as:</div>
-                Start Bootstrap
+                <div class="small">Sesión iniciada como</div>
+                <?php echo $nombre ?>
             </div>
         </nav>
     </div>

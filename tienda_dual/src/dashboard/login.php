@@ -7,7 +7,6 @@ if ($_POST) {
     $sql = "SELECT * FROM usuario WHERE username='$usuario'";
     $result = $mysqli->query($sql);
     $num = $result->num_rows;
-    echo $num;
     if ($num > 0) {
         $row = $result->fetch_assoc();
         $password_bd = $row['password'];
@@ -16,6 +15,7 @@ if ($_POST) {
             $_SESSION['id_usuario'] = $row['id_usuario'];
             $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['username'] = $row['username'];
+            $_SESSION['id_privilegio'] = $row['id_privilegio'];
             header("Location: principal.php");
         } else {
             echo "Contraseña inválida";
