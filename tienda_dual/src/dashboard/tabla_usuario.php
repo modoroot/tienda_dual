@@ -1,7 +1,9 @@
 <?php
 session_start();
-require 'conn.php';
-
+//mysqli
+//include 'conn.php';
+//pdo
+include '../conn/conn.php';
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
 }
@@ -10,11 +12,12 @@ $id_usuario = $_SESSION['id_usuario'];
 $id_privilegio = $_SESSION['id_privilegio'];
 if ($id_privilegio == 1) {
     $where = "";
-} else if ($id_privilegio == 2) {
+} else {
     $where = "WHERE id_usuario=$id_usuario";
 }
-$sql = "SELECT * FROM usuario $where";
-$resultado = $mysqli->query($sql);
+$stmt = $pdo->prepare("SELECT * FROM usuario $where");
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$stmt->execute();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -173,10 +176,10 @@ $resultado = $mysqli->query($sql);
                             </tfoot>
                             <tbody>
                            <?php
-                           while($row = $resultado->fetch_assoc()){
+                           while ($row = $stmt->fetch()) {
                            ?>
                            <tr>
-                               <td><?php echo $row['id_usuario']?></td>
+                               <td><?php echo $row["id_usuario"]?></td>
                                <td><?php echo $row['nombre']?></td>
                                <td><?php echo $row['username']?></td>
                                <td><?php echo $row['password']?></td>
