@@ -151,54 +151,18 @@ $stmt->execute();
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button class="btn btn-secondary" id="btnNavbarSearch" type="button"><i
-                                    class="fas fa-pencil"></i>
-                            <a href="add_usuario.php">Añadir registro</a>
-                        </button>
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>ID_Usuario</th>
-                                <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>ID_Usuario</th>
-                                <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            <?php
-                            while ($row = $stmt->fetch()) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row["id_usuario"] ?></td>
-                                    <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['username'] ?></td>
-                                    <td><?php echo $row['password'] ?></td>
-                                    <td><?php echo $row['nombre_perfil'] ?></td>
-                                    <td><?php echo $row['id_privilegio'] ?></td>
-                                    <td>
-                                        <a href="mod_usuario.php?id= <?php echo $row['id_usuario'] ?>"
-                                           class="btn btn-info">Editar</a>
-                                    </td>
-                                    <td>
-                                        <a href="del_usuario.php?id= <?php echo $row['id_usuario'] ?>"
-                                           class="btn btn-danger">Eliminar</a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
-                        </table>
+                        <form action="" method="post">
+                            <input type="text" name="nombre" placeholder="Nombre" class="box" required>
+                            <input type="text" name="username" placeholder="Usuario" class="box" required>
+                            <input type="password" name="password" placeholder="Contraseña" class="box" required>
+                            <select>
+                                <option></option>
+                            </select>
+                            <select>
+                                <option></option>
+                            </select>
+                            <input type="submit">
+                        </form>
                     </div>
                 </div>
             </div>

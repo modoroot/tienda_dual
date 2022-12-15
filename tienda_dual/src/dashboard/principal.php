@@ -27,15 +27,6 @@ $id_privilegio = $_SESSION['id_privilegio'];
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
-    <!-- Navbar Search-->
-    <!--    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">-->
-    <!--        <div class="input-group">-->
-    <!--            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."-->
-    <!--                   aria-describedby="btnNavbarSearch"/>-->
-    <!--            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>-->
-    <!--        </div>-->
-    <!--    </form>-->
-    <!-- Navbar-->
     <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
@@ -65,25 +56,6 @@ $id_privilegio = $_SESSION['id_privilegio'];
                     if ($id_privilegio == 1) {
                     ?>
                     <div class="sb-sidenav-menu-heading">Registros</div>
-                    <!--                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"-->
-                    <!--                       aria-expanded="false" aria-controls="collapseLayouts">-->
-                    <!--                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>-->
-                    <!--                        Layouts-->
-                    <!--                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
-                    <!--                    </a>-->
-                    <!--                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"-->
-                    <!--                         data-bs-parent="#sidenavAccordion">-->
-                    <!--                        <nav class="sb-sidenav-menu-nested nav">-->
-                    <!--                            <a class="nav-link" href="layout-static.html">Static Navigation</a>-->
-                    <!--                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>-->
-                    <!--                        </nav>-->
-                    <!--                    </div>-->
-                    <!--                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"-->
-                    <!--                       aria-expanded="false" aria-controls="collapsePages">-->
-                    <!--                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>-->
-                    <!--                        Pages-->
-                    <!--                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
-                    <!--                    </a>-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTablas"
                        aria-expanded="false" aria-controls="collapseTablas">
                         <div class="sb-nav-link-icon"><i class="fas fa-search"></i></div>
@@ -154,27 +126,8 @@ $id_privilegio = $_SESSION['id_privilegio'];
                                     <a class="nav-link" href="tabla_usuario.php">Usuario</a>
                                 </nav>
                             </div>
-
-<!--                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"-->
-<!--                               data-bs-target="#pagesCollapseError" aria-expanded="false"-->
-<!--                               aria-controls="pagesCollapseError">-->
-<!--                                Error-->
-<!--                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>-->
-<!--                            </a>-->
-<!--                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"-->
-<!--                                 data-bs-parent="#sidenavAccordionPages">-->
-<!--                                <nav class="sb-sidenav-menu-nested nav">-->
-<!--                                    <a class="nav-link" href="401.html">401 Page</a>-->
-<!--                                    <a class="nav-link" href="404.html">404 Page</a>-->
-<!--                                    <a class="nav-link" href="500.html">500 Page</a>-->
-<!--                                </nav>-->
-<!--                            </div>-->
                         </nav>
                     </div>
-                    <a class="nav-link" href="aniadir_registro.php">
-                        <div class="sb-nav-link-icon"><i class="fas fa-pencil"></i></div>
-                        Añadir registro
-                    </a>
                     <div class="sb-sidenav-menu-heading">Addons</div>
                     <a class="nav-link" href="charts.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
