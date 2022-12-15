@@ -13,7 +13,7 @@ if ($id_privilegio == 1) {
 } else {
     $where = "WHERE id_usuario=$id_usuario";
 }
-$stmt = $pdo->prepare("SELECT * FROM usuario $where");
+$stmt = $pdo->prepare("SELECT * FROM producto $where");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $stmt->execute();
 ?>
@@ -154,36 +154,30 @@ $stmt->execute();
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>ID_Usuario</th>
+                                <th>ID_Producto</th>
                                 <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
+                                <th>Precio</th>
+                                <th>ID_Categoría</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>ID_Usuario</th>
+                                <th>ID_Producto</th>
                                 <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
+                                <th>Precio</th>
+                                <th>ID_Categoría</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                           <?php
-                           while ($row = $stmt->fetch()) {
-                           ?>
-                           <tr>
-                               <td><?php echo $row["id_usuario"]?></td>
-                               <td><?php echo $row['nombre']?></td>
-                               <td><?php echo $row['username']?></td>
-                               <td><?php echo $row['password']?></td>
-                               <td><?php echo $row['nombre_perfil']?></td>
-                               <td><?php echo $row['id_privilegio']?></td>
-                           </tr>
+                            <?php
+                            while ($row = $stmt->fetch()) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row["id_producto"] ?></td>
+                                    <td><?php echo $row['nombre'] ?></td>
+                                    <td><?php echo $row['precio'] ?></td>
+                                    <td><?php echo $row['id_categoria'] ?></td>
+                                </tr>
                             <?php } ?>
                             </tbody>
                         </table>

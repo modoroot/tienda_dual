@@ -13,7 +13,7 @@ if ($id_privilegio == 1) {
 } else {
     $where = "WHERE id_usuario=$id_usuario";
 }
-$stmt = $pdo->prepare("SELECT * FROM usuario $where");
+$stmt = $pdo->prepare("SELECT * FROM producto_imagen $where");
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 $stmt->execute();
 ?>
@@ -154,22 +154,18 @@ $stmt->execute();
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>ID_Usuario</th>
+                                <th>ID Producto Imagen</th>
                                 <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
+                                <th>Descripción</th>
+                                <th>ID Producto</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>ID_Usuario</th>
+                                <th>ID Producto Imagen</th>
                                 <th>Nombre</th>
-                                <th>Usuario</th>
-                                <th>Contraseña</th>
-                                <th>Perfil</th>
-                                <th>Privilegio</th>
+                                <th>Descripción</th>
+                                <th>ID Producto</th>
                             </tr>
                             </tfoot>
                             <tbody>
@@ -177,12 +173,10 @@ $stmt->execute();
                            while ($row = $stmt->fetch()) {
                            ?>
                            <tr>
-                               <td><?php echo $row["id_usuario"]?></td>
+                               <td><?php echo $row["id_producto_imagen"]?></td>
                                <td><?php echo $row['nombre']?></td>
-                               <td><?php echo $row['username']?></td>
-                               <td><?php echo $row['password']?></td>
-                               <td><?php echo $row['nombre_perfil']?></td>
-                               <td><?php echo $row['id_privilegio']?></td>
+                               <td><?php echo $row['descripcion']?></td>
+                               <td><?php echo $row['id_producto']?></td>
                            </tr>
                             <?php } ?>
                             </tbody>
