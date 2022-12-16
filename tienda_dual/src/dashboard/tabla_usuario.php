@@ -2,20 +2,9 @@
 session_start();
 //pdo
 include '../conn/conn.php';
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
-}
-$nombre = $_SESSION['nombre'];
-$id_usuario = $_SESSION['id_usuario'];
-$id_privilegio = $_SESSION['id_privilegio'];
-if ($id_privilegio == 1) {
-    $where = "";
-} else {
-    $where = "WHERE id_usuario=$id_usuario";
-}
-$stmt = $pdo->prepare("SELECT * FROM usuario $where");
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$stmt->execute();
+include 'control_privilegios.php';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,9 +106,6 @@ $stmt->execute();
                             <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
                                  data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="401.html">401 Page</a>
-                                    <a class="nav-link" href="404.html">404 Page</a>
-                                    <a class="nav-link" href="500.html">500 Page</a>
                                 </nav>
                             </div>
                         </nav>
@@ -150,11 +136,9 @@ $stmt->execute();
                     <li class="breadcrumb-item active">Tablas</li>
                 </ol>
                 <div class="card mb-4">
+                        <a href="add_usuario.php"
+                           class="btn btn-info fa-search ms-auto me-0 me-md-3 my-2 my-md-0 fa-search">Añadir registro</a>
                     <div class="card-body">
-                        <button class="btn btn-secondary" id="btnNavbarSearch" type="button"><i
-                                    class="fas fa-pencil"></i>
-                            <a href="add_usuario.php">Añadir registro</a>
-                        </button>
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
@@ -162,7 +146,7 @@ $stmt->execute();
                                 <th>Nombre</th>
                                 <th>Usuario</th>
                                 <th>Contraseña</th>
-                                <th>Perfil</th>
+                                <th>Email</th>
                                 <th>Privilegio</th>
                             </tr>
                             </thead>
@@ -172,7 +156,7 @@ $stmt->execute();
                                 <th>Nombre</th>
                                 <th>Usuario</th>
                                 <th>Contraseña</th>
-                                <th>Perfil</th>
+                                <th>Email</th>
                                 <th>Privilegio</th>
                             </tr>
                             </tfoot>
@@ -181,18 +165,18 @@ $stmt->execute();
                             while ($row = $stmt->fetch()) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $row["id_usuario"] ?></td>
+                                    <td><?php echo $row['id_usuario'] ?></td>
                                     <td><?php echo $row['nombre'] ?></td>
                                     <td><?php echo $row['username'] ?></td>
                                     <td><?php echo $row['password'] ?></td>
-                                    <td><?php echo $row['nombre_perfil'] ?></td>
+                                    <td><?php echo $row['email'] ?></td>
                                     <td><?php echo $row['id_privilegio'] ?></td>
                                     <td>
-                                        <a href="mod_usuario.php?id= <?php echo $row['id_usuario'] ?>"
+                                        <a href="mod_usuario.php?id_usuario=<?php echo $row['id_usuario'] ?>"
                                            class="btn btn-info">Editar</a>
                                     </td>
                                     <td>
-                                        <a href="del_usuario.php?id= <?php echo $row['id_usuario'] ?>"
+                                        <a href="del_usuario.php?id_usuario=<?php echo $row['id_usuario'] ?>"
                                            class="btn btn-danger">Eliminar</a>
                                     </td>
                                 </tr>

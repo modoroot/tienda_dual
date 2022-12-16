@@ -2,20 +2,12 @@
 session_start();
 //pdo
 include '../conn/conn.php';
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
-}
-$nombre = $_SESSION['nombre'];
-$id_usuario = $_SESSION['id_usuario'];
-$id_privilegio = $_SESSION['id_privilegio'];
-if ($id_privilegio == 1) {
-    $where = "";
-} else {
-    $where = "WHERE id_usuario=$id_usuario";
-}
-$stmt = $pdo->prepare("SELECT * FROM usuario $where");
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$stmt->execute();
+include 'control_privilegios.php';
+
+$id_usuario = $_GET['id_usuario'];
+$stmt = $pdo->prepare('SELECT * FROM usuario WHERE id_usuario=?');
+$stmt->execute([$id_usuario]);
+$usuario = $stmt->fetch(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,15 +143,26 @@ $stmt->execute();
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form action="" method="post">
-                            <input type="text" name="nombre" placeholder="Nombre" class="box" required>
-                            <input type="text" name="username" placeholder="Usuario" class="box" required>
-                            <input type="password" name="password" placeholder="Contraseña" class="box" required>
-                            <select>
-                                <option></option>
-                            </select>
-                            <select>
-                                <option></option>
+                        <form action="mod_usuario_db.php" method="post">
+                            <input value="<?php echo $usuario->nombre ?>" type="text" name="nombre" placeholder="Nombre"
+                                   class="box" required>
+                            <input value="<?php echo $usuario->username ?>" type="text" name="username"
+                                   placeholder="Usuario" class="box" required>
+                            <input type="password" name="password"
+                                   placeholder="Contraseña" class="box" required>
+                            <input value="<?php echo $usuario->email ?>" type="email" name="email" placeholder="Email"
+                                   class="box" required>
+                            <select name="id_privilegio">
+                                <?php
+                                $stmt = $pdo->prepare('SELECT * FROM privilegio');
+                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                $stmt->execute();
+                                while ($row = $stmt->fetch()) {
+                                    ?>
+                                    <option value="<?php echo $usuario->id_privilegio ?>">
+                                        <?php echo $row['id_privilegio'] ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                             <input type="submit">
                         </form>
