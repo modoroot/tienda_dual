@@ -136,8 +136,8 @@ include 'control_privilegios.php';
                     <li class="breadcrumb-item active">Tablas</li>
                 </ol>
                 <div class="card mb-4">
-                        <a href="add_usuario.php"
-                           class="btn btn-info fa-search ms-auto me-0 me-md-3 my-2 my-md-0 fa-search">Añadir registro</a>
+                    <a href="add_usuario.php"
+                       class="btn btn-info fa-search ms-auto me-0 me-md-3 my-2 my-md-0 fa-search">Añadir registro</a>
                     <div class="card-body">
                         <table id="datatablesSimple">
                             <thead>
@@ -172,12 +172,18 @@ include 'control_privilegios.php';
                                     <td><?php echo $row['email'] ?></td>
                                     <td><?php echo $row['id_privilegio'] ?></td>
                                     <td>
-                                        <a href="mod_usuario.php?id_usuario=<?php echo $row['id_usuario'] ?>"
-                                           class="btn btn-info">Editar</a>
+                                        <form action="mod_usuario.php" method="post">
+                                            <input type="hidden" name="id_usuario"
+                                                   value="<?php echo $row['id_usuario']; ?>">
+                                            <input class="btn btn-info" value="Editar" type="submit">
+                                        </form>
                                     </td>
                                     <td>
-                                        <a href="del_usuario.php?id_usuario=<?php echo $row['id_usuario'] ?>"
-                                           class="btn btn-danger">Eliminar</a>
+                                        <form action="del_usuario.php" method="post">
+                                            <input type="hidden" name="id_usuario"
+                                                   value="<?php echo $row['id_usuario']; ?>">
+                                            <input class="btn btn-danger" value="Eliminar" type="submit">
+                                        </form>
                                     </td>
                                 </tr>
                             <?php } ?>

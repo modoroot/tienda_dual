@@ -4,7 +4,7 @@ session_start();
 include '../conn/conn.php';
 include 'control_privilegios.php';
 
-$id_usuario = $_GET['id_usuario'];
+$id_usuario = $_POST['id_usuario'];
 $stmt = $pdo->prepare('SELECT * FROM usuario WHERE id_usuario=?');
 $stmt->execute([$id_usuario]);
 $usuario = $stmt->fetch(PDO::FETCH_OBJ);
