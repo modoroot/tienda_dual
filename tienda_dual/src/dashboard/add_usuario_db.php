@@ -11,6 +11,7 @@ $sha = sha1($id_privilegio);
 try {
     $stmt = $pdo->prepare("INSERT INTO usuario VALUES (NULL,?,?,?,?,?)");
     $stmt->execute([$nombre,$usuario,$sha,$email,$id_privilegio]);
+    header("Location: tabla_usuario.php");
 }
 catch(Exception $e){
     echo $e->getMessage();

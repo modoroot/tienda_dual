@@ -144,27 +144,29 @@ $usuario = $stmt->fetch(PDO::FETCH_OBJ);
                 <div class="card mb-4">
                     <div class="card-body">
                         <form action="mod_usuario_db.php" method="post">
+                            <input type="hidden" name="id_usuario" value="<?php echo $usuario->id_usuario; ?>">
                             <input value="<?php echo $usuario->nombre ?>" type="text" name="nombre" placeholder="Nombre"
                                    class="box" required>
                             <input value="<?php echo $usuario->username ?>" type="text" name="username"
                                    placeholder="Usuario" class="box" required>
-                            <input type="password" name="password"
+                            <input value="<?php echo $usuario->password ?>" type="password" name="password"
                                    placeholder="Contraseña" class="box" required>
                             <input value="<?php echo $usuario->email ?>" type="email" name="email" placeholder="Email"
                                    class="box" required>
-                            <select name="id_privilegio">
+                            <select name="id_privilegio" id="id_privilegio">
                                 <?php
                                 $stmt = $pdo->prepare('SELECT * FROM privilegio');
                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                 $stmt->execute();
                                 while ($row = $stmt->fetch()) {
                                     ?>
-                                    <option value="<?php echo $usuario->id_privilegio ?>">
+                                    <option value="<?php echo $row['id_privilegio'] ?>" <?php
+                                     if($row['id_privilegio'] == $usuario->id_privilegio) echo 'selected="selected"';?>>
                                         <?php echo $row['id_privilegio'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
-                            <input type="submit">
+                            <input type="submit" value="Guardar cambios">
                         </form>
                     </div>
                 </div>
