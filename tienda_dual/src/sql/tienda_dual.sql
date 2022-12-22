@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-11-2022 a las 13:55:05
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 22-12-2022 a las 11:03:49
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categoria`
@@ -54,15 +54,19 @@ CREATE TABLE `pedido` (
   `id_usuario` int(11) NOT NULL,
   `fecha_pedido` datetime NOT NULL,
   `precio_total` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Volcado de datos para la tabla `pedido`
+-- Estructura de tabla para la tabla `perfil_usuario`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `codigo_pedido`, `id_producto`, `id_usuario`, `fecha_pedido`, `precio_total`) VALUES
-(1, '344324234', 1, 2, '2022-11-11 00:00:00', 6.44),
-(2, '455445', 1, 2, '2022-11-11 13:35:58', 9.94);
+CREATE TABLE `perfil_usuario` (
+  `id_perfil_usuario` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripción` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -74,16 +78,17 @@ CREATE TABLE `privilegio` (
   `id_privilegio` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `privilegio`
 --
 
 INSERT INTO `privilegio` (`id_privilegio`, `nombre`, `descripcion`) VALUES
-(1, 'test privilegio', ''),
-(2, 'test privilegio insert', 'test desc insert'),
-(3, 'test privilegio insert', 'test desc insert');
+(1, 'admin', ''),
+(2, 'usuario', 'test desc insert'),
+(4, 'test priv', ''),
+(5, 'invitado', 'invitado');
 
 -- --------------------------------------------------------
 
@@ -96,7 +101,7 @@ CREATE TABLE `producto` (
   `nombre` varchar(100) NOT NULL,
   `precio` double NOT NULL,
   `id_categoria` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
@@ -116,7 +121,7 @@ CREATE TABLE `producto_imagen` (
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(100) NOT NULL,
   `id_producto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `producto_imagen`
@@ -136,23 +141,18 @@ CREATE TABLE `usuario` (
   `nombre` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `nombre_perfil` enum('admin','usuario') NOT NULL,
+  `email` varchar(150) NOT NULL,
   `id_privilegio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `username`, `password`, `nombre_perfil`, `id_privilegio`) VALUES
-(1, 'test nombre', '', '', 'usuario', 1),
-(2, 'test nombre 2', '', '', 'admin', 1),
-(3, 'test insert nombre', 'test insert username', 'test insert pwd', 'admin', 1),
-(4, 'test insert nombre', 'test insert username', 'test insert pwd', 'usuario', 1),
-(5, 'test insert nombre', 'test insert username', 'test insert pwd', 'usuario', 1),
-(6, 'test insert nombre', 'test insert username', 'test insert pwd', 'usuario', 1),
-(7, 'test insert nombre', 'test insert username', 'test insert pwd', 'usuario', 1),
-(8, 'test insert nombre', 'test insert username', 'test insert pwd', 'usuario', 1);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `username`, `password`, `email`, `id_privilegio`) VALUES
+(11, 'Admin', 'root', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785', '', 1),
+(13, 'testshaedit', 'testshauseredit', 'f1fc47a261c8afadc3ecd8c4041b51540d5cdea1', 'testmod@gmail.com', 5),
+(14, 'fino nombre', 'finouser', '10a34637ad661d98ba3344717656fcc76209c2f8', 'finoemail@asd.com', 4);
 
 --
 -- Índices para tablas volcadas
@@ -171,6 +171,12 @@ ALTER TABLE `pedido`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `id_producto` (`id_producto`),
   ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `perfil_usuario`
+--
+ALTER TABLE `perfil_usuario`
+  ADD PRIMARY KEY (`id_perfil_usuario`);
 
 --
 -- Indices de la tabla `privilegio`
@@ -216,10 +222,16 @@ ALTER TABLE `pedido`
   MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `perfil_usuario`
+--
+ALTER TABLE `perfil_usuario`
+  MODIFY `id_perfil_usuario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `privilegio`
 --
 ALTER TABLE `privilegio`
-  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -237,7 +249,7 @@ ALTER TABLE `producto_imagen`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
