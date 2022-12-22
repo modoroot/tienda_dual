@@ -11,7 +11,7 @@ $sha = sha1($password);
 try {
     $stmt = $pdo->prepare("UPDATE usuario SET nombre =?, username =?, password=?, email=?, id_privilegio=? WHERE id_usuario=?");
     $stmt->execute([$nombre, $usuario, $sha, $email, $id_privilegio, $id_usuario]);
-    //header("Location: tabla_usuario.php");
+    header("Location: tabla_usuario.php");
 } catch (Exception $e) {
     echo $e->getMessage();
 }
