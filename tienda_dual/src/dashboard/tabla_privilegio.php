@@ -6,7 +6,6 @@ include '../conn/conn.php';
 $nombre = $_SESSION['nombre'];
 $id_usuario = $_SESSION['id_usuario'];
 $id_privilegio = $_SESSION['id_privilegio'];
-
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
@@ -34,6 +33,20 @@ if ($opcion == 1) {
     exit();
 }
 
+if ($opcion == 2) {
+    try {
+        $id_privilegio = trim($_POST['id_privilegio']);
+        $stmt = $pdo->prepare("DELETE FROM privilegio WHERE id_privilegio=?");
+        $stmt->bindParam(1, $id_privilegio);
+        $res = $stmt->execute([$id_privilegio]);
+    } catch (Exception $e) {
+        $res = $e->getMessage();
+    }
+    echo $res;
+
+    exit();
+}
+
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
 }
@@ -52,11 +65,12 @@ if (!isset($_SESSION['id_usuario'])) {
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
-<?php include 'header.php';?>
+<?php include 'header.php'; ?>
 <div id="layoutSidenav">
-    <?php include "sidebar.php";?>
+    <?php include "sidebar.php"; ?>
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
@@ -67,7 +81,39 @@ if (!isset($_SESSION['id_usuario'])) {
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <input class="btn btn-info btn-aniadir" value="Añadir registro" type="submit">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                                data-whatever="@mdo">Open modal for @mdo
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
@@ -85,10 +131,10 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
             </div>
         </main>
-        <?php include 'footer.php';?>
+        <?php include 'footer.php'; ?>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
@@ -99,7 +145,10 @@ if (!isset($_SESSION['id_usuario'])) {
 <script>
     $(document).ready(function () {
         cargaTabla();
-        $(document).on('click', '.btn-eliminar',function(e){
+        $(document).on('click', '.btn-eliminar', function (e) {
+            eliminaRegistro($(this).attr('id_priv'))
+        });
+        $(document).on('click', '.btn-editar', function (e) {
             console.log($(this).attr('id_priv'));
         });
     });
