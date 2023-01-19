@@ -2,20 +2,37 @@
 session_start();
 //pdo
 include '../conn/conn.php';
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
-}
+
 $nombre = $_SESSION['nombre'];
 $id_usuario = $_SESSION['id_usuario'];
 $id_privilegio = $_SESSION['id_privilegio'];
-if ($id_privilegio == 1) {
-    $where = "";
-} else {
-    $where = "WHERE id_usuario=$id_usuario";
+
+$opcion = $_POST['opcion'];
+
+if ($opcion == 1) {
+    if ($id_privilegio == 1) {
+        $where = "";
+    } else {
+        $where = "WHERE id_usuario=$id_usuario";
+    }
+    $stmt = $pdo->prepare("SELECT * FROM privilegio $where");
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    while ($row = $stmt->fetch()) {
+        echo '<tr>
+                <td>' . $row["id_privilegio"] . '</td>
+                <td>' . $row['nombre'] . '</td>
+                <td>' . $row['descripcion'] . '</td>
+            </tr>';
+
+    }
+    exit();
 }
-$stmt = $pdo->prepare("SELECT * FROM privilegio $where");
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$stmt->execute();
+
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: login.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +43,8 @@ $stmt->execute();
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Tablas - Framerate</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
+    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -159,24 +177,7 @@ $stmt->execute();
                                 <th>Descripción</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th>ID Privilegio</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            <?php
-                            while ($row = $stmt->fetch()) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row["id_privilegio"] ?></td>
-                                    <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['descripcion'] ?></td>
-                                </tr>
-                            <?php } ?>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -196,10 +197,16 @@ $stmt->execute();
         </footer>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>-->
+<script src="general.js"></script>
+<script>
+    $("#datatablesSimple").DataTable();
+</script>
 </body>
 </html>
