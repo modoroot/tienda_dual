@@ -21,9 +21,9 @@ $id_privilegio = $_SESSION['id_privilegio'];
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
- <?php
-    include "header.php";
- ?>
+<?php
+include "header.php";
+?>
 <div id="layoutSidenav">
     <?php
     include 'sidebar.php';
@@ -140,7 +140,7 @@ $id_privilegio = $_SESSION['id_privilegio'];
             </div>
         </main>
         <?php
-            include 'footer.php';
+        include 'footer.php';
         ?>
     </div>
 </div>

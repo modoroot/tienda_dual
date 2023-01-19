@@ -3,8 +3,6 @@ session_start();
 //pdo
 include '../conn/conn.php';
 include 'control_privilegios.php';
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

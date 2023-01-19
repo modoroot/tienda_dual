@@ -5,8 +5,9 @@ function cargaTabla() {
         url: "tabla_privilegio.php",
         data: {opcion:1},
         success:  function(data){
-            $('#datatablesSimple tbody').html(data)
-
+            $("#datatablesSimple").DataTable().destroy();
+            $('#datatablesSimple tbody').html(data);
+            $("#datatablesSimple").DataTable();
         },
     });
 }
