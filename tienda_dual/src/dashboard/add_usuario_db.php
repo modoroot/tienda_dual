@@ -6,7 +6,7 @@ $usuario = $_POST['username'];
 $password = $_POST['password'];
 $email = $_POST['email'];
 $id_privilegio = $_POST['id_privilegio'];
-$sha = sha1($id_privilegio);
+$sha = sha1($password);
 
 try {
     $stmt = $pdo->prepare("INSERT INTO usuario VALUES (NULL,?,?,?,?,?)");

@@ -6,6 +6,10 @@ include '../conn/conn.php';
 $nombre = $_SESSION['nombre'];
 $id_usuario = $_SESSION['id_usuario'];
 $id_privilegio = $_SESSION['id_privilegio'];
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: login.php");
+}
+
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
@@ -23,7 +27,9 @@ if ($opcion == 1) {
                 <td>' . $row['nombre'] . '</td>
                 <td>' . $row['descripcion'] . '</td>
                 <td>
-                    <input class="btn btn-info btn-editar" id_priv="' . $row['id_privilegio'] . '" value="Editar" type="submit">
+                     <button type="button" class="btn btn-primary btn-editar" 
+                     data-toggle="modal" data-target="#exampleModal" id_priv="' . $row['id_privilegio'] . '" data-whatever="@editar">Editar registro 
+                        </button>
                 </td>
                 <td>
                     <input class="btn btn-danger btn-eliminar" id_priv="' . $row['id_privilegio'] . '" value="Eliminar" type="submit">
@@ -47,8 +53,45 @@ if ($opcion == 2) {
     exit();
 }
 
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+if ($opcion == 3) {
+    try {
+        $nombre_privilegio = trim($_POST['nombre']);
+        $descripcion_privilegio = trim($_POST['descripcion']);
+        $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
+        $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
+    } catch (Exception $e) {
+        $res = $e->getMessage();
+    }
+    echo $res;
+    exit();
+}
+
+if ($opcion == 4) {
+    try {
+        $id_privilegio = trim($_POST['id_privilegio']);
+        $nombre_privilegio = trim($_POST['nombre']);
+        $descripcion_privilegio = trim($_POST['descripcion']);
+        $stmt = $pdo->prepare("UPDATE privilegio SET nombre =?, descripcion =? WHERE id_privilegio=?");
+        $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio, $id_privilegio]);
+    } catch (Exception $e) {
+        $res = $e->getMessage();
+    }
+    echo $res;
+    exit();
+}
+
+if ($opcion == 5) {
+    try {
+        $id_privilegio = trim($_POST['id_privilegio']);
+        $nombre_privilegio = trim($_POST['nombre']);
+        $descripcion_privilegio = trim($_POST['descripcion']);
+        $stmt = $pdo->prepare("SELECT * FROM privilegio WHERE id_privilegio=?");
+        $res = $stmt->execute([$id_privilegio]);
+    } catch (Exception $e) {
+        $res = $e->getMessage();
+    }
+    echo $res;
+    exit();
 }
 
 ?>
@@ -64,8 +107,10 @@ if (!isset($_SESSION['id_usuario'])) {
     <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 </head>
 <body class="sb-nav-fixed">
 <?php include 'header.php'; ?>
@@ -82,14 +127,14 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="card mb-4">
                     <div class="card-body">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                                data-whatever="@mdo">Open modal for @mdo
+                                data-whatever="@mdo">Añadir nuevo registro
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Añadir nuevo registro</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -97,19 +142,22 @@ if (!isset($_SESSION['id_usuario'])) {
                                     <div class="modal-body">
                                         <form>
                                             <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                <input type="text" class="form-control" id="recipient-name">
+                                                <label for="nombre_priv" class="col-form-label">Nombre:</label>
+                                                <input type="text" class="form-control" id="nombre_priv">
                                             </div>
                                             <div class="form-group">
-                                                <label for="message-text" class="col-form-label">Message:</label>
-                                                <textarea class="form-control" id="message-text"></textarea>
+                                                <label for="descripcion_priv"
+                                                       class="col-form-label">Descripción:</label>
+                                                <textarea class="form-control" id="descripcion_priv"></textarea>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        <button type="button" class="btn btn-secondary btCancel" data-dismiss="modal">
+                                            Cerrar
                                         </button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
+                                        <input class="btn btn-info btn-guardar" value="Guardar"
+                                               type="submit">
                                     </div>
                                 </div>
                             </div>
@@ -135,21 +183,43 @@ if (!isset($_SESSION['id_usuario'])) {
     </div>
 </div>
 
+<script src="js/scripts.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
 <!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>-->
-<script src="general.js"></script>
+<script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
+
     $(document).ready(function () {
         cargaTabla();
         $(document).on('click', '.btn-eliminar', function (e) {
-            eliminaRegistro($(this).attr('id_priv'))
+            console.log($(this).attr('id_priv'));
+            eliminaRegistro($(this).attr('id_priv'));
         });
         $(document).on('click', '.btn-editar', function (e) {
-            console.log($(this).attr('id_priv'));
+            var id_priv = $(this).attr('id_priv');
+
+            $(".btn-guardar").off("click");
+            $(".btn-guardar").click(function () {
+                var nombre_priv = $('#nombre_priv').val();
+                var descripcion_priv = $('#descripcion_priv').val();
+                editarRegistro(id_priv, nombre_priv, descripcion_priv)
+                $(".btCancel").click();
+            });
+
+        });
+        $(document).on('click', '.btn-aceptar-aniadir', function (e) {
+            var nombre_priv = $('#nombre_priv').val();
+            var descripcion_priv = $('#descripcion_priv').val();
+            aniadirRegistro(nombre_priv, descripcion_priv);
         });
     });
 </script>
