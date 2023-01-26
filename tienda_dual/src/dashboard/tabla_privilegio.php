@@ -71,8 +71,13 @@ if ($opcion == 4) {
         $id_privilegio = trim($_POST['id_privilegio']);
         $nombre_privilegio = trim($_POST['nombre']);
         $descripcion_privilegio = trim($_POST['descripcion']);
+        if($id_privilegio==""){
+            $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
+            $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
+        }else{
         $stmt = $pdo->prepare("UPDATE privilegio SET nombre =?, descripcion =? WHERE id_privilegio=?");
         $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio, $id_privilegio]);
+        }
     } catch (Exception $e) {
         $res = $e->getMessage();
     }
@@ -85,12 +90,13 @@ if ($opcion == 5) {
         $id_privilegio = trim($_POST['id_privilegio']);
         $nombre_privilegio = trim($_POST['nombre']);
         $descripcion_privilegio = trim($_POST['descripcion']);
-        $stmt = $pdo->prepare("SELECT * FROM privilegio WHERE id_privilegio=?");
-        $res = $stmt->execute([$id_privilegio]);
+        $stmt = $pdo->prepare("SELECT nombre,descripcion FROM privilegio WHERE id_privilegio=?");
+        $stmt->execute([$id_privilegio]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         $res = $e->getMessage();
     }
-    echo $res;
+    echo json_encode($res);
     exit();
 }
 
@@ -143,15 +149,15 @@ if ($opcion == 5) {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form id="modal-form">
                                             <div class="form-group">
                                                 <label for="nombre_priv" class="col-form-label">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre_priv">
+                                                <input type="text" class="form-control input-nombre" id="nombre_priv">
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripcion_priv"
                                                        class="col-form-label">Descripción:</label>
-                                                <textarea class="form-control" id="descripcion_priv"></textarea>
+                                                <textarea class="form-control input-desc" id="descripcion_priv"></textarea>
                                             </div>
                                         </form>
                                     </div>
@@ -206,20 +212,24 @@ if ($opcion == 5) {
             eliminaRegistro($(this).attr('id_priv'));
         });
         $(document).on('click', '.btn-editar', function (e) {
+            $("input[type=text],textarea").val("");
             var id_priv = $(this).attr('id_priv');
+            cargarRegistro(id_priv)
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 var nombre_priv = $('#nombre_priv').val();
                 var descripcion_priv = $('#descripcion_priv').val();
-                editarRegistro(id_priv, nombre_priv, descripcion_priv)
+                guardarRegistro(id_priv, nombre_priv, descripcion_priv)
                 $(".btCancel").click();
             });
         });
         $(document).on('click', '.btn-aniadir', function (e) {
+            $("input[type=text],textarea").val("");
+            $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 var nombre_priv = $('#nombre_priv').val();
                 var descripcion_priv = $('#descripcion_priv').val();
-                aniadirRegistro(nombre_priv, descripcion_priv)
+                guardarRegistro("",nombre_priv, descripcion_priv)
                 $(".btCancel").click();
             });
         });

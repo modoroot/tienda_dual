@@ -41,7 +41,7 @@ function aniadirRegistro(nombre_priv, descripcion_priv) {
     });
 }
 
-function editarRegistro(id_priv,nombre_priv, descripcion_priv) {
+function guardarRegistro(id_priv, nombre_priv, descripcion_priv) {
     $.ajax({
         type: "POST",
         async: true,
@@ -53,14 +53,16 @@ function editarRegistro(id_priv,nombre_priv, descripcion_priv) {
     });
 }
 
-function cargarRegistro(id_priv, nombre_priv, descripcion_priv) {
+function cargarRegistro(id_priv) {
     $.ajax({
         type: "POST",
         async: true,
         url: "tabla_privilegio.php",
-        data: {opcion:5,id_privilegio:id_priv,nombre:nombre_priv,descripcion:descripcion_priv},
+        data: {opcion:5,id_privilegio:id_priv},
+        dataType:"json",
         success:  function(data){
-            cargaTabla();
+            $("input[type=text]").val(data.nombre);
+            $("textarea").val(data.descripcion);
         },
     });
 }
