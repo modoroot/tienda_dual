@@ -126,7 +126,7 @@ if ($opcion == 5) {
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal" data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -134,7 +134,10 @@ if ($opcion == 5) {
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Añadir nuevo registro</h5>
+                                        <script>
+
+                                        </script>
+                                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -197,16 +200,13 @@ if ($opcion == 5) {
 <script src="js/datatables-simple-demo.js"></script>-->
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
-
     $(document).ready(function () {
         cargaTabla();
         $(document).on('click', '.btn-eliminar', function (e) {
-            console.log($(this).attr('id_priv'));
             eliminaRegistro($(this).attr('id_priv'));
         });
         $(document).on('click', '.btn-editar', function (e) {
             var id_priv = $(this).attr('id_priv');
-
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 var nombre_priv = $('#nombre_priv').val();
@@ -214,13 +214,16 @@ if ($opcion == 5) {
                 editarRegistro(id_priv, nombre_priv, descripcion_priv)
                 $(".btCancel").click();
             });
+        });
+        $(document).on('click', '.btn-aniadir', function (e) {
+            $(".btn-guardar").click(function () {
+                var nombre_priv = $('#nombre_priv').val();
+                var descripcion_priv = $('#descripcion_priv').val();
+                aniadirRegistro(nombre_priv, descripcion_priv)
+                $(".btCancel").click();
+            });
+        });
 
-        });
-        $(document).on('click', '.btn-aceptar-aniadir', function (e) {
-            var nombre_priv = $('#nombre_priv').val();
-            var descripcion_priv = $('#descripcion_priv').val();
-            aniadirRegistro(nombre_priv, descripcion_priv);
-        });
     });
 </script>
 </body>
