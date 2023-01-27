@@ -130,9 +130,6 @@ if ($opcion == 5) {
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <script>
-
-                                        </script>
                                         <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>

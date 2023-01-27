@@ -12,7 +12,6 @@ function cargaTabla() {
     });
 }
 
-
 function eliminaRegistro(id) {
     $.ajax({
         type: "POST",
@@ -30,9 +29,6 @@ function eliminaRegistro(id) {
     });
 }
 
-
-
-
 function cargarRegistro(id) {
     $.ajax({
         type: "POST",
@@ -41,7 +37,11 @@ function cargarRegistro(id) {
         data: {opcion: 5, id: id},
         dataType: "json",
         success: function (data) {
-            $("input[type=text]").val(data.nombre);
+            $(".input-nombre").val(data.nombre);
+            $(".input-usuario").val(data.username);
+            $("input[type=password]").val(data.password);
+            $("input[type=email]").val(data.email);
+            $(".select-usuario").val(data.id_privilegio);
             $("textarea").val(data.descripcion);
         },
     });
@@ -53,8 +53,9 @@ function guardar(id) {
     var fd = new FormData(document.getElementById("modal-form"));
     fd.append("opcion", 4);
     fd.append('id', id);
-    $('#modal-form input,#modal-form select,#modal-form textarea').each(function(){
+    $('#modal-form input,#modal-form select,#modal-form textarea,#modal-form select').each(function(){
        fd.append($(this).attr("id"), $(this).val());
+       console.log()
     })
     console.log(fd);
     $.ajax({

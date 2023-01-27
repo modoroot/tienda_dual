@@ -2,13 +2,7 @@
 session_start();
 //pdo
 include '../conn/conn.php';
-
-$nombre = $_SESSION['nombre'];
-$id_usuario = $_SESSION['id_usuario'];
-$id_privilegio = $_SESSION['id_privilegio'];
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
-}
+include 'control_privilegios.php';
 
 $opcion = $_POST['opcion'];
 
@@ -53,23 +47,10 @@ if ($opcion == 2) {
     exit();
 }
 
-if ($opcion == 3) {
-    try {
-        $nombre_privilegio = trim($_POST['nombre']);
-        $descripcion_privilegio = trim($_POST['descripcion']);
-        $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
-        $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
-    } catch (Exception $e) {
-        $res = $e->getMessage();
-    }
-    echo $res;
-    exit();
-}
-
 if ($opcion == 4) {
     try {
         $id_privilegio = $_POST['id'];
-        //lo recoge de las etiquetas input/textarea
+        //lo recoge de las etiquetas input/textarea (el id)
         $nombre_privilegio = trim($_POST['nombre_priv']);
         $descripcion_privilegio = trim($_POST['descripcion_priv']);
         if($id_privilegio==""){
