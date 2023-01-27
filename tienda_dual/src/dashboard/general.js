@@ -30,17 +30,6 @@ function eliminaRegistro(id) {
     });
 }
 
-function guardarRegistro(id, nombre, descripcion) {
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: FICHERO,
-        data: {opcion: 4, id: id, nombre: nombre, descripcion: descripcion},
-        success: function (data) {
-            cargaTabla();
-        },
-    });
-}
 
 
 
