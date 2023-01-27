@@ -41,7 +41,7 @@ if ($opcion == 1) {
 
 if ($opcion == 2) {
     try {
-        $id_privilegio = trim($_POST['id_privilegio']);
+        $id_privilegio = trim($_POST['id']);
         $stmt = $pdo->prepare("DELETE FROM privilegio WHERE id_privilegio=?");
         $stmt->bindParam(1, $id_privilegio);
         $res = $stmt->execute([$id_privilegio]);
@@ -68,9 +68,10 @@ if ($opcion == 3) {
 
 if ($opcion == 4) {
     try {
-        $id_privilegio = trim($_POST['id_privilegio']);
-        $nombre_privilegio = trim($_POST['nombre']);
-        $descripcion_privilegio = trim($_POST['descripcion']);
+        $id_privilegio = $_POST['id'];
+        //lo recoge de las etiquetas input/textarea
+        $nombre_privilegio = trim($_POST['nombre_priv']);
+        $descripcion_privilegio = trim($_POST['descripcion_priv']);
         if($id_privilegio==""){
             $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
             $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
@@ -87,7 +88,7 @@ if ($opcion == 4) {
 
 if ($opcion == 5) {
     try {
-        $id_privilegio = trim($_POST['id_privilegio']);
+        $id_privilegio = trim($_POST['id']);
         $nombre_privilegio = trim($_POST['nombre']);
         $descripcion_privilegio = trim($_POST['descripcion']);
         $stmt = $pdo->prepare("SELECT nombre,descripcion FROM privilegio WHERE id_privilegio=?");
@@ -140,9 +141,6 @@ if ($opcion == 5) {
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <script>
-
-                                        </script>
                                         <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -152,7 +150,7 @@ if ($opcion == 5) {
                                         <form id="modal-form">
                                             <div class="form-group">
                                                 <label for="nombre_priv" class="col-form-label">Nombre:</label>
-                                                <input type="text" class="form-control input-nombre" id="nombre_priv">
+                                                <input type="text" class="form-control input-nombre" id="nombre_priv" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripcion_priv"
@@ -206,6 +204,7 @@ if ($opcion == 5) {
 <script src="js/datatables-simple-demo.js"></script>-->
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
+    const FICHERO = '<?php echo $fichero; ?>'
     $(document).ready(function () {
         cargaTabla();
         $(document).on('click', '.btn-eliminar', function (e) {
@@ -217,9 +216,7 @@ if ($opcion == 5) {
             cargarRegistro(id_priv)
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
-                var nombre_priv = $('#nombre_priv').val();
-                var descripcion_priv = $('#descripcion_priv').val();
-                guardarRegistro(id_priv, nombre_priv, descripcion_priv)
+                guardar(id_priv)
                 $(".btCancel").click();
             });
         });
@@ -227,9 +224,7 @@ if ($opcion == 5) {
             $("input[type=text],textarea").val("");
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
-                var nombre_priv = $('#nombre_priv').val();
-                var descripcion_priv = $('#descripcion_priv').val();
-                guardarRegistro("",nombre_priv, descripcion_priv)
+                guardar("");
                 $(".btCancel").click();
             });
         });
