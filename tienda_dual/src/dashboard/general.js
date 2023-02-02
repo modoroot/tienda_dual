@@ -29,35 +29,13 @@ function eliminaRegistro(id) {
     });
 }
 
-function cargarRegistro(id) {
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: FICHERO,
-        data: {opcion: 5, id: id},
-        dataType: "json",
-        success: function (data) {
-            $(".input-nombre").val(data.nombre);
-            $(".input-usuario").val(data.username);
-            $("input[type=password]").val(data.password);
-            $("input[type=email]").val(data.email);
-            $(".select-usuario").val(data.id_privilegio);
-            $("textarea").val(data.descripcion);
-        },
-    });
-}
-
-
-
 function guardar(id) {
     var fd = new FormData(document.getElementById("modal-form"));
     fd.append("opcion", 4);
     fd.append('id', id);
     $('#modal-form input,#modal-form select,#modal-form textarea,#modal-form select').each(function(){
-       fd.append($(this).attr("id"), $(this).val());
-       console.log()
+        fd.append($(this).attr("id"), $(this).val());
     })
-    console.log(fd);
     $.ajax({
         url: FICHERO,
         type: "POST",
@@ -70,3 +48,30 @@ function guardar(id) {
         cargaTabla();
     });
 }
+
+function cargarRegistro(id) {
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: FICHERO,
+        data: {opcion: 5, id: id},
+        dataType: "json",
+        success: function (data) {
+            $(".input-nombre").val(data.nombre);
+            $(".input-usuario").val(data.username);
+            $(".input-precio").val(data.precio);
+            $(".input-precio-total").val(data.precio_total);
+            $(".input-fecha-pedido").val(data.fecha_pedido);
+            $(".input-codigo-pedido").val(data.codigo_pedido);
+            $("input[type=password]").val(data.password);
+            $("input[type=email]").val(data.email);
+            $(".select-clave-ajena").val(data.id_privilegio);
+            $(".select-clave-ajena").val(data.id_categoria);
+            $(".select-clave-ajena").val(data.id_usuario);
+            $("textarea").val(data.descripcion);
+        },
+    });
+}
+
+
+

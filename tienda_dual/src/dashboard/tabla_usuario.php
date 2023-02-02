@@ -55,12 +55,12 @@ if ($opcion == 4) {
         $sha_password_usuario = sha1($password_usuario);
         $email_usuario = trim($_POST['email_usu']);
         $id_privilegio_usuario = trim($_POST['id_privilegio_usu']);
-        if($id_usuario==""){
+        if ($id_usuario == "") {
             $stmt = $pdo->prepare("INSERT INTO usuario VALUES (NULL, ?,?,?,?,?)");
-            $res = $stmt->execute([$nombre_usuario, $username_usuario,$sha_password_usuario,$email_usuario,$id_privilegio_usuario]);
-        }else{
+            $res = $stmt->execute([$nombre_usuario, $username_usuario, $sha_password_usuario, $email_usuario, $id_privilegio_usuario]);
+        } else {
             $stmt = $pdo->prepare("UPDATE usuario SET nombre =?, username=?, password=?, email=?, id_privilegio=? WHERE id_usuario=?");
-            $res = $stmt->execute([$nombre_usuario, $username_usuario,$sha_password_usuario,$email_usuario,$id_privilegio_usuario,$id_usuario]);
+            $res = $stmt->execute([$nombre_usuario, $username_usuario, $sha_password_usuario, $email_usuario, $id_privilegio_usuario, $id_usuario]);
         }
     } catch (Exception $e) {
         $res = $e->getMessage();
@@ -120,7 +120,8 @@ if ($opcion == 5) {
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal" data-target="#exampleModal"
+                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal"
+                                data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -140,12 +141,14 @@ if ($opcion == 5) {
                                                 <input type="text" class="form-control input-nombre" id="nombre_usu">
                                             </div>
                                             <div class="form-group">
-                                                <label for="usuario_usu" class="col-form-label">Nombre de usuario:</label>
+                                                <label for="usuario_usu" class="col-form-label">Nombre de
+                                                    usuario:</label>
                                                 <input type="text" class="form-control input-usuario" id="usuario_usu">
                                             </div>
                                             <div class="form-group">
                                                 <label for="password_usu" class="col-form-label">Contraseña:</label>
-                                                <input type="password" class="form-control input-password" id="password_usu">
+                                                <input type="password" class="form-control input-password"
+                                                       id="password_usu">
                                             </div>
                                             <div class="form-group">
                                                 <label for="email_usu" class="col-form-label">Email:</label>
@@ -153,7 +156,8 @@ if ($opcion == 5) {
                                             </div>
                                             <div class="form-group">
                                                 <label for="id_privilegio_usu" class="col-form-label">Id_Privilegio
-                                                    <select name="id_privilegio_usu" class="form-control select-usuario">
+                                                    <select name="id_privilegio_usu"
+                                                            class="form-control select-usuario">
                                                         <?php
                                                         $stmt = $pdo->prepare('SELECT * FROM privilegio');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -179,22 +183,24 @@ if ($opcion == 5) {
                                 </div>
                             </div>
                         </div>
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>ID Usuario</th>
-                                <th>Nombre</th>
-                                <th>Username</th>
-                                <th>Contraseña</th>
-                                <th>Email</th>
-                                <th>ID_Privilegio</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x:auto;">
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>ID Usuario</th>
+                                    <th>Nombre</th>
+                                    <th>Username</th>
+                                    <th>Contraseña</th>
+                                    <th>Email</th>
+                                    <th>ID_Privilegio</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -53,12 +53,12 @@ if ($opcion == 4) {
         //lo recoge de las etiquetas input/textarea (el id)
         $nombre_privilegio = trim($_POST['nombre_priv']);
         $descripcion_privilegio = trim($_POST['descripcion_priv']);
-        if($id_privilegio==""){
+        if ($id_privilegio == "") {
             $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
             $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
-        }else{
-        $stmt = $pdo->prepare("UPDATE privilegio SET nombre =?, descripcion =? WHERE id_privilegio=?");
-        $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio, $id_privilegio]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE privilegio SET nombre =?, descripcion =? WHERE id_privilegio=?");
+            $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio, $id_privilegio]);
         }
     } catch (Exception $e) {
         $res = $e->getMessage();
@@ -114,7 +114,8 @@ if ($opcion == 5) {
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal" data-target="#exampleModal"
+                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal"
+                                data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -131,12 +132,14 @@ if ($opcion == 5) {
                                         <form id="modal-form">
                                             <div class="form-group">
                                                 <label for="nombre_priv" class="col-form-label">Nombre:</label>
-                                                <input type="text" class="form-control input-nombre" id="nombre_priv" required>
+                                                <input type="text" class="form-control input-nombre" id="nombre_priv"
+                                                       required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripcion_priv"
                                                        class="col-form-label">Descripción:</label>
-                                                <textarea class="form-control input-desc" id="descripcion_priv"></textarea>
+                                                <textarea class="form-control input-desc"
+                                                          id="descripcion_priv"></textarea>
                                             </div>
                                         </form>
                                     </div>
@@ -150,19 +153,21 @@ if ($opcion == 5) {
                                 </div>
                             </div>
                         </div>
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>ID Privilegio</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x:auto;">
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>ID Privilegio</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -61,10 +61,10 @@ if ($opcion == 4) {
         $id_categoria = trim($_POST['id']);
         $nombre_categoria = trim($_POST['nombre_cat']);
         $descripcion_categoria = trim($_POST['descripcion_cat']);
-        if($id_categoria==""){
+        if ($id_categoria == "") {
             $stmt = $pdo->prepare("INSERT INTO categoria VALUES (NULL, ?,?)");
             $res = $stmt->execute([$nombre_categoria, $descripcion_categoria]);
-        }else{
+        } else {
             $stmt = $pdo->prepare("UPDATE categoria SET nombre =?, descripcion =? WHERE id_categoria=?");
             $res = $stmt->execute([$nombre_categoria, $descripcion_categoria, $id_categoria]);
         }
@@ -122,7 +122,8 @@ if ($opcion == 5) {
                 </ol>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal" data-target="#exampleModal"
+                        <button type="button" class="btn btn-primary btn-aniadir" data-toggle="modal"
+                                data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -144,7 +145,8 @@ if ($opcion == 5) {
                                             <div class="form-group">
                                                 <label for="descripcion_cat"
                                                        class="col-form-label">Descripción:</label>
-                                                <textarea class="form-control input-desc" id="descripcion_cat"></textarea>
+                                                <textarea class="form-control input-desc"
+                                                          id="descripcion_cat"></textarea>
                                             </div>
                                         </form>
                                     </div>
@@ -158,19 +160,21 @@ if ($opcion == 5) {
                                 </div>
                             </div>
                         </div>
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>ID Categoría</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x:auto;">
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>ID Categoría</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
