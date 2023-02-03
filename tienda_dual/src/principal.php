@@ -14,10 +14,43 @@ include 'conn/conn.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/http_cdn.jsdelivr.net_npm_bootstrap@4.0.0_dist_css_bootstrap.css"
+          crossorigin="anonymous">
+    <style>
+        img {
+            border-radius: 8%;
+        }
+    </style>
 </head>
 <body>
+<div class="modal fade" id="modal-categoria" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="modal-form">
+                    <div class="form-group">
+                        <label for="nombre_usu" class="col-form-label">Nombre:</label>
+                        <input type="text" class="form-control input-nombre" id="nombre_usu">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btCancel" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <input class="btn btn-info btn-guardar" value="Guardar"
+                       type="submit">
+            </div>
+        </div>
+    </div>
+</div>
 <div class="header">
     <div class="container">
         <div class="navbar">
@@ -53,7 +86,6 @@ include 'conn/conn.php';
 </div>
 <!-- categorías -->
 <div class="categorias">
-
     <?php
     $stmt = $pdo->prepare("SELECT * FROM categoria");
     $stmt->execute();
@@ -62,26 +94,13 @@ include 'conn/conn.php';
     <div class="subcont">
         <h2 class="titulo">Categorías</h2>
         <div class="row">
-            <div class="col-3">
-                <img alt="Imagen" src="img/<?php echo $results[0]['img']?>">
-                <h4><?php echo $results[0]['nombre'] ?></h4>
-            </div>
-            <div class="col-3">
-                <img alt="Imagen" src="img/<?php echo $results[1]['img']?>">
-                <h4><?php echo $results[1]['nombre'] ?></h4>
-            </div>
-            <div class="col-3">
-                <img alt="Imagen" src="img/<?php echo $results[2]['img']?>">
-                <h4><?php echo $results[2]['nombre'] ?></h4>
-            </div>
-            <div class="col-3">
-                <img alt="Imagen" src="img/<?php echo $results[3]['img']?>">
-                <h4><?php echo $results[3]['nombre'] ?></h4>
-            </div>
-            <div class="col-3">
-                <img alt="Imagen" src="img/<?php echo $results[4]['img']?>">
-                <h4><?php echo $results[4]['nombre'] ?></h4>
-            </div>
+            <?php
+            foreach ($results as $result) {
+                echo "<div class='col-3'>
+                <img alt='Imagen' data-target='#modal-categoria' data-toggle='modal' src='img/{$result['img']} '>
+                <h4>{$result['nombre']}</h4> </div>";
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -195,6 +214,12 @@ include 'conn/conn.php';
         <p class="copyright">Copyright &copy;</p>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 <!--JS Lista del menú-->
 <script>
     var menu_items = document.getElementById("menu_lista");

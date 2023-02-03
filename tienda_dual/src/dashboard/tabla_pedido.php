@@ -153,7 +153,7 @@ if ($opcion == 5) {
                                             <div class="form-group">
                                                 <label for="id_usuario_ped" class="col-form-label">ID Usuario
                                                     <select name="id_usuario_ped"
-                                                            class="form-control select-clave-ajena">
+                                                            class="form-control select-clave-ajena-usuario">
                                                         <?php
                                                         $stmt = $pdo->prepare('SELECT * FROM usuario');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);

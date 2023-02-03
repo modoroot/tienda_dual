@@ -50,6 +50,7 @@ function guardar(id) {
 }
 
 function cargarRegistro(id) {
+
     $.ajax({
         type: "POST",
         async: true,
@@ -65,11 +66,12 @@ function cargarRegistro(id) {
             $(".input-codigo-pedido").val(data.codigo_pedido);
             $("input[type=password]").val(data.password);
             $("input[type=email]").val(data.email);
-            $(".select-clave-ajena").val(data.id_privilegio);
-            $(".select-clave-ajena").val(data.id_categoria);
-            $(".select-clave-ajena").val(data.id_usuario);
-            $(".select-clave-ajena").val(data.id_producto);
+            $(".select-clave-ajena-producto").val(data.id_producto);
+            $(".select-clave-ajena-privilegio").val(data.id_privilegio);
+            $(".select-clave-ajena-categoria").val(data.id_categoria);
+            $(".select-clave-ajena-usuario").val(data.id_usuario);
             $("textarea").val(data.descripcion);
+            console.log(data);
         },
     });
 }

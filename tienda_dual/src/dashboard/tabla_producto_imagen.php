@@ -145,7 +145,7 @@ if ($opcion == 5) {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="modal-form" enctype="multipart/form-data">
+                                        <form id="modal-form"   >
                                             <div class="form-group">
                                                 <label for="nombre_prod_img" class="col-form-label">Nombre:</label>
                                                 <input type="text" class="form-control input-nombre"
@@ -165,7 +165,7 @@ if ($opcion == 5) {
                                             <div class="form-group">
                                                 <label for="id_producto_img" class="col-form-label">Id Producto
                                                     <select name="id_producto_img"
-                                                            class="form-control select-clave-ajena">
+                                                            class="form-control select-clave-ajena-producto">
                                                         <?php
                                                         $stmt = $pdo->prepare('SELECT * FROM producto');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);

@@ -7,7 +7,6 @@ include 'control_privilegios.php';
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
-
     $stmt = $pdo->prepare("SELECT * FROM usuario");
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $stmt->execute();
@@ -157,7 +156,7 @@ if ($opcion == 5) {
                                             <div class="form-group">
                                                 <label for="id_privilegio_usu" class="col-form-label">Id_Privilegio
                                                     <select name="id_privilegio_usu"
-                                                            class="form-control select-usuario">
+                                                            class="form-control select-clave-ajena-privilegio">
                                                         <?php
                                                         $stmt = $pdo->prepare('SELECT * FROM privilegio');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);

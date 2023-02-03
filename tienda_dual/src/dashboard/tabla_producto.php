@@ -51,7 +51,7 @@ if ($opcion == 4) {
         $nombre_producto = trim($_POST['nombre_prod']);
         $precio_producto = trim($_POST['precio_prod']);
         $descripcion_producto = trim($_POST['descripcion_prod']);
-        $id_categoria_producto = $_POST['id_categoria_prod'];
+        $id_categoria_producto = trim($_POST['id_categoria_prod']);
         if ($id_producto == "") {
             $stmt = $pdo->prepare("INSERT INTO producto VALUES (NULL, ?,?,?,?)");
             $res = $stmt->execute([$nombre_producto, $precio_producto, $descripcion_producto, $id_categoria_producto]);
@@ -72,7 +72,7 @@ if ($opcion == 5) {
         $nombre_producto = trim($_POST['nombre']);
         $precio_producto = trim($_POST['precio']);
         $descripcion_producto = trim($_POST['descripcion']);
-        $id_categoria_producto = trim($_POST['id_categoria']);
+        $id_categoria_producto = $_POST['id_categoria'];
         $stmt = $pdo->prepare("SELECT nombre,precio,descripcion,id_categoria FROM producto WHERE id_producto=?");
         $stmt->execute([$id_producto]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -146,17 +146,17 @@ if ($opcion == 5) {
                                                           id="descripcion_prod"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label for="id_categoria_prod" class="col-form-label">Categoría
+                                                <label for="id_categoria_prod" class="col-form-label">Id Categoría
                                                     <select name="id_categoria_prod"
-                                                            class="form-control select-clave-ajena">
+                                                            class="form-control select-clave-ajena-categoria">
                                                         <?php
                                                         $stmt = $pdo->prepare('SELECT * FROM categoria');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         $stmt->execute();
                                                         while ($row = $stmt->fetch()) {
                                                             ?>
-                                                            <option value="<?php echo $row['id_categoria'] ?>">
-                                                                <?php echo $row['nombre'] ?>
+                                                            <option>
+                                                                <?php echo $row['id_categoria'] ?>
                                                             </option>
                                                         <?php } ?>
                                                     </select>
@@ -182,7 +182,7 @@ if ($opcion == 5) {
                                     <th>Nombre</th>
                                     <th>Precio (€)</th>
                                     <th>Descripción</th>
-                                    <th>Categoría</th>
+                                    <th>ID Categoría</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
