@@ -1,4 +1,9 @@
-<!doctype html>
+<?php
+include 'conn/conn.php';
+
+?>
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -34,7 +39,7 @@
 
         <div class="row">
             <div class="col-2">
-                <h1>Fino fino fino<br>fino fino</h1>
+                <h1>Fino<br>fino</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                     eiusmod tempor<br>incididunt ut labore et dolore magna aliqua.
                     Ut enim ad minim veniam</p>
@@ -48,26 +53,34 @@
 </div>
 <!-- categorías -->
 <div class="categorias">
+
+    <?php
+    $stmt = $pdo->prepare("SELECT * FROM categoria");
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
     <div class="subcont">
-        <h2 class="titulo">Categorías más visitadas</h2>
+        <h2 class="titulo">Categorías</h2>
         <div class="row">
             <div class="col-3">
-                <img src="img/signalis-banner.jpg">
-                <h4>Terror clásico</h4>
+                <img alt="Imagen" src="img/<?php echo $results[0]['img']?>">
+                <h4><?php echo $results[0]['nombre'] ?></h4>
             </div>
             <div class="col-3">
-                <img src="img/dead-cells-banner.jpg">
-                <h4>Roguelike</h4>
+                <img alt="Imagen" src="img/<?php echo $results[1]['img']?>">
+                <h4><?php echo $results[1]['nombre'] ?></h4>
             </div>
             <div class="col-3">
-                <img src="img/outer-wilds-banner.jpg">
-                <h4>Indie</h4>
+                <img alt="Imagen" src="img/<?php echo $results[2]['img']?>">
+                <h4><?php echo $results[2]['nombre'] ?></h4>
             </div>
             <div class="col-3">
-                <img src="">
+                <img alt="Imagen" src="img/<?php echo $results[3]['img']?>">
+                <h4><?php echo $results[3]['nombre'] ?></h4>
             </div>
             <div class="col-3">
-                <img src="">
+                <img alt="Imagen" src="img/<?php echo $results[4]['img']?>">
+                <h4><?php echo $results[4]['nombre'] ?></h4>
             </div>
         </div>
     </div>

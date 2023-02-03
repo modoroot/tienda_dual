@@ -52,10 +52,11 @@ if ($opcion == 4) {
         $fecha_pedido = $_POST['fecha_ped'];
         $codigo_pedido = $_POST['codigo_ped'];
         $id_usuario_ped = trim($_POST['id_usuario_ped']);
+        $now = date("Y-m-d H:i:s");
         if ($id_pedido == "") {
             $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $codigo_pedido_random = substr(str_shuffle($chars), 0, 12);
-            $stmt = $pdo->prepare("INSERT INTO pedido VALUES (NULL, ?,now(),?,?)");
+            $stmt = $pdo->prepare("INSERT INTO pedido VALUES (NULL, ?,'$now',?,?)");
             $res = $stmt->execute([$precio_total_pedido, $codigo_pedido_random, $id_usuario_ped]);
         } else {
             $stmt = $pdo->prepare("UPDATE pedido SET precio_total =?, codigo_pedido=?, id_usuario=? WHERE id_pedido=?");
@@ -134,16 +135,20 @@ if ($opcion == 5) {
                                     <div class="modal-body">
                                         <form id="modal-form">
                                             <div class="form-group">
-                                                <label for="precio_total_ped" class="col-form-label">Precio total:</label>
-                                                <input type="text" class="form-control input-precio-total" id="precio_total_ped">
+                                                <label for="precio_total_ped" class="col-form-label">Precio
+                                                    total:</label>
+                                                <input type="text" class="form-control input-precio-total"
+                                                       id="precio_total_ped">
                                             </div>
                                             <div class="form-group">
                                                 <label for="fecha_ped" class="col-form-label">Fecha pedido:</label>
-                                                <input type="datetime-local" class="form-control input-fecha-pedido" id="fecha_ped" readonly>
+                                                <input type="datetime-local" class="form-control input-fecha-pedido"
+                                                       id="fecha_ped" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="codigo_ped" class="col-form-label">Código pedido:</label>
-                                                <input type="text" class="form-control input-codigo-pedido" id="codigo_ped" readonly>
+                                                <input type="text" class="form-control input-codigo-pedido"
+                                                       id="codigo_ped" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="id_usuario_ped" class="col-form-label">ID Usuario
@@ -175,21 +180,21 @@ if ($opcion == 5) {
                             </div>
                         </div>
                         <div style="overflow-x:auto;">
-                        <table id="datatablesSimple">
-                            <thead>
-                            <tr>
-                                <th>ID Pedido</th>
-                                <th>Precio total (€)</th>
-                                <th>Fecha pedido</th>
-                                <th>Código pedido</th>
-                                <th>ID Usuario</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Precio total (€)</th>
+                                    <th>Fecha pedido</th>
+                                    <th>Código pedido</th>
+                                    <th>ID Usuario</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

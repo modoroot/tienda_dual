@@ -16,8 +16,9 @@ if ($opcion == 1) {
                 <td>' . $row["id_categoria"] . '</td>
                 <td>' . $row['nombre'] . '</td>
                 <td>' . $row['descripcion'] . '</td>
+                <td>' . $row['img'] . '</td>
                 <td>
-                     <button type="button" class="btn btn-primary btn-editar" 
+                     <button type="button" class="btn btn-primary btn-editar"
                      data-toggle="modal" data-target="#exampleModal" id_cat="' . $row['id_categoria'] . '" data-whatever="@editar">Editar registro 
                         </button>
                 </td>
@@ -43,30 +44,31 @@ if ($opcion == 2) {
     exit();
 }
 
-if ($opcion == 3) {
-    try {
-        $nombre_categoria = trim($_POST['nombre']);
-        $descripcion_categoria = trim($_POST['descripcion']);
-        $stmt = $pdo->prepare("INSERT INTO categoria VALUES (NULL, ?,?)");
-        $res = $stmt->execute([$nombre_categoria, $descripcion_categoria]);
-    } catch (Exception $e) {
-        $res = $e->getMessage();
-    }
-    echo $res;
-    exit();
-}
-
 if ($opcion == 4) {
     try {
         $id_categoria = trim($_POST['id']);
         $nombre_categoria = trim($_POST['nombre_cat']);
         $descripcion_categoria = trim($_POST['descripcion_cat']);
+        $ruta_imagen = trim($_POST['ruta_img']);
+        $id_producto_imagen = trim($_POST['id_producto_img']);
+        $file_name = $_FILES['ruta_img']['name'];
+        $file_size = $_FILES['ruta_img']['size'];
+        $tmp_name = $_FILES['ruta_img']['tmp_name'];
+        $img_ext_valida = ['jpg','jpeg','png'];
+        $img_ext = explode('.',$file_name);
+        $img_ext = strtolower(end($img_ext_valida));
+        if(!in_array($img_ext,$img_ext_valida)){
+            echo "<script> alert('Extensión de la imagen inválida'); </script>";
+        }else{
+            $nuevo_img_name = $file_name;
+            move_uploaded_file($tmp_name, 'img/'.$nuevo_img_name);
+        }
         if ($id_categoria == "") {
-            $stmt = $pdo->prepare("INSERT INTO categoria VALUES (NULL, ?,?)");
-            $res = $stmt->execute([$nombre_categoria, $descripcion_categoria]);
+            $stmt = $pdo->prepare("INSERT INTO categoria VALUES (NULL, ?,?,?)");
+            $res = $stmt->execute([$nombre_categoria, $descripcion_categoria, $nuevo_img_name]);
         } else {
-            $stmt = $pdo->prepare("UPDATE categoria SET nombre =?, descripcion =? WHERE id_categoria=?");
-            $res = $stmt->execute([$nombre_categoria, $descripcion_categoria, $id_categoria]);
+            $stmt = $pdo->prepare("UPDATE categoria SET nombre =?, descripcion =?, img=? WHERE id_categoria=?");
+            $res = $stmt->execute([$nombre_categoria, $descripcion_categoria, $nuevo_img_name, $id_categoria]);
         }
     } catch (Exception $e) {
         $res = $e->getMessage();
@@ -80,7 +82,8 @@ if ($opcion == 5) {
         $id_categoria = trim($_POST['id']);
         $nombre_categoria = trim($_POST['nombre']);
         $descripcion_categoria = trim($_POST['descripcion']);
-        $stmt = $pdo->prepare("SELECT nombre,descripcion FROM categoria WHERE id_categoria=?");
+        $ruta_imagen = trim($_POST['img']);
+        $stmt = $pdo->prepare("SELECT nombre,descripcion,img FROM categoria WHERE id_categoria=?");
         $stmt->execute([$id_categoria]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
@@ -137,7 +140,7 @@ if ($opcion == 5) {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="modal-form">
+                                        <form id="modal-form" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="nombre_cat" class="col-form-label">Nombre:</label>
                                                 <input type="text" class="form-control input-nombre" id="nombre_cat">
@@ -147,6 +150,11 @@ if ($opcion == 5) {
                                                        class="col-form-label">Descripción:</label>
                                                 <textarea class="form-control input-desc"
                                                           id="descripcion_cat"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ruta_img" class="col-form-label">Imagen:</label>
+                                                <input type="file" class="form-control input-ruta"
+                                                       accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
                                             </div>
                                         </form>
                                     </div>
@@ -167,6 +175,7 @@ if ($opcion == 5) {
                                     <th>ID Categoría</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
+                                    <th>Imagen</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -204,7 +213,7 @@ if ($opcion == 5) {
             eliminaRegistro($(this).attr('id_cat'));
         });
         $(document).on('click', '.btn-editar', function (e) {
-            $("input[type=text],textarea").val("");
+            $("input[type=text],textarea,input[type=file]").val("");
             var id_cat = $(this).attr('id_cat');
             cargarRegistro(id_cat)
             $(".btn-guardar").off("click");
@@ -214,7 +223,7 @@ if ($opcion == 5) {
             });
         });
         $(document).on('click', '.btn-aniadir', function (e) {
-            $("input[type=text],textarea").val("");
+            $("input[type=text],textarea,input[type=file]").val("");
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 guardar("");

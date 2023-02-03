@@ -68,6 +68,7 @@ function cargarRegistro(id) {
             $(".select-clave-ajena").val(data.id_privilegio);
             $(".select-clave-ajena").val(data.id_categoria);
             $(".select-clave-ajena").val(data.id_usuario);
+            $(".select-clave-ajena").val(data.id_producto);
             $("textarea").val(data.descripcion);
         },
     });
