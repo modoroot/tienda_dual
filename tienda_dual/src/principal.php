@@ -14,7 +14,7 @@ include 'conn/conn.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="css/http_cdn.jsdelivr.net_npm_bootstrap@4.0.0_dist_css_bootstrap.css"
+    <link rel="stylesheet" href="css/modal_styles.css"
           crossorigin="anonymous">
     <style>
         img {
