@@ -7,15 +7,12 @@ include 'conn/conn.php';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Framerate</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="css/modal_styles.css"
-          crossorigin="anonymous">
+
+
     <style>
         img {
             border-radius: 8%;
@@ -23,39 +20,12 @@ include 'conn/conn.php';
     </style>
 </head>
 <body>
-<div class="modal fade" id="modal-categoria" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="modal-form">
-                    <div class="form-group">
-                        <label for="nombre_usu" class="col-form-label">Nombre:</label>
-                        <input type="text" class="form-control input-nombre" id="nombre_usu">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btCancel" data-dismiss="modal">
-                    Cerrar
-                </button>
-                <input class="btn btn-info btn-guardar" value="Guardar"
-                       type="submit">
-            </div>
-        </div>
-    </div>
-</div>
+<!-- header -->
 <div class="header">
     <div class="container">
         <div class="navbar">
             <div class="logo">
-                <img src="img/logo.png" width="125px">
+                <img src="img/logo.png" width="125px" alt="logo">
             </div>
             <nav>
                 <ul id="menu_lista">
@@ -97,7 +67,7 @@ include 'conn/conn.php';
             <?php
             foreach ($results as $result) {
                 echo "<div class='col-3'>
-                <img alt='Imagen' data-target='#modal-categoria' data-toggle='modal' src='img/{$result['img']} '>
+                <img alt='Imagen' class='abrir_modal' src='dashboard/img/{$result['img']} '>
                 <h4>{$result['nombre']}</h4> </div>";
             }
             ?>
@@ -214,17 +184,18 @@ include 'conn/conn.php';
         <p class="copyright">Copyright &copy;</p>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+<section class="modal">
+    <div class="modal_container">
+        <h2 class="modal_title">test</h2>
+        <p class="modal_paragraph">test</p>
+        <a href="#" class="modal_close">Cerrar</a>
+    </div>
+</section>
+<script src="js/main.js"></script>
 <!--JS Lista del menú-->
 <script>
     var menu_items = document.getElementById("menu_lista");
     menu_items.style.maxHeight = "0px";
-
     function menuDesplegar() {
         if (menu_items.style.maxHeight == "0px") {
             menu_items.style.maxHeight = "200px";
