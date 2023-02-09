@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-12-2022 a las 11:03:49
+-- Tiempo de generación: 09-02-2023 a las 15:05:04
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -30,16 +30,21 @@ SET time_zone = "+00:00";
 CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` varchar(100) NOT NULL
+  `descripcion` text NOT NULL,
+  `img` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `categoria`
 --
 
-INSERT INTO `categoria` (`id_categoria`, `nombre`, `descripcion`) VALUES
-(1, 'test categoria', 'categoria desc'),
-(2, 'test categoria insert', 'test desc insert');
+INSERT INTO `categoria` (`id_categoria`, `nombre`, `descripcion`, `img`) VALUES
+(1, 'Terror clásico', 'categoria desc', 'signalis-banner.jpg'),
+(13, 'Roguelike', 'Subgénero de los videojuegos de rol que se caracterizan por una aventura a través de laberintos, a través de niveles generados por procedimientos al azar, videojuegos basados en turnos, gráficos basados en fichas y la muerte permanente del personaje del jugador.', 'dead-cells-banner.jpg'),
+(14, 'Indie', 'Juegos indie', 'outer-wilds-banner.jpg'),
+(15, 'Acción', '', 'hellsinger-banner.jpg'),
+(16, 'Aventura', '', 'elden-ring-banner.jpg'),
+(17, 'JRPG', 'RPG\'s japos', 'yakuza-like-a-dragon-banner.jpg');
 
 -- --------------------------------------------------------
 
@@ -49,12 +54,18 @@ INSERT INTO `categoria` (`id_categoria`, `nombre`, `descripcion`) VALUES
 
 CREATE TABLE `pedido` (
   `id_pedido` int(11) NOT NULL,
+  `precio_total` double NOT NULL,
+  `fecha_pedido` datetime NOT NULL DEFAULT current_timestamp(),
   `codigo_pedido` varchar(100) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `fecha_pedido` datetime NOT NULL,
-  `precio_total` double NOT NULL
+  `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedido`
+--
+
+INSERT INTO `pedido` (`id_pedido`, `precio_total`, `fecha_pedido`, `codigo_pedido`, `id_usuario`) VALUES
+(13, 5.6453, '2023-02-02 11:11:19', 'FWx4uhVMam', 11);
 
 -- --------------------------------------------------------
 
@@ -86,9 +97,8 @@ CREATE TABLE `privilegio` (
 
 INSERT INTO `privilegio` (`id_privilegio`, `nombre`, `descripcion`) VALUES
 (1, 'admin', ''),
-(2, 'usuario', 'test desc insert'),
-(4, 'test priv', ''),
-(5, 'invitado', 'invitado');
+(2, 'asd', 'asd'),
+(5, '2d3', '2fino3');
 
 -- --------------------------------------------------------
 
@@ -100,6 +110,7 @@ CREATE TABLE `producto` (
   `id_producto` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `precio` double NOT NULL,
+  `descripcion` text NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -107,8 +118,11 @@ CREATE TABLE `producto` (
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`id_producto`, `nombre`, `precio`, `id_categoria`) VALUES
-(1, 'test nombre producto', 5.99, 1);
+INSERT INTO `producto` (`id_producto`, `nombre`, `precio`, `descripcion`, `id_categoria`) VALUES
+(5, 'Vampire Survivors', 3.99, '', 13),
+(6, 'Elden Ring', 59.99, 'aasd', 16),
+(7, 'Hades II', 19.99, 'Battle beyond the Underworld using dark sorcery to take on the Titan of Time in this bewitching sequel to the award-winning rogue-like dungeon crawler.', 13),
+(8, 'Hades', 19.99, 'Desafía al dios de los muertos y protagoniza una salvaje fuga del Inframundo en este juego de exploración de mazmorras de los creadores de Bastion, Transistor y Pyre.', 13);
 
 -- --------------------------------------------------------
 
@@ -120,6 +134,7 @@ CREATE TABLE `producto_imagen` (
   `id_producto_imagen` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(100) NOT NULL,
+  `imagen` varchar(100) NOT NULL,
   `id_producto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -127,8 +142,10 @@ CREATE TABLE `producto_imagen` (
 -- Volcado de datos para la tabla `producto_imagen`
 --
 
-INSERT INTO `producto_imagen` (`id_producto_imagen`, `nombre`, `descripcion`, `id_producto`) VALUES
-(1, 'test imagen insert', 'test desc insert producto', 1);
+INSERT INTO `producto_imagen` (`id_producto_imagen`, `nombre`, `descripcion`, `imagen`, `id_producto`) VALUES
+(28, 'Vampire Survivors', '', 'vampire-survivors-banner.jpg', 5),
+(29, 'Hades II', '', 'hadesII-banner.jpg', 7),
+(30, 'Hades', '', 'hades-banner.jpg', 8);
 
 -- --------------------------------------------------------
 
@@ -150,9 +167,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `username`, `password`, `email`, `id_privilegio`) VALUES
-(11, 'Admin', 'root', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785', '', 1),
-(13, 'testshaedit', 'testshauseredit', 'f1fc47a261c8afadc3ecd8c4041b51540d5cdea1', 'testmod@gmail.com', 5),
-(14, 'fino nombre', 'finouser', '10a34637ad661d98ba3344717656fcc76209c2f8', 'finoemail@asd.com', 4);
+(11, 'Admin', 'root', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785', 'admin@gmail.com', 1),
+(16, 'Usuario', 'usuario', 'b665e217b51994789b02b1838e730d6b93baa30f', 'usuario@gmail.com', 5),
+(18, 'nombre', 'usuario', 'b665e217b51994789b02b1838e730d6b93baa30f', 'asd@gmail.com', 1),
+(19, 'asddasasd', 'asd', '148dd2bd2c00aeef39a1323fd4466cfc1152986d', 'asd', 2);
 
 --
 -- Índices para tablas volcadas
@@ -169,7 +187,7 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `pedido`
   ADD PRIMARY KEY (`id_pedido`),
-  ADD KEY `id_producto` (`id_producto`),
+  ADD UNIQUE KEY `codigo_pedido` (`codigo_pedido`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
@@ -213,13 +231,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `perfil_usuario`
@@ -231,25 +249,25 @@ ALTER TABLE `perfil_usuario`
 -- AUTO_INCREMENT de la tabla `privilegio`
 --
 ALTER TABLE `privilegio`
-  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_imagen`
 --
 ALTER TABLE `producto_imagen`
-  MODIFY `id_producto_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Restricciones para tablas volcadas
@@ -259,7 +277,6 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
   ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --

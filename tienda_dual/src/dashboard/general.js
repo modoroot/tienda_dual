@@ -77,7 +77,6 @@ function guardar(id) {
 }
 
 function cargarRegistro(id) {
-
     $.ajax({
         type: "POST",
         async: true,

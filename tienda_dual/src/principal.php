@@ -2,7 +2,6 @@
 include 'conn/conn.php';
 
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,8 +10,6 @@ include 'conn/conn.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Framerate</title>
     <link rel="stylesheet" href="css/styles.css">
-
-
     <style>
         img {
             border-radius: 8%;
@@ -49,7 +46,7 @@ include 'conn/conn.php';
                 <a href="" class="btn">Descubre más &#10132;</a>
             </div>
             <div class="col-2">
-                <img src="img/banner-bb.jpg">
+                <img src="img/banner-bb.jpg" alt="">
             </div>
         </div>
     </div>
@@ -67,7 +64,7 @@ include 'conn/conn.php';
             <?php
             foreach ($results as $result) {
                 echo "<div class='col-3'>
-                <img alt='Imagen' class='abrir_modal' src='dashboard/img/{$result['img']} '>
+                <a href='categorias.php?id={$result['id_categoria']}'><img alt='Imagen' src='dashboard/img/{$result['img']}'></a>
                 <h4>{$result['nombre']}</h4> </div>";
             }
             ?>
@@ -184,14 +181,8 @@ include 'conn/conn.php';
         <p class="copyright">Copyright &copy;</p>
     </div>
 </div>
-<section class="modal">
-    <div class="modal_container">
-        <h2 class="modal_title">test</h2>
-        <p class="modal_paragraph">test</p>
-        <a href="#" class="modal_close">Cerrar</a>
-    </div>
-</section>
-<script src="js/main.js"></script>
+<!--JS-->
+<script src="js/main.js?v=<?php echo rand(); ?>"></script>
 <!--JS Lista del menú-->
 <script>
     var menu_items = document.getElementById("menu_lista");
