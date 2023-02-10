@@ -11,17 +11,3 @@ CLOSE_MODAL.addEventListener('click', (e) => {
     e.preventDefault();
     MODAL.classList.remove('modal_show');
 });
-
-function cargarRegistrosEnVentanaModal(id) {
-    // Realiza una solicitud AJAX al servidor
-    $.ajax({
-        type: "POST", // Método de envío de datos
-        async: true, // Habilita la asincronía para la solicitud
-        url: FICHERO, // URL a la que se envía la solicitud
-        data: {opcion: 1, id: id}, // Datos enviados al servidor
-        success: function (data) {
-            // Agrega los datos devueltos por el servidor en el cuerpo de la tabla
-            $('#').html(data);
-        },
-    });
-}
