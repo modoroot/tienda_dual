@@ -22,7 +22,7 @@
             </div>
             <nav>
                 <ul id="menu_lista">
-                    <li><a href="">Home</a></li>
+                    <li><a href="principal.php">Home</a></li>
                     <li><a href="">Productos</a></li>
                     <li><a href="">Info</a></li>
                     <li><a href="">Contacto</a></li>

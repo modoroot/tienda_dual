@@ -19,7 +19,7 @@ if ($opcion == 1) {
         echo '<tr>
                 <td>' . $row["id_privilegio"] . '</td>
                 <td>' . $row['nombre'] . '</td>
-                <td>' . $row['descripcion'] . '</td>
+                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
                 <td>
                      <button type="button" class="btn btn-primary btn-editar" 
                      data-toggle="modal" data-target="#exampleModal" id_priv="' . $row['id_privilegio'] . '" data-whatever="@editar">Editar registro 

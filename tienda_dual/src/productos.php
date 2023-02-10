@@ -1,142 +1,179 @@
 <?php
 include_once "conn/conn.php";
 //ID de la categoria que se ha seleccionado
-$categoria_id = $_GET['id'];
 include_once 'header_frontend.php';
+$producto_id = $_GET['id'];
 ?>
-        <div class="row">
-            <div class="col-2">
+<div class="container-title">
+    <?php
+    $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($results as $result) {
+        echo "<h1>{$result['nombre']}</h1>";
+    }
+
+    ?>
+</div>
+<main>
+    <div class="container-img">
+        <?php
+        $stmt = $pdo->prepare("SELECT * FROM producto_imagen WHERE id_producto = $producto_id");
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($results as $result) {
+            echo "<img src='dashboard/img/{$result['imagen']}' alt='Imagen producto'>";
+        }
+        ?>
+    </div>
+    <div class="container-info-producto">
+        <div class="container-price">
+            <?php
+            $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($results as $result) {
+                echo "<h2>{$result['precio']} €</h2>";
+            }
+            ?>
+        </div>
+        <div class="container-details-producto">
+<!--            <div class="form-group">-->
+<!--                <label for="test">Test</label>-->
+<!--                <select name="test" id="test">-->
+<!--                    <option disabled selected value="1">Test 1</option>-->
+<!--                    <option disabled selected value="2">Test 2</option>-->
+<!--                    <option disabled selected value="3">Test 3</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <button class="btn-clean">Limpiar</button>-->
+        </div>
+        <div class="container-add-cart">
+            <div class="container-quantity">
+                <input class="input-quantity" type="number" placeholder="1" value="1" min="1" readonly/>
+                <div class="btn-incrementar-decrementar">
+                    <i class="fa-solid fa-chevron-up" id="incrementar"></i>
+                    <i class="fa-solid fa-chevron-down" id="decrementar"></i>
+                </div>
+            </div>
+            <button class="btn-add-to-cart"><i class="fa-solid fa-plus"></i>
+                Añadir al carrito
+            </button>
+        </div>
+        <div class="container-description">
+            <div class="titulo-description">
+                <h4>Descripción</h4>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="text-description hidden">
                 <?php
-                $stmt = $pdo->prepare("SELECT * FROM categoria WHERE id_categoria = $categoria_id");
+                $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
                 $stmt->execute();
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($results as $result) {
-                    echo "<h1>{$result['nombre']}</h1>
-                    <p>{$result['descripcion']}</p>
-                <a href='' class='btn'>Descubre más &#10132;</a>
-            </div>
-            <div class='col-2'>
-                <img src='dashboard/img/{$result['img']}' alt='Imagen de la categoría'>
-            </div>
-        </div>
-            ";
+                    echo "<p>{$result['descripcion']}</p>";
                 }
                 ?>
             </div>
         </div>
-    </div>
-    <!-- productos -->
-    <div class="subcont">
-        <h2 class="titulo">Productos</h2>
-        <div class="row">
-            <?php
-            $stmt = $pdo->prepare("SELECT * FROM producto INNER JOIN producto_imagen ON producto.id_producto = 
-                                                     producto_imagen.id_producto WHERE id_categoria = $categoria_id");
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($results as $result) {
-                echo "
-            <div class='col-4'>
-              <img src='dashboard/img/{$result['imagen']}' alt='Imagen producto'>
-                <h4>{$result['nombre']}</h4>
-                <p>{$result['precio']} €</p>
+        <div class="container-info">
+            <div class="titulo-info">
+                <h4>Requisitos</h4>
+                <i class="fa-solid fa-chevron-down"></i>
             </div>
-            ";
-            }
-            ?>
-        </div>
-        <h2 class="titulo">Productos más comprados</h2>
-        <div class="row">
-            <div class="col-4">
-                <img src="img/vampire-survivors-banner.jpg">
-                <h4>Vampire Survivors</h4>
-                <p>3.99 €</p>
-            </div>
-            <div class="col-4">
-                <img src="img/elden-ring-banner.jpg">
-                <h4>Elden Ring</h4>
-                <p>59.99 €</p>
-            </div>
-            <div class="col-4">
-                <img src="img/disco-elysium-banner.jpg">
-                <h4>Disco Elysium</h4>
-                <p>39.99 €</p>
-            </div>
-            <div class="col-4">
-                <img src="img/gow-banner.jpg">
-                <h4>God of War</h4>
-                <p>49.99 €</p>
+            <div class="text-info hidden">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, adipisci, alias amet animi
+                    asperiores atque autem</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <img src="img/re4-banner.jpg">
-                <h4>Resident Evil 4 Remake</h4>
-                <p>59.99 €</p>
+        <div class="container-resenias">
+            <div class="titulo-resenias">
+                <h4>Reseñas</h4>
+                <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <div class="col-4">
-                <img src="img/elden-ring-banner.jpg">
-                <h4>Elden Ring</h4>
-                <p>59.99 €</p>
+            <div class="text-resenias hidden">
+                <p>"Es la polla" - Enrique</p>
             </div>
-            <div class="col-4">
-                <img src="img/cod-mw2-banner.jpg">
-                <h4>Modern Warfare® II</h4>
-                <p>39.99 €</p>
-            </div>
-            <div class="col-4">
-                <img src="img/gow-banner.jpg">
-                <h4>God of War</h4>
-                <p>49.99 €</p>
+        </div>
+        <div class="container-compartir">
+            <span>Compartir</span>
+            <div class="container-button-social">
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-steam"></i></a>
+                <a href="#"><i class="fa-brands fa-discord"></i></a>
             </div>
         </div>
     </div>
-    <div class="exclusivo">
-        <div class="subcont">
-            <div class="row">
-                <div class="col-2">
-                    <img src="img/bloodborne-remaster.jpg" class="exclusivo-img">
+</main>
+<section class="productos-relacionados">
+    <h2>Productos relacionados</h2>
+    <div class="card-list-productos">
+        <div class="card">
+            <div class="card-img">
+                <img src="img/elden-ring-banner.jpg" alt="Imagen ejemplo">
+            </div>
+            <div class="info-card">
+                <div class="text-producto">
+                    <h3>Producto</h3>
+                    <p class="categoria">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
+                        adipisci, alias amet animi
+                        asperiores atque autem</p>
                 </div>
-                <div class="col-2">
-                    <p>Sólo disponible en Framerate</p>
-                    <h1>Bloodborne</h1>
-                    <small>Después de más de 7 años de espera, Bloodborne PC</small>
-                    <a href="" class="btn">Resérvalo ahora &#10132;</a>
+                <div class="precio">
+                    <span>$123</span>
                 </div>
             </div>
         </div>
-    </div>
-<?php include "footer_frontend.php";?>
-    <!-- modal -->
-    <section class="modal">
-        <?php
-        $stmt = $pdo->prepare("SELECT * FROM producto INNER JOIN producto_imagen ON producto.id_producto = 
-                                                     producto_imagen.id_producto WHERE id_categoria = $categoria_id");
-        $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        ?>
-        <div class="modal_container">
-            <div class="modal-image-container">
-                <img src="" alt="Imagen del producto">
+        <div class="card">
+            <div class="card-img">
+                <img src="img/elden-ring-banner.jpg" alt="Imagen ejemplo">
             </div>
-            <h2 class="modal_title">¡Bienvenido al sitio!</h2>
-            <p class="modal_paragraph">Lorem  Deleniti nobis nisi quibusdam  quisquam quas, culpa tempora. Veniam consectetur deleniti maxime.</p>
-            <a href="#" class="modal_close">Cerrar Modal</a>
+            <div class="info-card">
+                <div class="text-producto">
+                    <h3>Producto</h3>
+                    <p class="categoria">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
+                        adipisci, alias amet animi
+                        asperiores atque autem</p>
+                </div>
+                <div class="precio">
+                    <span>$123</span>
+                </div>
+            </div>
         </div>
-    </section>
-    <script src="js/main.js?v=<?php echo rand(); ?>"></script>
-    <!--JS Lista del menú-->
-    <script>
-        var menu_items = document.getElementById("menu_lista");
-        menu_items.style.maxHeight = "0px";
+        <div class="card">
+            <div class="card-img">
+                <img src="img/elden-ring-banner.jpg" alt="Imagen ejemplo">
+            </div>
+            <div class="info-card">
+                <div class="text-producto">
+                    <h3>Producto</h3>
+                    <p class="categoria">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
+                        adipisci, alias amet animi
+                        asperiores atque autem</p>
+                </div>
+                <div class="precio">
+                    <span>$123</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+<?php include "footer_frontend.php"; ?>
+<script src="js/main.js?v=<?php echo rand(); ?>"></script>
+<script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
+<!--JS Lista del menú-->
+<script>
+    var menu_items = document.getElementById("menu_lista");
+    menu_items.style.maxHeight = "0px";
 
-        function menuDesplegar() {
-            if (menu_items.style.maxHeight == "0px") {
-                menu_items.style.maxHeight = "200px";
-            } else {
-                menu_items.style.maxHeight = "0px";
-            }
+    function menuDesplegar() {
+        if (menu_items.style.maxHeight == "0px") {
+            menu_items.style.maxHeight = "200px";
+        } else {
+            menu_items.style.maxHeight = "0px";
         }
-    </script>
+    }
+</script>
 </body>
 </html>

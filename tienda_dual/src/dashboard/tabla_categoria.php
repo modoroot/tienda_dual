@@ -15,7 +15,7 @@ if ($opcion == 1) {
         echo '<tr>
                 <td>' . $row["id_categoria"] . '</td>
                 <td>' . $row['nombre'] . '</td>
-                <td>' . $row['descripcion'] . '</td>
+                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
                 <td>' . $row['img'] . '</td>
                 <td>
                      <button type="button" class="btn btn-primary btn-editar"

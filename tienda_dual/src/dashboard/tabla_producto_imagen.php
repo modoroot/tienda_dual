@@ -15,7 +15,7 @@ if ($opcion == 1) {
         echo '<tr>
                 <td>' . $row["id_producto_imagen"] . '</td>
                 <td>' . $row['nombre'] . '</td>
-                <td>' . $row['descripcion'] . '</td>
+                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
                 <td>' . $row['imagen'] . '</td>
                 <td>' . $row['id_producto'] . '</td>
                 <td>

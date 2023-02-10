@@ -4,7 +4,6 @@ include_once "conn/conn.php";
 $categoria_id = $_GET['id'];
 include_once 'header_frontend.php';
 ?>
-
         <div class="row">
             <div class="col-2">
                 <?php

@@ -97,10 +97,22 @@ function cargarRegistro(id) {
             $(".select-clave-ajena-categoria").val(data.id_categoria);
             $(".select-clave-ajena-usuario").val(data.id_usuario);
             $("textarea").val(data.descripcion);
-            console.log(data);
         },
     });
 }
 
-
+/**
+ * Carga una clase pa hacer cosas chulas
+ */
+function cargarClase() {
+    const tbody = document.querySelector('tbody');
+    for (let i = 0; i < tbody.rows.length; i++) {
+        console.log(tbody.rows[i]);
+        const row = tbody.rows[i];
+        for (let j = 0; j < row.cells.length; j++) {
+            const tdElement = row.cells[j];
+            tdElement.classList.add('truncar');
+        }
+    }
+}
 

@@ -16,7 +16,7 @@ if ($opcion == 1) {
                 <td>' . $row["id_producto"] . '</td>
                 <td>' . $row['nombre'] . '</td>
                 <td>' . $row['precio'] . '</td>
-                <td>' . $row['descripcion'] . '</td>
+                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
                 <td>' . $row['id_categoria'] . '</td>
                 <td>
                      <button type="button" class="btn btn-primary btn-editar" 
@@ -216,6 +216,7 @@ if ($opcion == 5) {
     const FICHERO = '<?php echo $fichero; ?>'
     $(document).ready(function () {
         cargaTabla();
+        //cargarClase();
         $(document).on('click', '.btn-eliminar', function (e) {
             eliminaRegistro($(this).attr('id_prod'));
         });

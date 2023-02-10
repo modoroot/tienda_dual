@@ -19,6 +19,6 @@
             </div>
         </div>
         <hr>
-        <p class="copyright">Copyright &copy;</p>
+        <p class="copyright">Copyright &copy; 2023</p>
     </div>
 </div>
