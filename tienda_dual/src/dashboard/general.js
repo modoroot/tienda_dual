@@ -1,5 +1,7 @@
 /**
  * Función que carga la tabla de datos
+ * @param id Identificador del registro
+ * @param opcion Opción a ejecutar
  */
 function cargaTabla() {
     // Realiza una solicitud AJAX al servidor
@@ -22,6 +24,7 @@ function cargaTabla() {
 /**
  * Función que elimina un registro
  * @param id Identificador del registro
+ * @param opcion Opción a ejecutar
  */
 function eliminaRegistro(id) {
     // Realiza una solicitud AJAX al servidor
@@ -49,6 +52,7 @@ function eliminaRegistro(id) {
  * Función para guardar un registro nuevo o uno existente en la base de datos (dependiendo del valor del parámetro id)
  * Si es nulo se crea un registro nuevo, si no, se actualiza el registro existente
  * @param id Identificador del registro
+ * @param opcion Opción a ejecutar
  */
 function guardar(id) {
     // Crea un nuevo objeto FormData
@@ -76,14 +80,21 @@ function guardar(id) {
     });
 }
 
+/**
+ * Función que carga los datos de un registro en el formulario
+ * @param id Identificador del registro
+ * @param opcion Opción a ejecutar
+ */
 function cargarRegistro(id) {
+    // Realiza una solicitud AJAX al servidor
     $.ajax({
-        type: "POST",
-        async: true,
-        url: FICHERO,
-        data: {opcion: 5, id: id},
-        dataType: "json",
-        success: function (data) {
+        type: "POST", // Método de envío de datos
+        async: true, // Solicitud asíncrona
+        url: FICHERO, // URL a la que se envía la solicitud
+        data: {opcion: 5, id: id}, // Datos enviados al servidor
+        dataType: "json", // Tipo de datos esperados de la respuesta
+        success: function (data) { // Función que se ejecuta si la solicitud tiene éxito
+            // Establece los valores de los elementos del formulario con los datos recibidos
             $(".input-nombre").val(data.nombre);
             $(".input-usuario").val(data.username);
             $(".input-precio").val(data.precio);
