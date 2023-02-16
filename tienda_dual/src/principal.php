@@ -1,9 +1,8 @@
 <?php
+include 'conn/config.php';
 include 'conn/conn.php';
 include 'header_frontend.php';
 ?>
-
-
         <div class="row">
             <div class="col-2">
                 <h1>Fino<br>fino</h1>
@@ -31,10 +30,12 @@ include 'header_frontend.php';
             <?php
             foreach ($results as $result) {
                 echo "<div class='col-3'>
-                <a href='categorias.php?id={$result['id_categoria']}'><img alt='Imagen' src='dashboard/img/{$result['img']}'></a>
-                <h4>{$result['nombre']}</h4> </div>";
+                    <a href='categorias.php?id={$result['id_categoria']}&token=" . hash_hmac('sha1', $result['id_categoria'], KEY_TOKEN) . "'>
+                    <img alt='Imagen' src='dashboard/img/{$result['img']}'></a>
+                    <h4>{$result['nombre']}</h4> </div>";
             }
             ?>
+
         </div>
     </div>
 </div>

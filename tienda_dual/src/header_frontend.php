@@ -29,6 +29,7 @@
                     <li><a href="">Cuenta</a></li>
                 </ul>
             </nav>
-            <img src="img/cart.png" width="30px" height="30px">
-            <img src="img/menu.png" class="menu-icon" onclick="menuDesplegar()">
+            <a href="carrito.php"><img src="img/cart.png" width="30px" height="30px" alt="carrito compra">
+            </a>
+            <img src="img/menu.png" class="menu-icon" onclick="menuDesplegar()" alt="menú desplegable">
         </div>

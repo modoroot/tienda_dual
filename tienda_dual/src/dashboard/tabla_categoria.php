@@ -168,6 +168,7 @@ if ($opcion == 5) {
                                 data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
+                        <!-- Ventana modal-->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

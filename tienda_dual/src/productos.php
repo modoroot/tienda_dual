@@ -1,24 +1,36 @@
 <?php
+include_once "conn/config.php";
 include_once "conn/conn.php";
-//ID de la categoria que se ha seleccionado
+//ID del producto que se ha seleccionado
+$id_producto = $_GET['id'] ?? '';
+//Token de seguridad
+$token = $_GET['token'] ?? '';
+if ($id_producto == '' || $token == '') {
+    echo "Error en la petición";
+    exit;
+} else {
+    $token_tmp = hash_hmac('sha1', $id_producto, KEY_TOKEN);
+    if ($token != $token_tmp) {
+        echo "Error en la petición";
+        exit;
+    }
+}
 include_once 'header_frontend.php';
-$producto_id = $_GET['id'];
 ?>
 <div class="container-title">
     <?php
-    $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
+    $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $id_producto");
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {
         echo "<h1>{$result['nombre']}</h1>";
     }
-
     ?>
 </div>
 <main>
     <div class="container-img">
         <?php
-        $stmt = $pdo->prepare("SELECT * FROM producto_imagen WHERE id_producto = $producto_id");
+        $stmt = $pdo->prepare("SELECT * FROM producto_imagen WHERE id_producto = $id_producto");
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($results as $result) {
@@ -29,7 +41,7 @@ $producto_id = $_GET['id'];
     <div class="container-info-producto">
         <div class="container-price">
             <?php
-            $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
+            $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $id_producto");
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($results as $result) {
@@ -38,15 +50,6 @@ $producto_id = $_GET['id'];
             ?>
         </div>
         <div class="container-details-producto">
-<!--            <div class="form-group">-->
-<!--                <label for="test">Test</label>-->
-<!--                <select name="test" id="test">-->
-<!--                    <option disabled selected value="1">Test 1</option>-->
-<!--                    <option disabled selected value="2">Test 2</option>-->
-<!--                    <option disabled selected value="3">Test 3</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <button class="btn-clean">Limpiar</button>-->
         </div>
         <div class="container-add-cart">
             <div class="container-quantity">
@@ -56,9 +59,12 @@ $producto_id = $_GET['id'];
                     <i class="fa-solid fa-chevron-down" id="decrementar"></i>
                 </div>
             </div>
-            <button class="btn-add-to-cart"><i class="fa-solid fa-plus"></i>
-                Añadir al carrito
-            </button>
+            <a href="carrito.php">
+                <button class="btn-add-to-cart"><i
+                            class="fa-solid fa-plus"></i>
+                    Añadir al carrito
+                </button>
+            </a>
         </div>
         <div class="container-description">
             <div class="titulo-description">
@@ -67,7 +73,7 @@ $producto_id = $_GET['id'];
             </div>
             <div class="text-description hidden">
                 <?php
-                $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $producto_id");
+                $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = $id_producto");
                 $stmt->execute();
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($results as $result) {
@@ -82,7 +88,8 @@ $producto_id = $_GET['id'];
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="text-info hidden">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, adipisci, alias amet animi
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, adipisci, alias amet
+                    animi
                     asperiores atque autem</p>
             </div>
         </div>

@@ -1,0 +1,167 @@
+body {
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.5;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+}
+header {
+    background-color: #ff523b;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+h1 {
+    margin: 0;
+    font-size: 32px;
+}
+nav {
+    background-color: #eee;
+    padding: 10px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+nav li {
+    margin: 0 10px;
+}
+nav a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+section {
+    margin: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #ff523b;
+    color: #fff;
+}
+.total {
+    font-weight: bold;
+    text-align: right;
+    font-size: 24px;
+}
+.subtotal {
+    font-weight: bold;
+}
+.product-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+.product-desc {
+    font-size: 20px;
+}
+.btn-buy {
+    background-color: #ff523b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* Estilos para pantallas pequeñas */
+@media screen and (max-width: 767px) {
+    /* Ocultar menú de navegación */
+    nav {
+        display: none;
+    }
+
+    /* Centrar título en la parte superior */
+    header h1 {
+        text-align: center;
+    }
+
+    /* Ajustar el ancho de la tabla para que quepa en la pantalla */
+    table {
+        width: 100%;
+    }
+
+    /* Ocultar las imágenes de los productos y centrar las filas de la tabla */
+    .product-img,
+    .product-desc {
+        display: none;
+    }
+
+    tr {
+        text-align: center;
+    }
+
+    /* Cambiar la etiqueta de "Producto" por "Prod." y la etiqueta de "Cantidad" por "Cant." */
+    th:first-child {
+        display: none;
+    }
+
+    th:nth-child(2):before {
+        content: "Prod. ";
+    }
+
+    th:nth-child(3):before {
+        content: "Cant. ";
+    }
+
+    /* Agregar un relleno y una fuente más grande a los totales */
+    .subtotal,
+    .total {
+        font-size: 1.2rem;
+        padding: 10px 0;
+    }
+
+    /* Alinear el botón de compra en el centro */
+    .btn-buy {
+        display: block;
+        margin: 0 auto;
+        width: 80%;
+    }
+}
+
+/* Estilos para pantallas medianas y grandes */
+@media screen and (min-width: 768px) {
+    /* Ajustar la anchura de la tabla y centrarla en la página */
+    table {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    /* Mostrar las imágenes de los productos y alinearlas en el centro */
+    .product-img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Establecer un ancho mínimo para la columna de descripción del producto */
+    .product-desc {
+        min-width: 200px;
+    }
+
+    /* Alinear las celdas de la tabla a la izquierda */
+    td {
+        text-align: left;
+    }
+
+    /* Cambiar la posición del botón de compra */
+    .buy-btn {
+        margin-top: 40px;
+    }
+}
