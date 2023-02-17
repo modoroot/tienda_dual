@@ -7,26 +7,26 @@ include 'control_privilegios.php';
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
-    $stmt = $pdo->prepare("SELECT * FROM usuario");
+    $stmt = $pdo->prepare("SELECT usuario.*, privilegio.nombre AS privilegio_nombre FROM usuario INNER JOIN privilegio ON usuario.id_privilegio = privilegio.id_privilegio");
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $stmt->execute();
     while ($row = $stmt->fetch()) {
         echo '<tr>
-                <td>' . $row["id_usuario"] . '</td>
-                <td>' . $row['nombre'] . '</td>
-                <td>' . $row['username'] . '</td>
-                <td>' . $row['password'] . '</td>
-                <td>' . $row['email'] . '</td>
-                <td>' . $row['id_privilegio'] . '</td>
-                <td>
-                     <button type="button" class="btn btn-primary btn-editar" 
-                     data-toggle="modal" data-target="#exampleModal" id_usu="' . $row['id_usuario'] . '" data-whatever="@editar">Editar registro 
-                        </button>
-                </td>
-                <td>
-                    <input class="btn btn-danger btn-eliminar" id_usu="' . $row['id_usuario'] . '" value="Eliminar" type="submit">
-                </td>
-            </tr>';
+            <td>' . $row["id_usuario"] . '</td>
+            <td>' . $row['nombre'] . '</td>
+            <td>' . $row['username'] . '</td>
+            <td>' . $row['password'] . '</td>
+            <td>' . $row['email'] . '</td>
+            <td>' . $row['privilegio_nombre'] . '</td>
+            <td>
+                 <button type="button" class="btn btn-primary btn-editar" 
+                 data-toggle="modal" data-target="#exampleModal" id_usu="' . $row['id_usuario'] . '" data-whatever="@editar">Editar registro 
+                    </button>
+            </td>
+            <td>
+                <input class="btn btn-danger btn-eliminar" id_usu="' . $row['id_usuario'] . '" value="Eliminar" type="submit">
+            </td>
+        </tr>';
     }
     exit();
 }
@@ -154,7 +154,7 @@ if ($opcion == 5) {
                                                 <input type="email" class="form-control input-email" id="email_usu">
                                             </div>
                                             <div class="form-group">
-                                                <label for="id_privilegio_usu" class="col-form-label">Id_Privilegio
+                                                <label for="id_privilegio_usu" class="col-form-label">Privilegio
                                                     <select name="id_privilegio_usu"
                                                             class="form-control select-clave-ajena-privilegio">
                                                         <?php
@@ -163,8 +163,8 @@ if ($opcion == 5) {
                                                         $stmt->execute();
                                                         while ($row = $stmt->fetch()) {
                                                             ?>
-                                                            <option>
-                                                                <?php echo $row['id_privilegio'] ?>
+                                                            <option value="<?php echo $row['id_privilegio'] ?>">
+                                                                <?php echo $row['nombre'] ?>
                                                             </option>
                                                         <?php } ?>
                                                     </select>
@@ -191,7 +191,7 @@ if ($opcion == 5) {
                                     <th>Username</th>
                                     <th>Contraseña</th>
                                     <th>Email</th>
-                                    <th>ID_Privilegio</th>
+                                    <th>Privilegio</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

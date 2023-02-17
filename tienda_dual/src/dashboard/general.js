@@ -1,7 +1,5 @@
 /**
  * Función que carga la tabla de datos
- * @param id Identificador del registro
- * @param opcion Opción a ejecutar
  */
 function cargaTabla() {
     // Realiza una solicitud AJAX al servidor
@@ -24,7 +22,6 @@ function cargaTabla() {
 /**
  * Función que elimina un registro
  * @param id Identificador del registro
- * @param opcion Opción a ejecutar
  */
 function eliminaRegistro(id) {
     // Realiza una solicitud AJAX al servidor
@@ -52,7 +49,6 @@ function eliminaRegistro(id) {
  * Función para guardar un registro nuevo o uno existente en la base de datos (dependiendo del valor del parámetro id)
  * Si es nulo se crea un registro nuevo, si no, se actualiza el registro existente
  * @param id Identificador del registro
- * @param opcion Opción a ejecutar
  */
 function guardar(id) {
     // Crea un nuevo objeto FormData
@@ -83,7 +79,6 @@ function guardar(id) {
 /**
  * Función que carga los datos de un registro en el formulario
  * @param id Identificador del registro
- * @param opcion Opción a ejecutar
  */
 function cargarRegistro(id) {
     // Realiza una solicitud AJAX al servidor

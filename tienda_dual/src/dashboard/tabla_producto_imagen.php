@@ -7,27 +7,31 @@ include 'control_privilegios.php';
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
+    $stmt = $pdo->prepare("SELECT pi.id_producto_imagen, pi.nombre, pi.descripcion, pi.imagen, p.nombre AS nombre_producto, pi.id_producto 
+                       FROM producto_imagen AS pi 
+                       INNER JOIN producto AS p 
+                       ON pi.id_producto = p.id_producto");
 
-    $stmt = $pdo->prepare("SELECT * FROM producto_imagen");
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $stmt->execute();
     while ($row = $stmt->fetch()) {
         echo '<tr>
-                <td>' . $row["id_producto_imagen"] . '</td>
-                <td>' . $row['nombre'] . '</td>
-                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
-                <td>' . $row['imagen'] . '</td>
-                <td>' . $row['id_producto'] . '</td>
-                <td>
-                     <button type="button" class="btn btn-primary btn-editar"
-                     data-toggle="modal" data-target="#exampleModal" id_prod_img="' . $row['id_producto_imagen'] . '" data-whatever="@editar">Editar registro 
-                        </button>
-                </td>
-                <td>
-                    <input class="btn btn-danger btn-eliminar" id_prod_img="' . $row['id_producto_imagen'] . '" value="Eliminar" type="submit">
-                </td>
-            </tr>';
+            <td>' . $row["id_producto_imagen"] . '</td>
+            <td>' . $row['nombre'] . '</td>
+            <td>' . mb_substr($row['descripcion'], 0, 20) . '...' . '</td>
+            <td>' . $row['imagen'] . '</td>
+            <td>' . $row['nombre_producto'] . '</td>
+            <td>
+                 <button type="button" class="btn btn-primary btn-editar"
+                 data-toggle="modal" data-target="#exampleModal" id_prod_img="' . $row['id_producto_imagen'] . '" data-whatever="@editar">Editar registro 
+                    </button>
+            </td>
+            <td>
+                <input class="btn btn-danger btn-eliminar" id_prod_img="' . $row['id_producto_imagen'] . '" value="Eliminar" type="submit">
+            </td>
+        </tr>';
     }
+
     exit();
 }
 
@@ -55,14 +59,14 @@ if ($opcion == 4) {
         $file_name = $_FILES['ruta_img']['name'];
         $file_size = $_FILES['ruta_img']['size'];
         $tmp_name = $_FILES['ruta_img']['tmp_name'];
-        $img_ext_valida = ['jpg','jpeg','png'];
-        $img_ext = explode('.',$file_name);
+        $img_ext_valida = ['jpg', 'jpeg', 'png'];
+        $img_ext = explode('.', $file_name);
         $img_ext = strtolower(end($img_ext_valida));
-        if(!in_array($img_ext,$img_ext_valida)){
+        if (!in_array($img_ext, $img_ext_valida)) {
             echo "<script> alert('Extensión de la imagen inválida'); </script>";
-        }else{
+        } else {
             $nuevo_img_name = $file_name;
-            move_uploaded_file($tmp_name, 'img/'.$nuevo_img_name);
+            move_uploaded_file($tmp_name, 'img/' . $nuevo_img_name);
         }
 
         if ($id_imagen == "") {
@@ -144,7 +148,7 @@ if ($opcion == 5) {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="modal-form"   >
+                                        <form id="modal-form">
                                             <div class="form-group">
                                                 <label for="nombre_prod_img" class="col-form-label">Nombre:</label>
                                                 <input type="text" class="form-control input-nombre"
@@ -162,17 +166,17 @@ if ($opcion == 5) {
                                                        accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
                                             </div>
                                             <div class="form-group">
-                                                <label for="id_producto_img" class="col-form-label">Id Producto
+                                                <label for="id_producto_img" class="col-form-label">Producto
                                                     <select name="id_producto_img"
                                                             class="form-control select-clave-ajena-producto">
                                                         <?php
-                                                        $stmt = $pdo->prepare('SELECT * FROM producto');
+                                                        $stmt = $pdo->prepare('SELECT id_producto,nombre FROM producto');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         $stmt->execute();
                                                         while ($row = $stmt->fetch()) {
                                                             ?>
-                                                            <option>
-                                                                <?php echo $row['id_producto'] ?>
+                                                            <option value="<?php echo $row['id_producto'] ?>">
+                                                                <?php echo $row['nombre'] ?>
                                                             </option>
                                                         <?php } ?>
                                                     </select>
@@ -198,7 +202,7 @@ if ($opcion == 5) {
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Imagen</th>
-                                    <th>ID Producto</th>
+                                    <th>Producto</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

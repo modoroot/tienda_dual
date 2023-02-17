@@ -7,26 +7,28 @@ include 'control_privilegios.php';
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
-
-    $stmt = $pdo->prepare("SELECT * FROM producto");
+    $stmt = $pdo->prepare("SELECT producto.id_producto, producto.nombre AS nombre_producto, producto.precio, producto.descripcion, categoria.nombre AS nombre_categoria 
+                       FROM producto 
+                       INNER JOIN categoria 
+                       ON producto.id_categoria = categoria.id_categoria");
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $stmt->execute();
     while ($row = $stmt->fetch()) {
         echo '<tr>
-                <td>' . $row["id_producto"] . '</td>
-                <td>' . $row['nombre'] . '</td>
-                <td>' . $row['precio'] . '</td>
-                <td>' . mb_substr($row['descripcion'], 0, 20) . '...' . '</td>
-                <td>' . $row['id_categoria'] . '</td>
-                <td>
-                     <button type="button" class="btn btn-primary btn-editar" 
-                     data-toggle="modal" data-target="#exampleModal" id_prod="' . $row['id_producto'] . '" data-whatever="@editar">Editar registro 
-                        </button>
-                </td>
-                <td>
-                    <input class="btn btn-danger btn-eliminar" id_prod="' . $row['id_producto'] . '" value="Eliminar" type="submit">
-                </td>
-            </tr>';
+            <td>' . $row["id_producto"] . '</td>
+            <td>' . $row['nombre_producto'] . '</td>
+            <td>' . $row['precio'] . '</td>
+            <td>' . mb_substr($row['descripcion'], 0, 20) . '...' . '</td>
+            <td>' . $row['nombre_categoria'] . '</td>
+            <td>
+                 <button type="button" class="btn btn-primary btn-editar" 
+                 data-toggle="modal" data-target="#exampleModal" id_prod="' . $row['id_producto'] . '" data-whatever="@editar">Editar registro 
+                    </button>
+            </td>
+            <td>
+                <input class="btn btn-danger btn-eliminar" id_prod="' . $row['id_producto'] . '" value="Eliminar" type="submit">
+            </td>
+        </tr>';
     }
     exit();
 }
@@ -146,17 +148,17 @@ if ($opcion == 5) {
                                                           id="descripcion_prod"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label for="id_categoria_prod" class="col-form-label">Id Categoría
+                                                <label for="id_categoria_prod" class="col-form-label">Categoría
                                                     <select name="id_categoria_prod"
                                                             class="form-control select-clave-ajena-categoria">
                                                         <?php
-                                                        $stmt = $pdo->prepare('SELECT * FROM categoria');
+                                                        $stmt = $pdo->prepare('SELECT id_categoria,nombre FROM categoria');
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         $stmt->execute();
                                                         while ($row = $stmt->fetch()) {
                                                             ?>
-                                                            <option>
-                                                                <?php echo $row['id_categoria'] ?>
+                                                            <option value="<?php echo $row['id_categoria']; ?>">
+                                                                <?php echo $row['nombre']; ?>
                                                             </option>
                                                         <?php } ?>
                                                     </select>
@@ -182,7 +184,7 @@ if ($opcion == 5) {
                                     <th>Nombre</th>
                                     <th>Precio (€)</th>
                                     <th>Descripción</th>
-                                    <th>ID Categoría</th>
+                                    <th>Categoría</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -216,7 +218,6 @@ if ($opcion == 5) {
     const FICHERO = '<?php echo $fichero; ?>'
     $(document).ready(function () {
         cargaTabla();
-        //cargarClase();
         $(document).on('click', '.btn-eliminar', function (e) {
             eliminaRegistro($(this).attr('id_prod'));
         });
