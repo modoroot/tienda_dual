@@ -98,6 +98,7 @@ if ($opcion == 5) {
     <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -164,6 +165,18 @@ if ($opcion == 5) {
                                                     </select>
                                                 </label>
                                             </div>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-primary btn-aniadir"
+                                                        data-toggle="modal"
+                                                        data-target="#modalImagen"
+                                                        data-whatever="@mdo"><i class="bi bi-images"> Examinar
+                                                        imagen</i>
+                                                </button>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="vista-previa-multiple" id="vista-previa-multiple">
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -176,6 +189,50 @@ if ($opcion == 5) {
                                 </div>
                             </div>
                         </div>
+                        <!--Modal de la imagen-->
+                        <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog"
+                             aria-labelledby="modalImagenLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalImagenLabel">Examinar imagen</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="nombre_prod_img" class="col-form-label">Nombre:</label>
+                                            <input type="text" class="form-control input-nombre"
+                                                   id="nombre_prod_img">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="descripcion_prod_img"
+                                                   class="col-form-label">Descripción:</label>
+                                            <textarea class="form-control input-descripcion"
+                                                      id="descripcion_prod_img"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ruta_img" class="col-form-label">Imagen:</label>
+                                            <input type="file" class="form-control input-ruta"
+                                                   accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
+                                        </div>
+                                        <div class="form-group">
+                                            <img id="vista-previa" src="#" alt="Vista previa de la imagen"
+                                                 style="max-width: 50%;">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btCancelModalImagen"
+                                                data-dismiss="modal">
+                                            Cerrar
+                                        </button>
+                                        <button id="guardar-imagen" class="btn btn-info" data-dismiss="modal" type="button">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Final modal imagen-->
                         <div style="overflow-x:auto;">
                             <table id="datatablesSimple">
                                 <thead>
@@ -214,6 +271,75 @@ if ($opcion == 5) {
 <!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>-->
 <script src="general.js?v=<?php echo rand(); ?>"></script>
+<script>
+    // Espera a que el documento esté completamente cargado
+    $(document).ready(function () {
+        // Detecta cambios en el input con el id "ruta_img"
+        $("#ruta_img").change(function () {
+            // Obtiene el archivo seleccionado en el input
+            var file = this.files[0];
+            // Crea un objeto FileReader para leer el archivo
+            var reader = new FileReader();
+            // Cuando se termina de leer el archivo
+            reader.onloadend = function () {
+                // Muestra la imagen en en el elemento ID "vista-previa"
+                $("#vista-previa").attr("src", reader.result);
+            }
+            // Si hay un archivo seleccionado
+            if (file) {
+                // Lee el archivo como una URL de datos
+                reader.readAsDataURL(file);
+            } else {
+                // Si no hay un archivo seleccionado, limpia la imagen
+                $("#vista-previa").attr("src", "");
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Array para almacenar las imágenes seleccionadas y sus previsualizaciones
+        var imagenesSeleccionadas = [];
+
+        // Función para guardar la imagen seleccionada y su previsualización
+        function guardarImagenSeleccionada() {
+            // Obtener la imagen seleccionada y su previsualización
+            var imagenSeleccionada = $('#vista-previa').attr('src');
+            var imagenPrevisualizacion = $('<img>').attr('src', imagenSeleccionada);
+
+            // Crear un botón para eliminar la imagen
+            var eliminarBoton = $('<button>').addClass('eliminar-imagen btn btn-danger').text('Eliminar');
+
+            // Agregar la imagen, su previsualización y el botón de eliminar al array
+            imagenesSeleccionadas.push({ imagen: imagenSeleccionada, previsualizacion: imagenPrevisualizacion, eliminarBoton: eliminarBoton });
+
+            // Actualizar la vista previa en la ventana modal principal
+            $('#vista-previa-multiple').empty();
+            for (var i = 0; i < imagenesSeleccionadas.length; i++) {
+                var imagenActual = imagenesSeleccionadas[i];
+                var imagenContainer = $('<div>').addClass('imagen-container');
+                imagenContainer.append(imagenActual.previsualizacion, imagenActual.eliminarBoton);
+                $('#vista-previa-multiple').append(imagenContainer);
+            }
+
+            // Agregar un manejador de eventos para los botones de eliminar
+            $('.eliminar-imagen').on('click', function () {
+                var index = $(this).parent().index();
+                imagenesSeleccionadas.splice(index, 1);
+                $(this).parent().remove();
+            });
+        }
+
+        // Evento para guardar la imagen seleccionada cuando se hace clic en el botón "Guardar Imagen"
+        $('#guardar-imagen').on('click', function () {
+            guardarImagenSeleccionada();
+
+            // Cerrar la ventana modal
+            $('#modal-imagen').modal('hide');
+        });
+    });
+
+</script>
 <script>
     const FICHERO = '<?php echo $fichero; ?>'
     $(document).ready(function () {

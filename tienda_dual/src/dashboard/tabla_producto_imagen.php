@@ -137,6 +137,7 @@ if ($opcion == 5) {
                                 data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
+<!--                        Modal Registro-->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -164,23 +165,6 @@ if ($opcion == 5) {
                                                 <label for="ruta_img" class="col-form-label">Imagen:</label>
                                                 <input type="file" class="form-control input-ruta"
                                                        accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="id_producto_img" class="col-form-label">Producto
-                                                    <select name="id_producto_img"
-                                                            class="form-control select-clave-ajena-producto">
-                                                        <?php
-                                                        $stmt = $pdo->prepare('SELECT id_producto,nombre FROM producto');
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        $stmt->execute();
-                                                        while ($row = $stmt->fetch()) {
-                                                            ?>
-                                                            <option value="<?php echo $row['id_producto'] ?>">
-                                                                <?php echo $row['nombre'] ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </label>
                                             </div>
                                         </form>
                                     </div>
