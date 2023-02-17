@@ -321,7 +321,6 @@ if ($opcion == 5) {
                 imagenContainer.append(imagenActual.previsualizacion, imagenActual.eliminarBoton);
                 $('#vista-previa-multiple').append(imagenContainer);
             }
-
             // Agregar un manejador de eventos para los botones de eliminar
             $('.eliminar-imagen').on('click', function () {
                 var index = $(this).parent().index();
@@ -329,7 +328,6 @@ if ($opcion == 5) {
                 $(this).parent().remove();
             });
         }
-
         // Evento para guardar la imagen seleccionada cuando se hace clic en el botón "Guardar Imagen"
         $('#guardar-imagen').on('click', function () {
             guardarImagenSeleccionada();
@@ -338,7 +336,6 @@ if ($opcion == 5) {
             $('#modal-imagen').modal('hide');
         });
     });
-
 </script>
 <script>
     const FICHERO = '<?php echo $fichero; ?>'
