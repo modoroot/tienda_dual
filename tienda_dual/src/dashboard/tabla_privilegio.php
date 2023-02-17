@@ -7,14 +7,20 @@ include 'control_privilegios.php';
 $opcion = $_POST['opcion'];
 
 if ($opcion == 1) {
+    //Comprueba si el ID del usuario es 1 (administrador)
     if ($id_privilegio == 1) {
         $where = "";
     } else {
+        //Si no lo es, muestra solo los registros en la tabla que tengan el id del usuario
         $where = "WHERE id_usuario=$id_usuario";
     }
+    // Se prepara una consulta SQL para seleccionar todos los registros de la tabla "privilegio"
     $stmt = $pdo->prepare("SELECT * FROM privilegio $where");
+    // Se establece el modo de recuperación de datos en PDO::FETCH_ASSOC, que devuelve un array indexado por nombre de columna
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    // Se ejecuta la consulta preparada
     $stmt->execute();
+    // Se itera a través de los resultados de la consulta y se imprime una fila por cada registro
     while ($row = $stmt->fetch()) {
         echo '<tr>
                 <td>' . $row["id_privilegio"] . '</td>
@@ -30,10 +36,12 @@ if ($opcion == 1) {
                 </td>
             </tr>';
     }
+    // Acaba el script
     exit();
 }
-
+// Comprueba si la variable $opcion es igual a 2
 if ($opcion == 2) {
+    // Se prepara una consulta SQL para seleccionar todos los registros de la tabla "privilegio" que coincidan con el ID del registro
     try {
         $id_privilegio = trim($_POST['id']);
         $stmt = $pdo->prepare("DELETE FROM privilegio WHERE id_privilegio=?");
@@ -46,39 +54,50 @@ if ($opcion == 2) {
 
     exit();
 }
-
+// Comprueba si la variable $opcion es igual a 4
 if ($opcion == 4) {
     try {
         $id_privilegio = $_POST['id'];
         //lo recoge de las etiquetas input/textarea (el id)
         $nombre_privilegio = trim($_POST['nombre_priv']);
         $descripcion_privilegio = trim($_POST['descripcion_priv']);
+        // Si el ID de privilegio es vacío, se prepara una consulta SQL para insertar
+        // un nuevo registro en la tabla de privilegio
         if ($id_privilegio == "") {
             $stmt = $pdo->prepare("INSERT INTO privilegio VALUES (NULL, ?,?)");
             $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio]);
         } else {
+            // Si el ID de privilegio no es vacío, se prepara una consulta SQL para actualizar
+            // el registro correspondiente en la tabla de privilegio
             $stmt = $pdo->prepare("UPDATE privilegio SET nombre =?, descripcion =? WHERE id_privilegio=?");
             $res = $stmt->execute([$nombre_privilegio, $descripcion_privilegio, $id_privilegio]);
         }
+        // Si se produce una excepción durante el proceso de inserción o actualización,
+        // se captura y se almacena en $res el mensaje de error
     } catch (Exception $e) {
         $res = $e->getMessage();
     }
     echo $res;
     exit();
 }
-
+// Comprueba si la variable $opcion es igual a 5
 if ($opcion == 5) {
     try {
+        // Se obtienen los valores de los campos enviados por POST
         $id_privilegio = trim($_POST['id']);
         $nombre_privilegio = trim($_POST['nombre']);
         $descripcion_privilegio = trim($_POST['descripcion']);
+        // Se prepara y ejecuta la consulta para obtener los datos del pedido con el id indicado
         $stmt = $pdo->prepare("SELECT nombre,descripcion FROM privilegio WHERE id_privilegio=?");
         $stmt->execute([$id_privilegio]);
+        // Se obtiene la fila de resultados como un array asociativo
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         $res = $e->getMessage();
     }
+    // Se devuelve la fila de resultados en formato JSON
     echo json_encode($res);
+    // Se termina la ejecución del script
     exit();
 }
 

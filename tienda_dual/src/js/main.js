@@ -1,21 +1,3 @@
-const inputQuantity = document.querySelector('.input-quantity');
-const btnIncrementar = document.querySelector('#incrementar');
-const btnDecrementar = document.querySelector('#decrementar');
-let valorPredeterminado = parseInt(inputQuantity.value);
-
-//funciones clic
-btnIncrementar.addEventListener('click', () => {
-    valorPredeterminado+=1;
-    inputQuantity.value = valorPredeterminado;
-});
-btnDecrementar.addEventListener('click', () => {
-    if(valorPredeterminado===1){
-        return;
-    }
-    valorPredeterminado-=1;
-    inputQuantity.value = valorPredeterminado;
-});
-
 //Toggle
 //Constantes toggle titles
 const toggleDescripcion = document.querySelector('.titulo-description');
@@ -28,12 +10,21 @@ const contenidoInfo = document.querySelector('.text-info');
 const contenidoResenias = document.querySelector('.text-resenias');
 
 //funciones toggle
+/**
+ * @description Funcion que muestra y oculta el contenido de la descripcion
+ */
 toggleDescripcion.addEventListener('click', () => {
     contenidoDescripcion.classList.toggle('hidden');
 });
+/**
+ * @description Funcion que muestra y oculta el contenido de la info
+ */
 toggleInfo.addEventListener('click', () => {
     contenidoInfo.classList.toggle('hidden');
 });
+/**
+ * @description Funcion que muestra y oculta el contenido de las reseñas
+ */
 toggleResenias.addEventListener('click', () => {
     contenidoResenias.classList.toggle('hidden');
 });

@@ -5,10 +5,8 @@ include 'header_frontend.php';
 ?>
         <div class="row">
             <div class="col-2">
-                <h1>Fino<br>fino</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor<br>incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam</p>
+                <h1>Framerate</h1>
+                <p>Tu tienda de compra de videojuegos online</p>
                 <a href="" class="btn">Descubre más &#10132;</a>
             </div>
             <div class="col-2">
@@ -20,6 +18,8 @@ include 'header_frontend.php';
 <!-- categorías -->
 <div class="categorias">
     <?php
+    //Prepara y ejecuta la consulta para obtener los datos de la categoría. Muestra las imágenes de las categorías
+    //con su id y nombre correspondiente
     $stmt = $pdo->prepare("SELECT * FROM categoria");
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +29,8 @@ include 'header_frontend.php';
         <div class="row">
             <?php
             foreach ($results as $result) {
+                //Se guarda el id de la categoría en una variable para poder utilizarla en el enlace con
+                //un token para evitar cambiar a mano el id de la categoría y poder acceder a otra página web
                 echo "<div class='col-3'>
                     <a href='categorias.php?id={$result['id_categoria']}&token=" . hash_hmac('sha1', $result['id_categoria'], KEY_TOKEN) . "'>
                     <img alt='Imagen' src='dashboard/img/{$result['img']}'></a>
@@ -127,11 +129,18 @@ include 'header_frontend.php';
 </div>
 <?php include "footer_frontend.php";?>
 <!--JS-->
+<!--Para la caché de los archivos JS se utiliza la función rand() para que cada vez que se cargue la página se genere un número aleatorio-->
 <script src="js/main.js?v=<?php echo rand(); ?>"></script>
 <!--JS Lista del menú-->
 <script>
+    //Muestra y oculta la lista del menú
     var menu_items = document.getElementById("menu_lista");
     menu_items.style.maxHeight = "0px";
+    /**
+     * Función que se ejecuta al pulsar el botón del menú. Si el valor de maxHeight es 0px, se le asigna
+     * el valor de 200px para que se muestre el menú. Si el valor es 200px, se le asigna el valor de 0px
+     * para que se oculte el menú
+     */
     function menuDesplegar() {
         if (menu_items.style.maxHeight == "0px") {
             menu_items.style.maxHeight = "200px";

@@ -65,7 +65,6 @@ if ($opcion == 4) {
             move_uploaded_file($tmp_name, 'img/'.$nuevo_img_name);
         }
 
-
         if ($id_imagen == "") {
 
             $stmt = $pdo->prepare("INSERT INTO producto_imagen VALUES (NULL,?,?,?,?)");
@@ -237,7 +236,7 @@ if ($opcion == 5) {
             eliminaRegistro($(this).attr('id_prod_img'));
         });
         $(document).on('click', '.btn-editar', function (e) {
-            $("input[type=text],textarea,.select-clave-ajena,input[type=file]").val("");
+            $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
             var id_prod_img = $(this).attr('id_prod_img');
             cargarRegistro(id_prod_img);
             $(".btn-guardar").off("click");
@@ -247,7 +246,7 @@ if ($opcion == 5) {
             });
         });
         $(document).on('click', '.btn-aniadir', function (e) {
-            $("input[type=text],textarea,.select-clave-ajena,input[type=file]").val("");
+            $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 guardar("");

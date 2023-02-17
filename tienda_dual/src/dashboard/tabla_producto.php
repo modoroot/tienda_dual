@@ -16,7 +16,7 @@ if ($opcion == 1) {
                 <td>' . $row["id_producto"] . '</td>
                 <td>' . $row['nombre'] . '</td>
                 <td>' . $row['precio'] . '</td>
-                <td>' . substr($row['descripcion'], 0, 20) . '...' . '</td>
+                <td>' . mb_substr($row['descripcion'], 0, 20) . '...' . '</td>
                 <td>' . $row['id_categoria'] . '</td>
                 <td>
                      <button type="button" class="btn btn-primary btn-editar" 
@@ -221,7 +221,7 @@ if ($opcion == 5) {
             eliminaRegistro($(this).attr('id_prod'));
         });
         $(document).on('click', '.btn-editar', function (e) {
-            $("input[type=text],textarea,.select-clave-ajena").val("");
+            $("input[type=text],textarea,.select-clave-ajena-categoria").val("");
             var id_prod = $(this).attr('id_prod');
             cargarRegistro(id_prod)
             $(".btn-guardar").off("click");
@@ -231,7 +231,7 @@ if ($opcion == 5) {
             });
         });
         $(document).on('click', '.btn-aniadir', function (e) {
-            $("input[type=text],textarea,.select-clave-ajena").val("");
+            $("input[type=text],textarea,.select-clave-ajena-categoria").val("");
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 guardar("");

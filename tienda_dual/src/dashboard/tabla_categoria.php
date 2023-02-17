@@ -124,12 +124,16 @@ if ($opcion == 5) {
         // Se prepara y ejecuta la consulta para obtener los datos de la categoría con el id indicado
         $stmt = $pdo->prepare("SELECT nombre,descripcion,img FROM categoria WHERE id_categoria=?");
         $stmt->execute([$id_categoria]);
-        $res = $stmt->fetch(PDO::FETCH_ASSOC); // Se obtiene la fila de resultados como un array asociativo
+        // Se obtiene la fila de resultados como un array asociativo
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
-        $res = $e->getMessage(); // Si ocurre un error, se captura el mensaje y se guarda en $res
+        // Si ocurre un error, se captura el mensaje y se guarda en $res
+        $res = $e->getMessage();
     }
-    echo json_encode($res); // Se devuelve la fila de resultados en formato JSON
-    exit(); // Se termina la ejecución del script
+    // Se devuelve la fila de resultados en formato JSON
+    echo json_encode($res);
+    // Se termina la ejecución del script
+    exit();
 }
 
 ?>
@@ -168,18 +172,21 @@ if ($opcion == 5) {
                                 data-target="#exampleModal"
                                 data-whatever="@mdo">Añadir nuevo registro
                         </button>
-                        <!-- Ventana modal-->
+                        <!-- Ventana modal para Inserción o edición de datos-->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
+                                        <!--Titulo-->
                                         <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                                        <!--Botón para cerrar la ventana modal-->
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        <!--Formulario para la inserción o edición de datos-->
                                         <form id="modal-form" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="nombre_cat" class="col-form-label">Nombre:</label>
@@ -193,21 +200,25 @@ if ($opcion == 5) {
                                             </div>
                                             <div class="form-group">
                                                 <label for="ruta_img" class="col-form-label">Imagen:</label>
+                                                <!--Campo para la selección de la imagen-->
                                                 <input type="file" class="form-control input-ruta"
                                                        accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
+                                        <!--Botón para cerrar la ventana modal-->
                                         <button type="button" class="btn btn-secondary btCancel" data-dismiss="modal">
                                             Cerrar
                                         </button>
+                                        <!--Botón para guardar los datos-->
                                         <input class="btn btn-info btn-guardar" value="Guardar"
                                                type="submit">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- Fin ventana modal-->
                         <div style="overflow-x:auto;">
                             <table id="datatablesSimple">
                                 <thead>

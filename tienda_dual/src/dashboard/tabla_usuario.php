@@ -229,7 +229,7 @@ if ($opcion == 5) {
             eliminaRegistro($(this).attr('id_usu'));
         });
         $(document).on('click', '.btn-editar', function (e) {
-            $("input[type=text],input[type=email],input[type=password],textarea,.select-usuario").val("");
+            $("input[type=text],input[type=email],input[type=password],textarea,.select-clave-ajena-privilegio").val("");
             var id_usu = $(this).attr('id_usu');
             cargarRegistro(id_usu)
             $(".btn-guardar").off("click");
@@ -239,7 +239,7 @@ if ($opcion == 5) {
             });
         });
         $(document).on('click', '.btn-aniadir', function (e) {
-            $("input[type=text],input[type=email],input[type=password],textarea,.select-usuario").val("");
+            $("input[type=text],input[type=email],input[type=password],textarea,.select-clave-ajena-privilegio").val("");
             $(".btn-guardar").off("click");
             $(".btn-guardar").click(function () {
                 guardar("");
