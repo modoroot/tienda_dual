@@ -3,17 +3,17 @@ include 'conn/config.php';
 include 'conn/conn.php';
 include 'header_frontend.php';
 ?>
-        <div class="row">
-            <div class="col-2">
-                <h1>Framerate</h1>
-                <p>Tu tienda de compra de videojuegos online</p>
-                <a href="" class="btn">Descubre más &#10132;</a>
-            </div>
-            <div class="col-2">
-                <img src="img/banner-bb.jpg" alt="">
-            </div>
-        </div>
+<div class="row">
+    <div class="col-2">
+        <h1>Framerate</h1>
+        <p>Tu tienda de compra de videojuegos online</p>
+        <a href="" class="btn">Descubre más &#10132;</a>
     </div>
+    <div class="col-2">
+        <img src="img/banner-bb.jpg" alt="">
+    </div>
+</div>
+</div>
 </div>
 <!-- categorías -->
 <div class="categorias">
@@ -112,6 +112,21 @@ include 'header_frontend.php';
         </div>
     </div>
 </div>
+<!-- chat -->
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Chat de soporte</h2>
+    </div>
+    <div class="chat-body">
+        <!-- Mensajes de chat -->
+    </div>
+    <div class="chat-footer">
+        <input type="text" placeholder="Escribe un mensaje...">
+        <button id="enviar-mensaje">Enviar</button>
+    </div>
+</div>
+<button class="chat-toggle">Soporte</button>
+
 <div class="exclusivo">
     <div class="subcont">
         <div class="row">
@@ -127,15 +142,74 @@ include 'header_frontend.php';
         </div>
     </div>
 </div>
-<?php include "footer_frontend.php";?>
+<?php include "footer_frontend.php"; ?>
 <!--JS-->
 <!--Para la caché de los archivos JS se utiliza la función rand() para que cada vez que se cargue la página se genere un número aleatorio-->
-<script src="js/main.js?v=<?php echo rand(); ?>"></script>
+<!--JS Chat-->
+<!--<script src="js/chat.js?v=--><?php //echo rand(); ?><!--"></script>-->
+<script>
+    // Obtener elementos del DOM
+    const chatContainer = document.querySelector('.chat-container');
+    const chatBody = chatContainer.querySelector('.chat-body');
+    const mensajeInput = chatContainer.querySelector('input[type="text"]');
+    const enviarMensajeButton = chatContainer.querySelector('#enviar-mensaje');
+    const chatToggle = document.querySelector('.chat-toggle');
+
+    // Función para enviar un mensaje
+    function enviarMensaje() {
+        // Obtener el mensaje del input y el id de sesión de PHP
+        const messageText = mensajeInput.value;
+        const sessionId = "<?php echo session_id(); ?>"; // Obtener el id de sesión de PHP
+
+        // Crear objeto FormData para enviar los datos
+        const formData = new FormData();
+        formData.append('mensaje', messageText);
+        formData.append('sesion', sessionId);
+
+        // Crear y enviar la solicitud AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'conn/guardar_mensaje.php');
+        xhr.send(formData);
+        xhr.onload = function () {
+            const mensaje = document.createElement("div");
+            mensaje.classList.add("message", "outgoing");
+            mensaje.innerHTML = `<div class="message-content">${messageText}</div><div class="message-timestamp" style="font-size: 10px">${(new Date()).toLocaleString()}</div>`;
+            chatBody.appendChild(mensaje);
+
+        };
+
+        // Limpiar el input
+        mensajeInput.value = '';
+    }
+
+    // Función para mostrar/ocultar el chat
+    function toggleChat() {
+        chatContainer.classList.toggle('show');
+    }
+
+    // Escuchar el evento click del botón de enviar
+    enviarMensajeButton.addEventListener('click', enviarMensaje);
+
+    // Escuchar el evento keydown del input de mensaje
+    mensajeInput.addEventListener('keydown', function (event) {
+        // Si se presiona Enter
+        if (event.keyCode === 13) {
+            // Evita que dé un salto de línea
+            event.preventDefault();
+            // Envía el mensaje introducido
+            enviarMensaje();
+        }
+    });
+
+    // Escuchar el evento click del botón de desplegable
+    chatToggle.addEventListener('click', toggleChat);
+</script>
 <!--JS Lista del menú-->
 <script>
     //Muestra y oculta la lista del menú
     var menu_items = document.getElementById("menu_lista");
     menu_items.style.maxHeight = "0px";
+
     /**
      * Función que se ejecuta al pulsar el botón del menú. Si el valor de maxHeight es 0px, se le asigna
      * el valor de 200px para que se muestre el menú. Si el valor es 200px, se le asigna el valor de 0px

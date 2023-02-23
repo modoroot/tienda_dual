@@ -626,7 +626,70 @@ main {
         cursor: pointer;
     }
 
+}
+.chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+    width: 350px;
+    background-color: #E4E4E4;
+    border: 1px solid #F26250;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+}
 
+.chat-container.show {
+    transform: translateX(0);
+}
+
+.chat-header {
+    background-color: #F26250;
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.chat-body {
+    height: 300px;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.chat-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    background-color: #F26250;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.chat-toggle {
+    position: fixed;
+    bottom: -10px;
+    right: 450px;
+    margin: 10px;
+    background-color: #F26250;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
 }
 
 /*Dispositivos móviles*/

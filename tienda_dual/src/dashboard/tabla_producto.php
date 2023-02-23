@@ -166,7 +166,7 @@ if ($opcion == 5) {
                                                 </label>
                                             </div>
                                             <div class="form-group">
-                                                <button type="button" class="btn btn-primary btn-aniadir"
+                                                <button type="button" class="btn btn-primary"
                                                         data-toggle="modal"
                                                         data-target="#modalImagen"
                                                         data-whatever="@mdo"><i class="bi bi-images"> Examinar
@@ -175,6 +175,7 @@ if ($opcion == 5) {
                                             </div>
                                             <div class="form-group">
                                                 <div class="vista-previa-multiple" id="vista-previa-multiple">
+
                                                 </div>
                                             </div>
                                         </form>
@@ -227,7 +228,9 @@ if ($opcion == 5) {
                                                 data-dismiss="modal">
                                             Cerrar
                                         </button>
-                                        <button id="guardar-imagen" class="btn btn-info" data-dismiss="modal" type="button">Guardar</button>
+                                        <button id="guardar-imagen" class="btn btn-info" data-dismiss="modal"
+                                                type="button">Guardar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -305,14 +308,17 @@ if ($opcion == 5) {
         function guardarImagenSeleccionada() {
             // Obtener la imagen seleccionada y su previsualización
             var imagenSeleccionada = $('#vista-previa').attr('src');
-            var imagenPrevisualizacion = $('<img>').attr('src', imagenSeleccionada);
+            var imagenPrevisualizacion = $('<img>').attr('src', imagenSeleccionada).attr('width', '100px').attr('height', '100px');
 
             // Crear un botón para eliminar la imagen
             var eliminarBoton = $('<button>').addClass('eliminar-imagen btn btn-danger').text('Eliminar');
 
             // Agregar la imagen, su previsualización y el botón de eliminar al array
-            imagenesSeleccionadas.push({ imagen: imagenSeleccionada, previsualizacion: imagenPrevisualizacion, eliminarBoton: eliminarBoton });
-
+            imagenesSeleccionadas.push({
+                imagen: imagenSeleccionada,
+                previsualizacion: imagenPrevisualizacion,
+                eliminarBoton: eliminarBoton
+            });
             // Actualizar la vista previa en la ventana modal principal
             $('#vista-previa-multiple').empty();
             for (var i = 0; i < imagenesSeleccionadas.length; i++) {
@@ -321,6 +327,9 @@ if ($opcion == 5) {
                 imagenContainer.append(imagenActual.previsualizacion, imagenActual.eliminarBoton);
                 $('#vista-previa-multiple').append(imagenContainer);
             }
+            // Agregar las clases de Bootstrap para visualización horizontal
+            $('#vista-previa-multiple').addClass('d-flex flex-wrap');
+
             // Agregar un manejador de eventos para los botones de eliminar
             $('.eliminar-imagen').on('click', function () {
                 var index = $(this).parent().index();
@@ -328,6 +337,7 @@ if ($opcion == 5) {
                 $(this).parent().remove();
             });
         }
+
         // Evento para guardar la imagen seleccionada cuando se hace clic en el botón "Guardar Imagen"
         $('#guardar-imagen').on('click', function () {
             guardarImagenSeleccionada();
