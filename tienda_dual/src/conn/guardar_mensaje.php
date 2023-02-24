@@ -7,7 +7,7 @@ $mensaje = $_POST['mensaje'];
 $sesion = $_POST['sesion'];
 
 // Insertar el mensaje en la base de datos
-$stmt = $pdo->prepare("INSERT INTO chat (mensaje, id_session) VALUES (:mensaje, :sesion)");
+$stmt = $pdo->prepare("INSERT INTO chat (mensaje, id_session,cliente) VALUES (:mensaje, :sesion,1)");
 $stmt->bindParam(':mensaje', $mensaje);
 $stmt->bindParam(':sesion', $sesion);
 $stmt->execute();

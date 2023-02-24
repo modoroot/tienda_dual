@@ -143,10 +143,7 @@ include 'header_frontend.php';
     </div>
 </div>
 <?php include "footer_frontend.php"; ?>
-<!--JS-->
-<!--Para la caché de los archivos JS se utiliza la función rand() para que cada vez que se cargue la página se genere un número aleatorio-->
 <!--JS Chat-->
-<!--<script src="js/chat.js?v=--><?php //echo rand(); ?><!--"></script>-->
 <script>
     // Obtener elementos del DOM
     const chatContainer = document.querySelector('.chat-container');
@@ -155,7 +152,9 @@ include 'header_frontend.php';
     const enviarMensajeButton = chatContainer.querySelector('#enviar-mensaje');
     const chatToggle = document.querySelector('.chat-toggle');
 
-    // Función para enviar un mensaje
+    /**
+     * @description Función para enviar un mensaje
+     */
     function enviarMensaje() {
         // Obtener el mensaje del input y el id de sesión de PHP
         const messageText = mensajeInput.value;

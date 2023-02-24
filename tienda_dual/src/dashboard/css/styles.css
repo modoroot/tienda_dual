@@ -11699,3 +11699,64 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+/*Personalizado*/
+/*Chat*/
+.chat-container {
+  position: fixed;
+  bottom: 0;
+  right: 50px;
+  width: 350px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  z-index: 9999;
+}
+
+.chat-container.show {
+  transform: translateX(0);
+}
+
+.chat-header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.chat-body {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.chat-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ced4da;
+}
+
+.chat-footer input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.chat-footer button {
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  margin: 10px;
+  cursor: pointer;
+  z-index: 9999;
+}
