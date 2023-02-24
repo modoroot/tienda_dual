@@ -152,9 +152,7 @@ include 'header_frontend.php';
     const enviarMensajeButton = chatContainer.querySelector('#enviar-mensaje');
     const chatToggle = document.querySelector('.chat-toggle');
 
-    /**
-     * @description Función para enviar un mensaje
-     */
+    // Función para enviar un mensaje
     function enviarMensaje() {
         // Obtener el mensaje del input y el id de sesión de PHP
         const messageText = mensajeInput.value;
@@ -170,10 +168,10 @@ include 'header_frontend.php';
         xhr.open('POST', 'conn/guardar_mensaje.php');
         xhr.send(formData);
         xhr.onload = function () {
-            const mensaje = document.createElement("div");
-            mensaje.classList.add("message", "outgoing");
-            mensaje.innerHTML = `<div class="message-content">${messageText}</div><div class="message-timestamp" style="font-size: 10px">${(new Date()).toLocaleString()}</div>`;
-            chatBody.appendChild(mensaje);
+            const message = document.createElement("div");
+            message.classList.add("message", "outgoing");
+            message.innerHTML = `<div class="message-content">${messageText}</div><div class="message-timestamp" style="font-size: 10px">${(new Date()).toLocaleString()}</div>`;
+            chatBody.appendChild(message);
 
         };
 
@@ -202,6 +200,40 @@ include 'header_frontend.php';
 
     // Escuchar el evento click del botón de desplegable
     chatToggle.addEventListener('click', toggleChat);
+
+    function cargarMensajes() {
+        const formData = new FormData();
+        formData.append('sesion', "<?php echo session_id() ?>"); // Obtener el id de sesión actual de PHP
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'conn/cargar_mensajes.php');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                data.forEach(function(item) {
+                    const message = document.createElement("div");
+                    message.classList.add("message");
+                    if (item.mensaje_de === "<?php echo session_id() ?>") {
+                        message.classList.add("outgoing");
+                    } else {
+                        message.classList.add("incoming");
+                    }
+                    message.innerHTML = `<div class="message-content">${item.mensaje}
+        </div><div class="message-timestamp" style="font-size: 10px">${(new Date(item.fecha)).toLocaleString()}</div>`;
+                    chatBody.appendChild(message);
+                });
+            } else {
+                console.error("Error al cargar los mensajes: " + xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error("Error al cargar los mensajes.");
+        };
+        xhr.send(formData);
+    }
+
+
+    // Cargar los mensajes previos
+    cargarMensajes();
 </script>
 <!--JS Lista del menú-->
 <script>

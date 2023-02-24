@@ -84,7 +84,26 @@ if ($opcion == 2) {
 //    // Se termina la ejecución del script
 //    exit();
 //}
+if($opcion == 6){
+    try {
+        // Se obtienen los valores de los campos enviados por POST
+        $id_session = trim($_POST['id_session']);
+        $mensaje = trim($_POST['mensaje']);
+        $fecha = trim($_POST['fecha']);
+        $cliente = trim($_POST['cliente']);
 
+        // Se prepara y ejecuta la consulta para obtener los datos de la categoría con el id indicado
+        $stmt = $pdo->prepare("SELECT mensaje,fecha FROM chat WHERE id_session=?");
+        $stmt->execute([$id_session]);
+        // Se obtiene la fila de resultados como un array asociativo
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+    }catch (Exception $e) {
+        // Si ocurre un error, se captura el mensaje y se guarda en $res
+        $res = $e->getMessage();
+    }
+    echo json_encode($res);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +114,6 @@ if ($opcion == 2) {
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Tablas - Framerate</title>
-    <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -133,8 +151,8 @@ if ($opcion == 2) {
                                     <div class="modal-body">
                                         <div class="chat-container">
                                             <div class="chat-body">
-                                                <ul class="list-unstyled">
-                                                    <!-- mensajes de chat -->
+                                                <ul class="lista-mensajes">
+                                                   <li class="mensaje-lista"></li>
                                                 </ul>
                                             </div>
                                             <div class="chat-footer">
@@ -188,10 +206,7 @@ if ($opcion == 2) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-
-
-<!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>-->
+<script src="js/chat.js"></script>
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
     // Guarda el nombre del fichero para ser utilizado en las funciones de ajax
@@ -202,52 +217,13 @@ if ($opcion == 2) {
         cargaTabla();
         // Controlador de eventos que se ejecuta cuando se pulsa el botón de eliminar
         $(document).on('click', '.btn-eliminar', function (e) {
-            // Elimina el registro de la base de datos según el id_cat
+            // Elimina el registro de la base de datos según el id_msg
             eliminaRegistro($(this).attr('id_msg'));
         });
-        // Controlador de eventos que se ejecuta cuando se pulsa el botón de editar
+        // Controlador de eventos que se ejecuta cuando se pulsa el botón de abrir chat
         $(document).on('click', '.btn-abrir-chat', function (e) {
-
-        });
-    });
-</script>
-<script>
-    // Esperamos a que el DOM esté listo
-    $(document).ready(function () {
-        // Añadimos un evento al botón de "chat-toggle"
-        $('.chat-toggle').click(function () {
-            // Cuando se hace clic, añadimos o quitamos la clase "show" en el contenedor de chat
-            $('.chat-container').toggleClass('show');
-        });
-
-        // Añadimos un evento al botón de cerrar
-        $('.chat-header .close').click(function () {
-            // Cuando se hace clic, quitamos la clase "show" en el contenedor de chat
-            $('.chat-container').removeClass('show');
-        });
-
-        // Añadimos un evento al botón de "enviar-mensaje"
-        $('#enviar-mensaje').click(function () {
-            // Obtenemos el valor del input
-            var mensaje = $('input[type="text"]').val();
-            // Si el valor no está vacío
-            if (mensaje !== '') {
-                // Agregamos un nuevo elemento li con el mensaje y lo añadimos a la lista ul
-                $('.chat-body ul').append('<li><strong>Tú:</strong> ' + mensaje + '</li>');
-                // Limpiamos el valor del input
-                $('input[type="text"]').val('');
-            }
-        });
-
-        // Añadimos un evento al input de "enviar-mensaje"
-        $('input[type="text"]').keypress(function (event) {
-            // Si se presiona la tecla "Enter"
-            if (event.which === 13) {
-                // Evitamos que el evento por defecto se dispare
-                event.preventDefault();
-                // Hacemos clic en el botón de "enviar-mensaje"
-                $('#enviar-mensaje').click();
-            }
+            var id_session = $(this).attr('id_session');
+            cargarMensajesChat(id_session);
         });
     });
 </script>

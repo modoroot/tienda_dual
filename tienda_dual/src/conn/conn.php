@@ -1,7 +1,7 @@
 <?php
 session_set_cookie_params(300);
 session_start();
-session_regenerate_id();
+//session_regenerate_id();
 // CONFIGURACIÓN DE LA BASE DE DATOS
 $BD_USUARIO = 'localhost';
 $BD_BASE = 'tienda_dual';
