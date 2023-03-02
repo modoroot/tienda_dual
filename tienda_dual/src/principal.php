@@ -152,7 +152,9 @@ include 'header_frontend.php';
     const enviarMensajeButton = chatContainer.querySelector('#enviar-mensaje');
     const chatToggle = document.querySelector('.chat-toggle');
 
-    // Función para enviar un mensaje
+    /**
+     * @description Función para enviar un mensaje al servidor y mostrarlo en el chat
+     */
     function enviarMensaje() {
         // Obtener el mensaje del input y el id de sesión de PHP
         const messageText = mensajeInput.value;
@@ -201,38 +203,46 @@ include 'header_frontend.php';
     // Escuchar el evento click del botón de desplegable
     chatToggle.addEventListener('click', toggleChat);
 
-    function cargarMensajes() {
+    /**
+     * @description Función para cargar los mensajes previos del chat
+     * guardados en la base de datos usando AJAX y sesiones de PHP
+     */
+    function cargarMensajes(ultimoMensaje) {
+        // Crear objeto FormData para enviar los datos
         const formData = new FormData();
-        formData.append('sesion', "<?php echo session_id() ?>"); // Obtener el id de sesión actual de PHP
+        formData.append('sesion', "<?php echo session_id() ?>"); // Obtener el id de sesión
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'conn/cargar_mensajes.php');
-        xhr.onload = function() {
+        // Manejar la respuesta del servidor
+        xhr.onload = function () {
+            // Si el estado de la solicitud es 200 (OK), parsear el JSON y crear los elementos de los mensajes
             if (xhr.status === 200) {
                 const data = JSON.parse(xhr.responseText);
-                data.forEach(function(item) {
+                data.forEach(function (item) {
                     const message = document.createElement("div");
                     message.classList.add("message");
+                    // Agregar la clase "outgoing" si el mensaje fue enviado por el usuario actual, y la clase "incoming" si fue enviado por otro usuario
                     if (item.mensaje_de === "<?php echo session_id() ?>") {
                         message.classList.add("outgoing");
                     } else {
                         message.classList.add("incoming");
                     }
+                    // Crear el contenido del mensaje y agregarlo al elemento del mensaje
                     message.innerHTML = `<div class="message-content">${item.mensaje}
-        </div><div class="message-timestamp" style="font-size: 10px">${(new Date(item.fecha)).toLocaleString()}</div>`;
+            </div><div class="message-timestamp" style="font-size: 10px">${(new Date(item.fecha)).toLocaleString()}</div>`;
                     chatBody.appendChild(message);
                 });
             } else {
                 console.error("Error al cargar los mensajes: " + xhr.statusText);
             }
         };
-        xhr.onerror = function() {
+// Manejar errores de la solicitud
+        xhr.onerror = function () {
             console.error("Error al cargar los mensajes.");
         };
+// Enviar la solicitud con los datos del formulario
         xhr.send(formData);
     }
-
-
-    // Cargar los mensajes previos
     cargarMensajes();
 </script>
 <!--JS Lista del menú-->

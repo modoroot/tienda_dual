@@ -22,7 +22,7 @@ function enviarMensaje() {
     xhr.send(formData);
     xhr.onload = function () {
         const message = document.createElement("div");
-        // message.classList.add("message", "outgoing");
+        message.classList.add("message", "outgoing");
         message.innerHTML = `<div class="message-content">${messageText}</div><div class="message-timestamp" style="font-size: 10px">${(new Date()).toLocaleString()}</div>`;
         chatBody.appendChild(message);
 

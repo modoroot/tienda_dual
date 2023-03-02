@@ -149,18 +149,21 @@ if($opcion == 6){
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="chat-container">
-                                            <div class="chat-body">
-                                                <ul class="lista-mensajes">
-                                                   <li class="mensaje-lista"></li>
-                                                </ul>
+                                        <div class="chat-container bg-light">
+                                            <div class="chat-header bg-secondary text-white py-2">
+                                                <h2 class="mb-0">Chat de soporte</h2>
                                             </div>
-                                            <div class="chat-footer">
-                                                <input type="text" class="form-control"
-                                                       placeholder="Escribe un mensaje...">
-                                                <button id="enviar-mensaje" class="btn btn-primary">Enviar</button>
+                                            <div class="chat-body p-3">
+                                                <!-- Mensajes de chat -->
+                                            </div>
+                                            <div class="chat-footer bg-white p-3">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Escribe un mensaje...">
+                                                    <button class="btn btn-primary btn-enviar-mensaje" id="enviar-mensaje">Enviar</button>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="modal-footer">
                                         <!--Botón para cerrar la ventana modal-->
@@ -209,8 +212,11 @@ if($opcion == 6){
 <script src="js/chat.js"></script>
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
-    // Guarda el nombre del fichero para ser utilizado en las funciones de ajax
-    const FICHERO = '<?php echo $fichero;  ?>'
+    // Obtener elementos del DOM
+    const chatContainer = document.querySelector('.chat-container');
+    const chatBody = chatContainer.querySelector('.chat-body');
+    const mensajeInput = chatContainer.querySelector('input[type="text"]');
+    const enviarMensajeButton = chatContainer.querySelector('#enviar-mensaje');
     // Controlador de eventos que se ejecuta cuando el documento está listo para ser manipulado
     $(document).ready(function () {
         // Carga la tabla con los datos de la base de datos
@@ -221,9 +227,41 @@ if($opcion == 6){
             eliminaRegistro($(this).attr('id_msg'));
         });
         // Controlador de eventos que se ejecuta cuando se pulsa el botón de abrir chat
-        $(document).on('click', '.btn-abrir-chat', function (e) {
-            var id_session = $(this).attr('id_session');
-            cargarMensajesChat(id_session);
+        $(document).on('click', '.btn-enviar-mensaje', function (e) {
+            // Función para enviar un mensaje
+            function enviarMensaje() {
+                // Obtener el mensaje del input y el id de sesión de PHP
+                const messageText = mensajeInput.value;
+                const sessionId = "<?php echo session_id(); ?>"; // Obtener el id de sesión de PHP
+                // Crear objeto FormData para enviar los datos
+                const formData = new FormData();
+                formData.append('mensaje', messageText);
+                formData.append('sesion', sessionId);
+                // Crear y enviar la solicitud AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '../conn/guardar_mensaje.php');
+                xhr.send(formData);
+                xhr.onload = function () {
+                    const message = document.createElement("div");
+                    message.classList.add("message", "outgoing");
+                    message.innerHTML = `<div class="message-content">${messageText}</div><div class="message-timestamp" style="font-size: 10px">${(new Date()).toLocaleString()}</div>`;
+                    chatBody.appendChild(message);
+                };
+                // Limpiar el input
+                mensajeInput.value = '';
+            }
+            // Escuchar el evento click del botón de enviar
+            enviarMensajeButton.addEventListener('click', enviarMensaje);
+            // Escuchar el evento keydown del input de mensaje
+            mensajeInput.addEventListener('keydown', function (event) {
+                // Si se presiona Enter
+                if (event.keyCode === 13) {
+                    // Evita que dé un salto de línea
+                    event.preventDefault();
+                    // Envía el mensaje introducido
+                    enviarMensaje();
+                }
+            });
         });
     });
 </script>
