@@ -123,4 +123,36 @@ class UsuariosClass extends Conexion
             return 0;
         }
     }
+
+    public function delete($json)
+    {
+        $_respuesta = new Respuesta();
+        $datos = json_decode($json, true);
+        if (!isset($datos['id_usuario'])) {
+            return $_respuesta->error_400();
+        } else {
+            $this->id_usuario = $datos['id_usuario'];
+            $verificar = $this->eliminarUsuario();
+            if ($verificar) {
+                $respuesta = $_respuesta->response;
+                $respuesta["result"] = array(
+                    "id_usuario" => $this->id_usuario
+                );
+                return $respuesta;
+            } else {
+                return $_respuesta->error_500();
+            }
+        }
+    }
+
+    private function eliminarUsuario()
+    {
+        $query = "DELETE FROM " . $this->tabla . " WHERE id_usuario = '" . $this->id_usuario . "'";
+        $verificar = parent::nonQuery($query);
+        if ($verificar >= 1) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
 }
