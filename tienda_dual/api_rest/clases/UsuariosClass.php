@@ -11,7 +11,11 @@ class UsuariosClass extends Conexion
     private $email = "";
     private $id_privilegio = "";
     private $token = "";
-
+    /**
+     * Lista los usuarios de la base de datos y los devuelve en un array asociativo paginado de 2 en 2
+     * @param int $pagina
+     * @return array
+     */
     public function listaUsuarios($pagina = 1)
     {
         $inicio = 0;
@@ -24,12 +28,18 @@ class UsuariosClass extends Conexion
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
+    /**
+     * Obtiene los datos de un usuario a través de su id de usuario y los devuelve en un array asociativo
+     */
     public function obtenerUsuario($id_usuario)
     {
         $query = "SELECT * FROM " . $this->tabla . " WHERE id_usuario = $id_usuario";
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
+    /**
+     * Se añade un nuevo usuario a la base de datos a través de un JSON recibido por POST
+     */
     public function post($json)
     {
         $_respuesta = new Respuesta();
@@ -75,7 +85,9 @@ class UsuariosClass extends Conexion
             }
         }
     }
-
+    /**
+     * Inserta un usuario en la base de datos
+     */
     private function insertarUsuario()
     {
         $query = "INSERT INTO " . $this->tabla . " (nombre, username, password, email, id_privilegio) VALUES
@@ -88,7 +100,9 @@ class UsuariosClass extends Conexion
             return 0;
         }
     }
-
+    /**
+     * Actualiza un usuario en la base de datos por su id de usuario y el token de acceso a la API REST
+     */
     public function put($json)
     {
         $_respuesta = new Respuesta();
@@ -138,6 +152,9 @@ class UsuariosClass extends Conexion
             }
         }
     }
+    /**
+     * Actualiza un usuario en la base de datos por su id de usuario y el token de acceso a la API REST
+     */
     private function actualizarUsuario()
     {
         $query = "UPDATE " . $this->tabla . " SET nombre = '" . $this->nombre . "', username = '"
@@ -150,7 +167,9 @@ class UsuariosClass extends Conexion
             return 0;
         }
     }
-
+    /**
+     * Elimina un usuario de la base de datos por su id de usuario y el token de acceso a la API REST
+     */
     public function delete($json)
     {
         $_respuesta = new Respuesta();
@@ -178,11 +197,14 @@ class UsuariosClass extends Conexion
                     }
                 }
             } else {
+                //El token no es válido
                 return $_respuesta->error_401("El token es inválido/incorrecto");
             }
         }
     }
-
+    /**
+     * Elimina un usuario de la base de datos por su id y devuelve el id del usuario eliminado o 0 si no se ha podido eliminar
+     */
     private function eliminarUsuario()
     {
         $query = "DELETE FROM " . $this->tabla . " WHERE id_usuario = '" . $this->id_usuario . "'";
@@ -193,7 +215,9 @@ class UsuariosClass extends Conexion
             return 0;
         }
     }
-
+    /**
+     * Busca el token en la base de datos para verificar si es válido o no
+     */
     private function buscarToken()
     {
         $query = "SELECT * FROM tokens WHERE token = '" . $this->token . "' AND id_privilegio IN (1, 64)";
@@ -205,15 +229,15 @@ class UsuariosClass extends Conexion
         }
     }
 
-    private function actualizarToken($token)
-    {
-        $date = date('Y-m-d H:i');
-        $query = "UPDATE tokens SET date =  '$date' WHERE token = '$token'";
-        $verificar = parent::nonQuery($query);
-        if ($verificar >= 1) {
-            return $verificar;
-        } else {
-            return 0;
-        }
-    }
+    // private function actualizarToken($token)
+    // {
+    //     $date = date('Y-m-d');
+    //     $query = "UPDATE tokens SET date =  '$date' WHERE token = '$token'";
+    //     $verificar = parent::nonQuery($query);
+    //     if ($verificar >= 1) {
+    //         return $verificar;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
 }

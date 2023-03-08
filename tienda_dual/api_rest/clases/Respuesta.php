@@ -8,7 +8,7 @@
 class Respuesta
 {
     /**
-     * @var array $response Array que contiene la respuesta de la API REST
+     * $response Array que contiene la respuesta de la API REST
      */
     public $response = [
         "status" => "ok",
@@ -77,45 +77,6 @@ class Respuesta
         $this->response['status'] = "error";
         $this->response['result'] = array(
             "error_id" => "401",
-            "error_msg" => $string
-        );
-        return $this->response;
-    }
-
-    /**
-     * @return array
-     */
-    public function error_600($string = "Error en la base de datos")
-    {
-        $this->response['status'] = "error";
-        $this->response['result'] = array(
-            "error_id" => "600",
-            "error_msg" => $string
-        );
-        return $this->response;
-    }
-
-    /**
-     * @return array
-     */
-    public function error_700($string = "Error en la base de datos")
-    {
-        $this->response['status'] = "error";
-        $this->response['result'] = array(
-            "error_id" => "700",
-            "error_msg" => $string
-        );
-        return $this->response;
-    }
-
-    /**
-     * @return array
-     */
-    public function error_800($string = "Error en la base de datos")
-    {
-        $this->response['status'] = "error";
-        $this->response['result'] = array(
-            "error_id" => "800",
             "error_msg" => $string
         );
         return $this->response;
