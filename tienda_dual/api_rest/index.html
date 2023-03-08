@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Guía de uso de la API</title>
+    <style>
+        html {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        h1 {
+            color: blue;
+        }
+        
+        h2 {
+
+            color: green;
+        }
+        
+        code {
+
+            background-color: lightgray;
+            padding: 2px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guía de uso de la API</h1>
+    </header>
+    
+    <main>
+        <section>
+            <h2>Introducción</h2>
+            <p>Esta es una guía para ayudarte a utilizar la API de ejemplo. La API proporciona acceso a diferentes recursos y permite realizar diversas operaciones.</p>
+        </section>
+        
+        <section>
+            <h2>Requisitos previos</h2>
+            <p>Para poder utilizar la API necesitarás:</p>
+            <ul>
+                <li>Tener una cuenta de desarrollador.</li>
+                <li>Generar una clave de API.</li>
+                <li>Saber el endpoint de la API (URL).</li>
+            </ul>
+        </section>  
+        <section>
+            <h2>Cómo utilizar la API</h2>
+            <p>La API utiliza el protocolo HTTP y admite los métodos GET,
+                 POST, PUT y DELETE. A continuación se muestran algunos ejemplos:</p>
+            <ol>
+                <li>Obtener una lista de todos los recursos:</li>
+                <code>GET /api/resources</code>
+                <li>Crear un nuevo recurso:</li>
+                <code>POST /api/resources</code>
+                <li>Actualizar un recurso existente:</li>
+                <code>PUT /api/resources/{id}</code>
+                <li>Eliminar un recurso:</li>
+                <code>DELETE /api/resources/{id}</code>
+            </ol>
+        </section>
+    </main>
+</body>
+</html>
+

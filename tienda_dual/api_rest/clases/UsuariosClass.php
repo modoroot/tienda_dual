@@ -10,6 +10,7 @@ class UsuariosClass extends Conexion
     private $password = "";
     private $email = "";
     private $id_privilegio = "";
+    private $token = "";
 
     public function listaUsuarios($pagina = 1)
     {
@@ -33,30 +34,44 @@ class UsuariosClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['username']) || !isset($datos['password'])) {
-            return $_respuesta->error_400();
-        } else {
-            //Verificar si se ha introducido un nombre
-            if (isset($datos['nombre'])) {
-                $this->nombre = $datos['nombre'];
-            }
-            $this->username = $datos['username'];
-            $this->password = $datos['password'];
-            //Verificar si se ha introducido un email
-            if (isset($datos['email'])) {
-                $this->email = $datos['email'];
-            }
-            $this->id_privilegio = $datos['id_privilegio'];
 
-            $verificar = $this->insertarUsuario();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array(
-                    "id_usuario" => $verificar
-                );
-                return $respuesta;
+        if (!isset($datos['token'])) {
+            return $_respuesta->error_401();
+        } else {
+            $this->token = $datos['token'];
+            $arrayToken = $this->buscarToken();
+            if ($arrayToken) {
+                if (!isset($datos['username']) || !isset($datos['password'])) {
+                    return $_respuesta->error_400();
+                } else {
+                    //Verificar si se ha introducido un nombre
+                    if (isset($datos['nombre'])) {
+                        $this->nombre = $datos['nombre'];
+                    }
+                    $this->username = $datos['username'];
+                    //encriptamos la contraseña con sha1
+                    $this->password = sha1($datos['password']);
+                    //Verificar si se ha introducido un email
+                    if (isset($datos['email'])) {
+                        $this->email = $datos['email'];
+                    }
+                    if (isset($datos['id_privilegio'])) {
+                        $this->id_privilegio = $datos['id_privilegio'];
+                    }
+
+                    $verificar = $this->insertarUsuario();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array(
+                            "id_usuario" => $verificar
+                        );
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("El token es inválido/incorrecto");
             }
         }
     }
@@ -78,44 +93,56 @@ class UsuariosClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_usuario'])) {
-            return $_respuesta->error_400();
+
+        if (!isset($datos['token'])) {
+            return $_respuesta->error_401();
         } else {
-            $this->id_usuario = $datos['id_usuario'];
-            //Verificar si se ha introducido un nombre
-            if (isset($datos['nombre'])) {
-                $this->nombre = $datos['nombre'];
-            }
-            if (isset($datos['username'])) {
-                $this->username = $datos['username'];
-            }
-            if (isset($datos['password'])) {
-                $this->password = $datos['password'];
-            }
-            //Verificar si se ha introducido un email
-            if (isset($datos['email'])) {
-                $this->email = $datos['email'];
-            }
-            if (isset($datos['id_privilegio'])) {
-                $this->id_privilegio = $datos['id_privilegio'];
-            }
-            $verificar = $this->actualizarUsuario();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array(
-                    "id_usuario" => $this->id_usuario
-                );
-                return $respuesta;
+            $this->token = $datos['token'];
+            $arrayToken = $this->buscarToken();
+            if ($arrayToken) {
+                if (!isset($datos['id_usuario'])) {
+                    return $_respuesta->error_400();
+                } else {
+                    $this->id_usuario = $datos['id_usuario'];
+                    //Verificar si se ha introducido un nombre
+                    if (isset($datos['nombre'])) {
+                        $this->nombre = $datos['nombre'];
+                    }
+                    if (isset($datos['username'])) {
+                        $this->username = $datos['username'];
+                    }
+                    if (isset($datos['password'])) {
+                        //encriptamos la contraseña con sha1
+                        $this->password = sha1($datos['password']);
+                    }
+                    //Verificar si se ha introducido un email
+                    if (isset($datos['email'])) {
+                        $this->email = $datos['email'];
+                    }
+                    if (isset($datos['id_privilegio'])) {
+                        $this->id_privilegio = $datos['id_privilegio'];
+                    }
+                    $verificar = $this->actualizarUsuario();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array(
+                            "id_usuario" => $this->id_usuario
+                        );
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("El token es inválido/incorrecto");
             }
         }
     }
     private function actualizarUsuario()
     {
         $query = "UPDATE " . $this->tabla . " SET nombre = '" . $this->nombre . "', username = '"
-         . $this->username . "', password = '" . $this->password . "', email = '" . $this->email 
-         . "', id_privilegio = '" . $this->id_privilegio . "' WHERE id_usuario = '" . $this->id_usuario . "'";
+            . $this->username . "', password = '" . $this->password . "', email = '" . $this->email
+            . "', id_privilegio = '" . $this->id_privilegio . "' WHERE id_usuario = '" . $this->id_usuario . "'";
         $verificar = parent::nonQuery($query);
         if ($verificar >= 1) {
             return $verificar;
@@ -128,19 +155,30 @@ class UsuariosClass extends Conexion
     {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
-        if (!isset($datos['id_usuario'])) {
-            return $_respuesta->error_400();
+
+        if (!isset($datos['token'])) {
+            return $_respuesta->error_401();
         } else {
-            $this->id_usuario = $datos['id_usuario'];
-            $verificar = $this->eliminarUsuario();
-            if ($verificar) {
-                $respuesta = $_respuesta->response;
-                $respuesta["result"] = array(
-                    "id_usuario" => $this->id_usuario
-                );
-                return $respuesta;
+            $this->token = $datos['token'];
+            $arrayToken = $this->buscarToken();
+            if ($arrayToken) {
+                if (!isset($datos['id_usuario'])) {
+                    return $_respuesta->error_400();
+                } else {
+                    $this->id_usuario = $datos['id_usuario'];
+                    $verificar = $this->eliminarUsuario();
+                    if ($verificar) {
+                        $respuesta = $_respuesta->response;
+                        $respuesta["result"] = array(
+                            "id_usuario" => $this->id_usuario
+                        );
+                        return $respuesta;
+                    } else {
+                        return $_respuesta->error_500();
+                    }
+                }
             } else {
-                return $_respuesta->error_500();
+                return $_respuesta->error_401("El token es inválido/incorrecto");
             }
         }
     }
@@ -148,6 +186,29 @@ class UsuariosClass extends Conexion
     private function eliminarUsuario()
     {
         $query = "DELETE FROM " . $this->tabla . " WHERE id_usuario = '" . $this->id_usuario . "'";
+        $verificar = parent::nonQuery($query);
+        if ($verificar >= 1) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
+
+    private function buscarToken()
+    {
+        $query = "SELECT * FROM tokens WHERE token = '" . $this->token . "' AND id_privilegio IN (1, 64)";
+        $verificar = parent::obtenerDatos($query);
+        if ($verificar) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
+
+    private function actualizarToken($token)
+    {
+        $date = date('Y-m-d H:i');
+        $query = "UPDATE tokens SET date =  '$date' WHERE token = '$token'";
         $verificar = parent::nonQuery($query);
         if ($verificar >= 1) {
             return $verificar;
