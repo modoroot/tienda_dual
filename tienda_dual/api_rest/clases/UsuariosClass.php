@@ -1,7 +1,8 @@
 <?php
 require_once 'conexion/Conexion.php';
 require_once 'Respuesta.php';
-class UsuariosClass extends Conexion {
+class UsuariosClass extends Conexion
+{
     private $tabla = "usuario";
     private $id_usuario = "";
     private $nombre = "";
@@ -10,7 +11,8 @@ class UsuariosClass extends Conexion {
     private $email = "";
     private $id_privilegio = "";
 
-    public function listaUsuarios($pagina = 1) {
+    public function listaUsuarios($pagina = 1)
+    {
         $inicio = 0;
         $cantidad = 2;
         if ($pagina > 1) {
@@ -21,22 +23,31 @@ class UsuariosClass extends Conexion {
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
-    public function obtenerUsuario($id_usuario) {
+    public function obtenerUsuario($id_usuario)
+    {
         $query = "SELECT * FROM " . $this->tabla . " WHERE id_usuario = $id_usuario";
         $datos = parent::obtenerDatos($query);
         return ($datos);
     }
-    public function post($json){
+    public function post($json)
+    {
         $_respuesta = new Respuesta();
         $datos = json_decode($json, true);
         if (!isset($datos['username']) || !isset($datos['password'])) {
             return $_respuesta->error_400();
-        }else{
-            if (isset($datos['nombre'])){ $this->nombre = $datos['nombre'];}
+        } else {
+            //Verificar si se ha introducido un nombre
+            if (isset($datos['nombre'])) {
+                $this->nombre = $datos['nombre'];
+            }
             $this->username = $datos['username'];
             $this->password = $datos['password'];
-           if (isset($datos['email'])){ $this->email = $datos['email'];}
+            //Verificar si se ha introducido un email
+            if (isset($datos['email'])) {
+                $this->email = $datos['email'];
+            }
             $this->id_privilegio = $datos['id_privilegio'];
+
             $verificar = $this->insertarUsuario();
             if($verificar){
                 $respuesta = $_respuesta->response;
@@ -48,7 +59,18 @@ class UsuariosClass extends Conexion {
                 return $_respuesta->error_500();
             }
         }
-
     }
 
+    private function insertarUsuario()
+    {
+        $query = "INSERT INTO " . $this->tabla . " (nombre, username, password, email, id_privilegio) VALUES
+        ('" . $this->nombre . "', '" . $this->username . "', '" . $this->password . "', '"
+            . $this->email . "', '" . $this->id_privilegio . "')";
+        $verificar = parent::nonQueryId($query);
+        if ($verificar) {
+            return $verificar;
+        } else {
+            return 0;
+        }
+    }
 }
