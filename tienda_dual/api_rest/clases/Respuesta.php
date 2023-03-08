@@ -10,7 +10,7 @@ class Respuesta
     /**
      * @var array $response Array que contiene la respuesta de la API REST
      */
-    private $response = [
+    public $response = [
         "status" => "ok",
         "result" => array()
     ];
