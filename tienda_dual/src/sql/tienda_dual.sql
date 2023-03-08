@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 08-03-2023 a las 09:13:03
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.1.12
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 08-03-2023 a las 17:42:44
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `categoria` (
   `nombre` varchar(100) NOT NULL,
   `descripcion` text NOT NULL,
   `img` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `categoria`
@@ -58,7 +58,7 @@ CREATE TABLE `chat` (
   `mensaje` text NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `cliente` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `chat`
@@ -98,7 +98,7 @@ CREATE TABLE `pedido` (
   `fecha_pedido` datetime NOT NULL DEFAULT current_timestamp(),
   `codigo_pedido` varchar(100) NOT NULL,
   `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `pedido`
@@ -117,7 +117,7 @@ CREATE TABLE `perfil_usuario` (
   `id_perfil_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripción` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -129,7 +129,7 @@ CREATE TABLE `privilegio` (
   `id_privilegio` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `privilegio`
@@ -137,8 +137,7 @@ CREATE TABLE `privilegio` (
 
 INSERT INTO `privilegio` (`id_privilegio`, `nombre`, `descripcion`) VALUES
 (1, 'admin', ''),
-(2, 'asd', 'asd'),
-(5, '2d3', '2fino3');
+(64, 'usuario', 'usuario');
 
 -- --------------------------------------------------------
 
@@ -152,7 +151,7 @@ CREATE TABLE `producto` (
   `precio` double NOT NULL,
   `descripcion` text NOT NULL,
   `id_categoria` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `producto`
@@ -180,7 +179,7 @@ CREATE TABLE `producto_imagen` (
   `descripcion` varchar(100) NOT NULL,
   `imagen` varchar(100) NOT NULL,
   `id_producto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `producto_imagen`
@@ -194,23 +193,24 @@ INSERT INTO `producto_imagen` (`id_producto_imagen`, `nombre`, `descripcion`, `i
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `token`
+-- Estructura de tabla para la tabla `tokens`
 --
 
-CREATE TABLE `token` (
+CREATE TABLE `tokens` (
   `id_token` int(11) NOT NULL,
   `token` varchar(200) NOT NULL,
   `date` date NOT NULL,
   `id_privilegio` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `token`
+-- Volcado de datos para la tabla `tokens`
 --
 
-INSERT INTO `token` (`id_token`, `token`, `date`, `id_privilegio`, `id_usuario`) VALUES
-(2, 'b749e615891f8bfa275c0d9656e0e4a4', '2023-03-02', 1, 11);
+INSERT INTO `tokens` (`id_token`, `token`, `date`, `id_privilegio`, `id_usuario`) VALUES
+(2, 'b749e615891f8bfa275c0d9656e0e4a4', '2023-03-02', 1, 11),
+(8, 'da439bbe21db2419511eeb6ead057c65', '2023-03-08', 64, 30);
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE `usuario` (
   `password` varchar(100) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `id_privilegio` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -233,9 +233,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `username`, `password`, `email`, `id_privilegio`) VALUES
 (11, 'Admin', 'root', 'dc76e9f0c0006e8f919e0c515c66dbba3982f785', 'admin@gmail.com', 1),
-(16, 'Usuario', 'usuario', 'b665e217b51994789b02b1838e730d6b93baa30f', 'usuario@gmail.com', 5),
-(18, 'nombre', 'usuario', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'asd@gmail.com', 1),
-(24, 'asd', 'asd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 'asd', 5);
+(30, '', 'usuario', 'b665e217b51994789b02b1838e730d6b93baa30f', '', 64);
 
 --
 -- Índices para tablas volcadas
@@ -288,9 +286,9 @@ ALTER TABLE `producto_imagen`
   ADD KEY `id_producto` (`id_producto`);
 
 --
--- Indices de la tabla `token`
+-- Indices de la tabla `tokens`
 --
-ALTER TABLE `token`
+ALTER TABLE `tokens`
   ADD PRIMARY KEY (`id_token`),
   ADD KEY `id_privilegio` (`id_privilegio`),
   ADD KEY `id_usuario` (`id_usuario`);
@@ -334,7 +332,7 @@ ALTER TABLE `perfil_usuario`
 -- AUTO_INCREMENT de la tabla `privilegio`
 --
 ALTER TABLE `privilegio`
-  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id_privilegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -349,16 +347,16 @@ ALTER TABLE `producto_imagen`
   MODIFY `id_producto_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT de la tabla `token`
+-- AUTO_INCREMENT de la tabla `tokens`
 --
-ALTER TABLE `token`
-  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `tokens`
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas
@@ -383,11 +381,11 @@ ALTER TABLE `producto_imagen`
   ADD CONSTRAINT `producto_imagen_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`);
 
 --
--- Filtros para la tabla `token`
+-- Filtros para la tabla `tokens`
 --
-ALTER TABLE `token`
-  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`id_privilegio`) REFERENCES `privilegio` (`id_privilegio`),
-  ADD CONSTRAINT `token_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+ALTER TABLE `tokens`
+  ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`id_privilegio`) REFERENCES `privilegio` (`id_privilegio`),
+  ADD CONSTRAINT `tokens_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
 -- Filtros para la tabla `usuario`
