@@ -28,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     // Si no se especifica una página ni un ID de usuario, obtenemos la lista completa de usuarios
     else {
         $listaUsuarios = $_usuarios->listaUsuarios();
+        header("Content-Type: application/json");
         echo json_encode($listaUsuarios);
+        http_response_code(200);
     }
 } 
 // Si el método de solicitud es POST
