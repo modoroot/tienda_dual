@@ -1,26 +1,55 @@
 <?php
+// se importa la conexión a la base de datos
 require 'conn.php';
+
+// se inicia una sesión
 session_start();
+
+// si se envió información por el método POST
 if ($_POST) {
+
+    // se obtiene el usuario y la contraseña enviados por POST
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
+
+    // se crea una consulta SQL para buscar al usuario en la base de datos
     $sql = "SELECT * FROM usuario WHERE username='$usuario'";
+
+    // se ejecuta la consulta en la base de datos
     $result = $mysqli->query($sql);
+
+    // se cuenta el número de resultados obtenidos de la consulta
     $num = $result->num_rows;
+
+    // si se encontró al menos un usuario con ese nombre
     if ($num > 0) {
+        
+        // se obtiene la información del usuario de la primera fila del resultado
         $row = $result->fetch_assoc();
+
+        // se obtiene la contraseña del usuario de la base de datos
         $password_bd = $row['password'];
+
+        // se calcula el hash de la contraseña enviada por el usuario
         $pass_c = sha1($password);
+
+        // si la contraseña es correcta
         if ($password_bd == $pass_c) {
+            
+            // se guardan algunos datos del usuario en la sesión
             $_SESSION['id_usuario'] = $row['id_usuario'];
             $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['id_privilegio'] = $row['id_privilegio'];
+
+            // se redirige al usuario a la página principal
             header("Location: principal.php");
         } else {
+            // si la contraseña es incorrecta, se muestra un mensaje de error
             echo "Contraseña inválida";
         }
     } else {
+        // si no se encontró ningún usuario con ese nombre, se muestra un mensaje de error
         echo "Usuario no válido";
     }
 }
