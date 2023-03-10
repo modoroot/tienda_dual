@@ -228,16 +228,5 @@ class UsuariosClass extends Conexion
             return 0;
         }
     }
-
-    // private function actualizarToken($token)
-    // {
-    //     $date = date('Y-m-d');
-    //     $query = "UPDATE tokens SET date =  '$date' WHERE token = '$token'";
-    //     $verificar = parent::nonQuery($query);
-    //     if ($verificar >= 1) {
-    //         return $verificar;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
+    
 }

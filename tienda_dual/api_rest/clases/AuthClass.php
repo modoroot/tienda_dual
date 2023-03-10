@@ -33,7 +33,7 @@ class AuthClass extends Conexion {
 
             if ($datos) { // Si se encuentran datos del usuario
                 if ($password == $datos[0]['password']) { // Verificar si el usuario ingresó la contraseña correcta
-                    // Si es admin
+                    // Si es admin o usuario registrado puede generar token
                     if ($datos[0]['id_privilegio'] == 1 || $datos[0]['id_privilegio'] == 64) {
                         $verificar = $this->insertarToken($datos[0]['id_usuario']); // Insertar el token generado
                         if($verificar){ // Si se inserta correctamente
