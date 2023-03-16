@@ -111,7 +111,6 @@ if ($opcion == 5) {
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Tablas - Framerate</title>
-    <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -213,8 +212,6 @@ if ($opcion == 5) {
         crossorigin="anonymous"></script>
 <script src="js/tabla_entries.js"></script>
 
-<!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>-->
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
     const FICHERO = '<?php echo $fichero; ?>'

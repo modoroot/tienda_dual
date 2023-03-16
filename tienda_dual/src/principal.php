@@ -165,7 +165,7 @@ include 'header_frontend.php';
         formData.append('mensaje', messageText);
         formData.append('sesion', sessionId);
 
-        // Crear y enviar la solicitud AJAX
+        // Crear y enviar la solicitud con XMLHttpRequest con POST utilizando AJAX
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'conn/guardar_mensaje.php');
         xhr.send(formData);

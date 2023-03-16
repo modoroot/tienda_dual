@@ -7,5 +7,4 @@ https://cloud.oracle.com/compute/instances?region=eu-marseille-1
 
 ![img_1.png](img_1.png)
 
-<i>Disclaimer: </i>ahora mismo el servidor no lo tengo funcionando, por si lo necesitáis para hacer pruebas de estrés,
-porque tuve que cambiar la máquina (la IP es distinta, como se puede ver)
+<strong>Dominio servidor: </strong> http://tienda-dual.duckdns.org

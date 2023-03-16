@@ -205,8 +205,6 @@ if ($opcion == 5) {
         crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
-<!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>-->
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
     const FICHERO = '<?php echo $fichero; ?>'

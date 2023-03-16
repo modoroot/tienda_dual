@@ -1,29 +1,48 @@
 <?php
 require 'conn.php';
 session_start();
-if ($_POST) {
+//Comprueba si se ha enviado la información a través del método POST
+if ($_POST) { 
+    //Obtiene el nombre de usuario enviado en el formulario
     $usuario = $_POST['usuario'];
-    $password = $_POST['password'];
-    $sql = "SELECT * FROM usuario WHERE username='$usuario'";
-    $result = $mysqli->query($sql);
-    $num = $result->num_rows;
-    if ($num > 0) {
-        $row = $result->fetch_assoc();
+    //Obtiene la contraseña enviada en el formulario
+    $password = $_POST['password']; 
+    //Consulta SQL para obtener información de la base de datos sobre el usuario introducido en el formulario
+    $sql = "SELECT * FROM usuario WHERE username='$usuario'"; 
+    //Ejecuta la consulta
+    $result = $mysqli->query($sql); 
+    //Obtiene el número de filas devueltas por la consulta (si es 0, significa que el usuario no existe)
+    $num = $result->num_rows; 
+    //Si hay al menos una fila (el usuario existe en la BD)
+    if ($num > 0) { 
+        //Obtiene los datos del usuario como un array asociativo
+        $row = $result->fetch_assoc(); 
+        //Obtiene la contraseña almacenada en la BD para ese usuario
         $password_bd = $row['password'];
-        $pass_c = sha1($password);
-        if ($password_bd == $pass_c) {
-            $_SESSION['id_usuario'] = $row['id_usuario'];
-            $_SESSION['nombre'] = $row['nombre'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['id_privilegio'] = $row['id_privilegio'];
-            header("Location: principal.php");
-        } else {
+        //Codifica la contraseña introducida por el usuario en SHA1
+        $pass_c = sha1($password); 
+        //Compara la contraseña almacenada con la introducida por el usuario
+        if ($password_bd == $pass_c) { 
+            //Crea la variable de sesión con el id del usuario
+            $_SESSION['id_usuario'] = $row['id_usuario']; 
+            //Crea la variable de sesión con el nombre del usuario
+            $_SESSION['nombre'] = $row['nombre']; 
+            //Crea la variable de sesión con el username
+            $_SESSION['username'] = $row['username']; 
+            //Crea la variable de sesión con el id de privilegio del usuario
+            $_SESSION['id_privilegio'] = $row['id_privilegio']; 
+            //Redirige al usuario a otra página (en este caso, la página principal)
+            header("Location: principal.php"); 
+            //Si la contraseña no coincide con la almacenada en la BD
+        } else { 
             echo "Contraseña inválida";
         }
-    } else {
+        //Si no hay ninguna fila que coincida con el usuario introducido
+    } else { 
         echo "Usuario no válido";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
