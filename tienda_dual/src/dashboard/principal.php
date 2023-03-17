@@ -1,9 +1,18 @@
 <?php
+// se inicia una sesión
 session_start();
+
+// si el id_usuario no está definido en la sesión
 if (!isset($_SESSION['id_usuario'])) {
+    
+    // se redirige al usuario a la página de inicio de sesión
     header("Location: login.php");
 }
+
+// se obtiene el nombre del usuario de la sesión
 $nombre = $_SESSION['nombre'];
+
+// se obtiene el id de privilegio del usuario de la sesión
 $id_privilegio = $_SESSION['id_privilegio'];
 ?>
 
