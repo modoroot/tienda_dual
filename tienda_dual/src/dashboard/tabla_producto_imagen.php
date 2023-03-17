@@ -155,10 +155,9 @@ if ($opcion == 5) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Tablas - Framerate</title>
-    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
-    <link href="css/styles.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
 </head>
@@ -203,6 +202,23 @@ if ($opcion == 5) {
                                                     <label for="ruta_img" class="col-form-label">Imagen:</label>
                                                     <input type="file" class="form-control input-ruta" accept=".jpg,.jpeg,.png" name="ruta_img" id="ruta_img">
                                                 </div>
+                                                <div class="form-group">
+                                                <label for="id_producto_img" class="col-form-label">Id Producto
+                                                    <select name="id_producto_img"
+                                                            class="form-control select-clave-ajena-producto">
+                                                        <?php
+                                                        $stmt = $pdo->prepare('SELECT * FROM producto');
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        $stmt->execute();
+                                                        while ($row = $stmt->fetch()) {
+                                                            ?>
+                                                            <option value="<?php echo $row['id_producto'] ?>">
+                                                                <?php echo $row['nombre'] ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </label>
+                                            </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
@@ -246,22 +262,13 @@ if ($opcion == 5) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/tabla_entries.js"></script>
 
-<script src="general.js?v=<?php echo rand(); ?>"></script>
-<script>
-    const FICHERO = '<?php echo $fichero; ?>'
-    $(document).ready(function () {
-        cargaTabla();
-        $(document).on('click', '.btn-eliminar', function (e) {
-            eliminaRegistro($(this).attr('id_prod_img'));
-        });
-        $(document).on('click', '.btn-editar', function (e) {
-            $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
-            var id_prod_img = $(this).attr('id_prod_img');
-            cargarRegistro(id_prod_img);
-            $(".btn-guardar").off("click");
-            $(".btn-guardar").click(function () {
-                guardar(id_prod_img)
-                $(".btCancel").click();
+    <script src="general.js?v=<?php echo rand(); ?>"></script>
+    <script>
+        const FICHERO = '<?php echo $fichero; ?>'
+        $(document).ready(function() {
+            cargaTabla();
+            $(document).on('click', '.btn-eliminar', function(e) {
+                eliminaRegistro($(this).attr('id_prod_img'));
             });
             $(document).on('click', '.btn-editar', function(e) {
                 $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
@@ -271,19 +278,17 @@ if ($opcion == 5) {
                 $(".btn-guardar").click(function() {
                     guardar(id_prod_img)
                     $(".btCancel").click();
-                });
+                });    
             });
             $(document).on('click', '.btn-aniadir', function(e) {
-                $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
-                $(".btn-guardar").off("click");
-                $(".btn-guardar").click(function() {
-                    guardar("");
-                    $(".btCancel").click();
+                    $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
+                    $(".btn-guardar").off("click");
+                    $(".btn-guardar").click(function() {
+                        guardar("");
+                        $(".btCancel").click();
+                    });
                 });
-            });
-
         });
-    });
     </script>
 </body>
 
