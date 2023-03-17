@@ -74,6 +74,7 @@ function guardar(id) {
         // Recarga la tabla después de guardar el registro
         cargaTabla();
     });
+    
 }
 
 /**

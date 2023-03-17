@@ -155,17 +155,10 @@ if ($opcion == 5) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Tablas - Framerate</title>
-<<<<<<< HEAD
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-=======
-    <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
-    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
->>>>>>> e1e1cb1bb0c838f98ee070a72e6083467cec2a7b
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
 </head>
@@ -253,7 +246,6 @@ if ($opcion == 5) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/tabla_entries.js"></script>
 
-<<<<<<< HEAD
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
     const FICHERO = '<?php echo $fichero; ?>'
@@ -270,15 +262,6 @@ if ($opcion == 5) {
             $(".btn-guardar").click(function () {
                 guardar(id_prod_img)
                 $(".btCancel").click();
-=======
-    <script src="general.js?v=<?php echo rand(); ?>"></script>
-    <script>
-        const FICHERO = '<?php echo $fichero; ?>'
-        $(document).ready(function() {
-            cargaTabla();
-            $(document).on('click', '.btn-eliminar', function(e) {
-                eliminaRegistro($(this).attr('id_prod_img'));
->>>>>>> e1e1cb1bb0c838f98ee070a72e6083467cec2a7b
             });
             $(document).on('click', '.btn-editar', function(e) {
                 $("input[type=text],textarea,.select-clave-ajena-producto,input[type=file]").val("");
@@ -300,6 +283,7 @@ if ($opcion == 5) {
             });
 
         });
+    });
     </script>
 </body>
 

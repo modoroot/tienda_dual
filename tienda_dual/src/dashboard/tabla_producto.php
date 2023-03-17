@@ -96,14 +96,8 @@ if ($opcion == 5) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Tablas - Framerate</title>
-<<<<<<< HEAD
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="css/styles.css" rel="stylesheet"/>
-=======
-    <!--<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>-->
-    <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
->>>>>>> e1e1cb1bb0c838f98ee070a72e6083467cec2a7b
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -263,7 +257,6 @@ if ($opcion == 5) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
-<<<<<<< HEAD
 <script src="general.js?v=<?php echo rand(); ?>"></script>
 <script>
     // Espera a que el documento esté completamente cargado
@@ -278,73 +271,6 @@ if ($opcion == 5) {
             reader.onloadend = function () {
                 // Muestra la imagen en en el elemento ID "vista-previa"
                 $("#vista-previa").attr("src", reader.result);
-=======
-    <!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>-->
-    <script src="general.js?v=<?php echo rand(); ?>"></script>
-    <script>
-        // Espera a que el documento esté completamente cargado
-        $(document).ready(function() {
-            // Detecta cambios en el input con el id "ruta_img"
-            $("#ruta_img").change(function() {
-                // Obtiene el archivo seleccionado en el input
-                var file = this.files[0];
-                // Crea un objeto FileReader para leer el archivo
-                var reader = new FileReader();
-                // Cuando se termina de leer el archivo
-                reader.onloadend = function() {
-                    // Muestra la imagen en en el elemento ID "vista-previa"
-                    $("#vista-previa").attr("src", reader.result);
-                }
-                // Si hay un archivo seleccionado
-                if (file) {
-                    // Lee el archivo como una URL de datos
-                    reader.readAsDataURL(file);
-                } else {
-                    // Si no hay un archivo seleccionado, limpia la imagen
-                    $("#vista-previa").attr("src", "");
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Array para almacenar las imágenes seleccionadas y sus previsualizaciones
-            var imagenesSeleccionadas = [];
-
-            // Función para guardar la imagen seleccionada y su previsualización
-            function guardarImagenSeleccionada() {
-                // Obtener la imagen seleccionada y su previsualización
-                var imagenSeleccionada = $('#vista-previa').attr('src');
-                var imagenPrevisualizacion = $('<img>').attr('src', imagenSeleccionada).attr('width', '100px').attr('height', '100px');
-
-                // Crear un botón para eliminar la imagen
-                var eliminarBoton = $('<button>').addClass('eliminar-imagen btn btn-danger').text('Eliminar');
-
-                // Agregar la imagen, su previsualización y el botón de eliminar al array
-                imagenesSeleccionadas.push({
-                    imagen: imagenSeleccionada,
-                    previsualizacion: imagenPrevisualizacion,
-                    eliminarBoton: eliminarBoton
-                });
-                // Actualizar la vista previa en la ventana modal principal
-                $('#vista-previa-multiple').empty();
-                for (var i = 0; i < imagenesSeleccionadas.length; i++) {
-                    var imagenActual = imagenesSeleccionadas[i];
-                    var imagenContainer = $('<div>').addClass('imagen-container');
-                    imagenContainer.append(imagenActual.previsualizacion, imagenActual.eliminarBoton);
-                    $('#vista-previa-multiple').append(imagenContainer);
-                }
-                // Agregar las clases de Bootstrap para visualización horizontal
-                $('#vista-previa-multiple').addClass('d-flex flex-wrap');
-
-                // Agregar un manejador de eventos para los botones de eliminar
-                $('.eliminar-imagen').on('click', function() {
-                    var index = $(this).parent().index();
-                    imagenesSeleccionadas.splice(index, 1);
-                    $(this).parent().remove();
-                });
->>>>>>> e1e1cb1bb0c838f98ee070a72e6083467cec2a7b
             }
 
             // Evento para guardar la imagen seleccionada cuando se hace clic en el botón "Guardar Imagen"
@@ -355,6 +281,7 @@ if ($opcion == 5) {
                 $('#modal-imagen').modal('hide');
             });
         });
+    });
     </script>
     <script>
         const FICHERO = '<?php echo $fichero; ?>'
