@@ -156,27 +156,11 @@ include_once 'header_frontend.php';
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-img">
-                <img src="img/elden-ring-banner.jpg" alt="Imagen ejemplo">
-            </div>
-            <div class="info-card">
-                <div class="text-producto">
-                    <h3>Producto</h3>
-                    <p class="categoria">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
-                        adipisci, alias amet animi
-                        asperiores atque autem</p>
-                </div>
-                <div class="precio">
-                    <span>$123</span>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 </div>
 <?php include "footer_frontend.php"; ?>
-<!--JS-->
+<!--JS-->+
 <!--Para la caché de los archivos JS se utiliza la función rand() para que cada vez que se cargue la página se genere un número aleatorio-->
 <script src="js/main.js?v=<?php echo rand(); ?>"></script>
 <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>

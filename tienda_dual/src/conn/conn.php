@@ -1,5 +1,6 @@
 <?php
 session_set_cookie_params(300);
+ini_set('session.gc_maxlifetime', 300);
 session_start();
 // CONFIGURACIÓN DE LA BASE DE DATOS
 $BD_USUARIO = 'localhost';
